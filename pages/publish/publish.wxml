@@ -1,0 +1,29 @@
+<view class='page'>
+  <view>
+    <view class="label">标题</view>
+    <input class="input_text" bindinput="input_activity_title" placeholder="请输入活动标题" />
+  </view>
+
+  <view>
+    <view class="label">地点</view>
+    <input class="input_text" bindinput="input_location" placeholder="请输入地点" />
+  </view>
+
+  <view class="">
+    <view class="label">人数限制</view>
+    <input class="input_text" bindinput="input_number_limit" placeholder="请输入人数限制" />
+  </view>
+
+  <!-- TODO: start_time / end_time -->
+
+    <!-- <view class="image_content">
+        <view class='image' wx:for="{{img_url}}">
+            <image class="moment_img" src="{{item}}"></image>
+        </view>
+        <view class='image' style='display:{{hideAdd?"none":"block"}}'>
+            <image bindtap="chooseimage" class="moment_img" src='../../images/add.png'></image>
+        </view>
+    </view> -->
+
+    <button bindtap="send">发布</button>
+</view>
