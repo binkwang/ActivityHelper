@@ -1,5 +1,6 @@
-<view class='postdetail' wx:if='{{contentLoaded && imagesLoaded}}'>
+<view class='postdetail' wx:if='{{contentLoaded && commentLoaded}}'>
     
+    <!-- 活动发起者信息 -->
     <view class='title_area'>
         <view class='avatar_area'>
             <image class='avatar' src='{{detail.sponsor_avatar_url}}'/>
@@ -14,6 +15,7 @@
         </view>
     </view>
 
+    <!-- 活动详情 -->
     <view class='content'>
         <view>
             <text class='text'>{{detail.activity_title}}</text>
@@ -40,6 +42,32 @@
             </view>
         </view> -->
 
+    </view>
+
+
+    <!-- 参与活动按钮 -->
+    <view class='send' bindtap='sendComment'>{{buttonTitle}}</view>
+
+    <!-- 参与者列表 -->
+    <view class='all_comment_list'>
+        <view class='comment_list' wx:for="{{comments}}">
+            <view class='comment_item'>
+                <view class='comment_item_head'>
+                    <view class='avatar_area'>
+                        <image class="userinfo-avatar avatar" src="{{item.avatar_url}}" background-size="cover"></image>
+                    </view>
+                    <view class='text_area'>
+                        <view>
+                            <text class='author_name comment_author_name'>{{item.nick_name}}</text>
+                        </view>
+                        <view class='publish_time'>
+                            <text class='publish_time'>{{item.time}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class='divLine' wx:if='{{index < comments.length-1}}'></view>
+        </view>
     </view>
 
 

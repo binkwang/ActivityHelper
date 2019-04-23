@@ -96,17 +96,22 @@ Page({
 
     wx.getSetting({
       success: res => {
-        if (res.authSetting['scope.userInfo']) { // 存储用户信息
-          wx.getUserInfo({
+
+        // TODO: 已废弃得授权方式
+        if (res.authSetting['scope.userInfo']) { // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          
+          // getUserInfo只能获取微信头像，昵称；不能获取openid
+          wx.getUserInfo({ 
             success: res => {
               console.log(res.userInfo.nickName)
               console.log(res.userInfo.avatarUrl)
               console.log(util.formatTime(new Date()))
 
-              wx.setStorage({
-                key: app.globalData.userInfo,
-                data: res.userInfo,
-              })
+              // wx.setStorage({
+              //   key: app.globalData.userInfo, // "StorageUserInfo"
+              //   data: res.userInfo,
+              // })
+              
               app.globalData.wechatNickName = res.userInfo.nickName
               app.globalData.wechatAvatarUrl = res.userInfo.avatarUrl
             }

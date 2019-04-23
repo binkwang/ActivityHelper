@@ -7,7 +7,6 @@ const db = cloud.database({
   env: "activity-helper-qrr7r"
 })
 
-// 云函数入口函数
 exports.main = async (event, context) => {
   return {
     postlist: await db.collection('post_collection').field({
@@ -23,12 +22,9 @@ exports.main = async (event, context) => {
   }
 }
 
-// const cloud = require('wx-server-sdk')
-// cloud.init()
-// // const db = cloud.database()
-// const db = cloud.database({
-//   env: "activity-helper-qrr7r"
-// })
 // exports.main = async (event, context) => {
-//   return await db.createCollection('post_collection')
+//   // return await db.createCollection('post_collection')
+//   return await db.createCollection('participation_collection')
 // }
+
+

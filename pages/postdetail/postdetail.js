@@ -7,12 +7,14 @@ Page({
    */
   data: {
     contentLoaded: false,
-    imagesLoaded: true, // temporarily set to true.
+    commentLoaded: false,
+    postid: '',
     detail: {},
     imageUrls: [],
-    postid: ''
+    comments: [],
+    hasEnrolled: false,
+    buttonTitle: '参加'
   },
-
 
   /**
    * 生命周期函数--监听页面加载
@@ -21,18 +23,26 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-
     var that = this
 
     this.setData({
       postid: options.postid
     })
 
+    this.getPostDetail(this.data.postid)
+    this.refreshComment(this.data.postid)
+  },
+
+  getPostDetail: function (postid) {
+    var that = this
+
     wx.cloud.callFunction({
       name: 'get_post_detail',
+
       data: {
-        postid: options.postid
+        postid: postid
       },
+
       success: function (res) {
         var postdetail = res.result.postdetail.data[0]
         postdetail.publish_time = util.formatTime(new Date(postdetail.publish_time))
@@ -46,53 +56,73 @@ Page({
 
         that.checkLoadFinish()
 
-        // TODO: load participates' avatar urls
-        // that.downloadImages(postdetail.image_url)
       },
+
       fail: console.error
     })
-
   },
 
   /**
-   * 从数据库获取图片的fileId，然后去云存储下载，最后加载出来
+   * 获取评论
    */
-  downloadImages: function(image_urls){
+  refreshComment: function (postid) {
     var that = this
 
-    if(image_urls.length == 0){
-      that.setData({
-        imageUrls: [],
-        imagesLoaded: true
-      })
-    } else {
-      var urls = []
+    wx.cloud.callFunction({
+      name: 'get_comment_for_post',
 
-      for(let i = 0; i < image_urls.length; i++) {
-        wx.cloud.downloadFile({
-          fileID: image_urls[i],
+      data: {
+        postid: postid,
+      },
 
-          success: res => {
-            // get temp file path
-            console.log(res.tempFilePath)
-            urls.push(res.tempFilePath)
+      success: function (res) {
+        console.log(res.result.comment_list.data)
 
-            if (urls.length == image_urls.length) {
-              console.log(urls)
-              that.setData({
-                imageUrls: urls,
-                imagesLoaded: true
-              })
-              this.checkLoadFinish()
-            }
-          },
-          fail: err => {
-            // handle error
-          }
+        var commentList = res.result.comment_list.data
+
+        that.hasEnrolled(commentList)
+
+        for (let i = 0; i < commentList.length; i++) {
+          commentList[i].time = util.formatTime(new Date(commentList[i].time))
+        }
+
+        that.setData({
+          comments: res.result.comment_list.data,
+          commentLoaded: true
         })
-      }
-    }
-    this.checkLoadFinish()
+
+        that.checkLoadFinish()
+      },
+
+      fail: console.error
+    })
+  },
+
+  /**
+   * 参加活动
+   */
+  sendComment: function() {
+    var that = this
+    wx.showLoading({
+      title: '请稍候',
+    })
+
+    wx.cloud.callFunction({
+      name: 'add_comment',
+      
+      data: {
+        postid: this.data.detail._id,
+        nick_name: app.globalData.wechatNickName,
+        avatar_url: app.globalData.wechatAvatarUrl,
+      },
+
+      success: function (res) {
+        wx.hideLoading()
+        that.refreshComment(that.data.postid)
+      },
+
+      fail: console.error
+    })
   },
 
   /**
@@ -145,10 +175,25 @@ Page({
   },
 
   checkLoadFinish: function() {
-    if (this.data.contentLoaded && this.data.imagesLoaded){
+    if (this.data.contentLoaded && this.data.commentLoaded){
       wx.hideLoading()
     }
+  },
+
+  /**
+   * 判断当前用户是否已经参加
+   */
+  hasEnrolled: function (commentList) {
+    for (let i = 0; i < commentList.length; i++) {
+      // TODO: 暂时没获得app.globalData.openid
+      if (commentList[i].participant_id == app.globalData.openid) {
+        that.data.hasEnrolled = true
+        that.data.buttonTitle = '取消参加'
+        break
+      } else {
+        that.data.hasEnrolled = false
+        that.data.buttonTitle = '参加'
+      }
+    }
   }
-
-
 })
