@@ -46,7 +46,7 @@
 
 
     <!-- 参与活动按钮 -->
-    <view class='send' bindtap='sendComment'>{{buttonTitle}}</view>
+    <view class='send' bindtap='updateParticipation'>{{buttonTitle}}</view>
 
     <!-- 参与者列表 -->
     <view class='all_comment_list'>

@@ -14,18 +14,39 @@ Page({
     hasUserInfo: false,// 会导致每次加载授权按钮都一闪而过，需要优化
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    var that = this
+
+    wx.getStorage({
+      key: app.globalData.userInfo,
+
+      success: function (res) {
+        app.globalData.currentNickName = res.nickName
+        app.globalData.currentAvatarUrl = res.avatarUrl
+      },
+      fail: function () {
+        that.getUserInfo()
+      }
+    })
+
+    wx.startPullDownRefresh()
+    this.refresh()
+  },
+
   /**
    * 刷新数据
    */
   refresh: function () {
     var that = this
+
     wx.showLoading({
       title: '加载中',
     })
-    wx.cloud.init({
-      traceUser: true
-    })
+
     wx.cloud.callFunction({
       // 如果多次调用则存在冗余问题，应该用一个常量表示。放在哪里合适？
       name: 'get_post_list',
@@ -46,16 +67,6 @@ Page({
       fail: console.error
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    // 这个工具资瓷日子过滤吗？
-    console.log("posts.js - onLoad")
-    
-    wx.startPullDownRefresh()
-    this.refresh()
-  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -73,50 +84,38 @@ Page({
     if (this.data.update) {
       wx.startPullDownRefresh()
       this.refresh()
+
       this.setData({
         update: false
       })
     }
-
-    wx.getStorage({
-      key: 'userInfo',
-      success: function (res) {
-      },
-      fail: function () {
-        that.userInfoAuthorize()
-      }
-    })
   },
 
-  /**
-   * 这段代码还是很丑陋，怎么优化
-   */
-  userInfoAuthorize: function () {
+  getUserInfo: function () {
     var that = this
 
     wx.getSetting({
       success: res => {
-
-        // TODO: 已废弃得授权方式
-        if (res.authSetting['scope.userInfo']) { // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          
-          // getUserInfo只能获取微信头像，昵称；不能获取openid
+        if (res.authSetting['scope.userInfo']) { 
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({ 
             success: res => {
-              console.log(res.userInfo.nickName)
-              console.log(res.userInfo.avatarUrl)
-              console.log(util.formatTime(new Date()))
 
-              // wx.setStorage({
-              //   key: app.globalData.userInfo, // "StorageUserInfo"
-              //   data: res.userInfo,
-              // })
+              wx.setStorage({
+                key: app.globalData.userInfo,
+                data: res.userInfo,
+              })
               
-              app.globalData.wechatNickName = res.userInfo.nickName
-              app.globalData.wechatAvatarUrl = res.userInfo.avatarUrl
+              app.globalData.currentNickName = res.userInfo.nickName
+              app.globalData.currentAvatarUrl = res.userInfo.avatarUrl
+            },
+            fail: function () {
+              console.log('getUserInfo fail..')
             }
           })
-        } else { // 跳转到授权页面 
+
+        } else { 
+          // 跳转到授权页面 
           wx.navigateTo({
             url: '/pages/authorize/authorize',
           })
@@ -124,6 +123,7 @@ Page({
       }
     })
   },
+
   /**
    * 生命周期函数--监听页面隐藏
    */

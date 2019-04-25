@@ -55,9 +55,8 @@ Page({
     wx.cloud.callFunction({
       name: 'publish_post',
       data: {
-        openid: app.globalData.openId,// 这个云端其实能直接拿到
-        sponsor_name: app.globalData.wechatNickName,
-        sponsor_avatar_url: app.globalData.wechatAvatarUrl,
+        sponsor_name: app.globalData.currentNickName,
+        sponsor_avatar_url: app.globalData.currentAvatarUrl,
         activity_title: this.data.activity_title,
         location: this.data.location,
         number_limit: this.data.number_limit,

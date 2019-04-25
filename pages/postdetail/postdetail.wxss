@@ -108,7 +108,7 @@ border-radius: 4rpx;
 }
 
 .send {
- width: 116rpx;
+width: 200rpx;
 height: 64rpx;
 line-height: 64rpx;
 text-align: center;

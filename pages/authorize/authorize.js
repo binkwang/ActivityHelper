@@ -65,15 +65,20 @@ Page({
   },
   bindGetUserInfo: function (e) {
     console.log(e)
-    if (e.detail.userInfo) {//用户按了允许授权按钮
-      
-      console.log(e.detail.userInfo)
+
+    if (e.detail.userInfo) { // 用户按了允许授权按钮
+
       wx.setStorage({
-        key: 'userInfo',
+        key: app.globalData.userInfo,
         data: e.detail.userInfo
       })
-      var pages = getCurrentPages();             //  获取页面栈
+
+      app.globalData.currentNickName = e.detail.userInfo.nickName
+      app.globalData.currentAvatarUrl = e.detail.userInfo.avatarUrl
+
+      var pages = getCurrentPages();             // 获取页面栈
       var prevPage = pages[pages.length - 2];    // 上一个页面
+
       prevPage.setData({
         update: true
       })
