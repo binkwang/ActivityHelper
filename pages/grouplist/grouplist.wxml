@@ -1,0 +1,17 @@
+<!--pages/grouplist/grouplist.wxml-->
+
+<!-- <text>pages/grouplist/grouplist.wxml</text> -->
+
+<block wx:for="{{grouplist}}">
+    <view class="divLine"></view>
+    <view class='post_list' bindtap='onItemClick' data-groupid='{{item.group_id}}'>
+        <view>
+            <text class='activity_title'>group_id: {{item.group_id}}</text>
+        </view>
+        <view>
+            <text class='extra_info start_time'>group_name: {{item.group_name}}</text>
+        </view>
+    </view>
+</block>
+
+<button class="share_button" bindtap="shareToGroup">去其他群创建活动助手</button>

@@ -1,5 +1,4 @@
-// pages/posts/posts.js
-const util = require('../../utils/util.js');  
+const util = require('../../utils/util.js');
 const app = getApp()
 
 Page({
@@ -8,10 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupid: '', // 用户显示该group的活动
-    postlist: null,
-    update: false,// 用于发布动态后的强制刷新标记
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    grouplist: null,
+
   },
 
   /**
@@ -19,11 +16,6 @@ Page({
    */
   onLoad: function (options) {
     var that = this
-    console.log('options.groupid:', options.groupid)
-
-    this.setData({
-      groupid: options.groupid
-    })
 
     wx.getStorage({
       key: app.globalData.userInfo,
@@ -39,6 +31,7 @@ Page({
 
     wx.startPullDownRefresh()
     this.refresh()
+
   },
 
   /**
@@ -52,16 +45,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that = this
 
-    if (this.data.update) {
-      wx.startPullDownRefresh()
-      this.refresh()
-
-      this.setData({
-        update: false
-      })
-    }
   },
 
   /**
@@ -89,7 +73,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    // TODO 主体功能完备后要支持分页加载
+
   },
 
   /**
@@ -100,18 +84,17 @@ Page({
   },
 
   /**
-   * 带参跳转
+   * 用户点击右上角分享
    */
-  newPost: function(e) {
-    wx.navigateTo({
-      url: '../publish/publish'
-    })
+  shareToGroup: function (e) {
+    // 调出聊天列表
+    console.log("share to group...")
   },
-  
+
   onItemClick: function (e) {
-    console.log(e.currentTarget.dataset.postid)
+    console.log("groupid:", e.currentTarget.dataset.groupid)
     wx.navigateTo({
-      url: '../postdetail/postdetail?postid=' + e.currentTarget.dataset.postid,
+      url: '../postlist/postlist?groupid=' + e.currentTarget.dataset.groupid,
     })
   },
 
@@ -126,24 +109,16 @@ Page({
     })
 
     wx.cloud.callFunction({
-      // 如果多次调用则存在冗余问题，应该用一个常量表示。放在哪里合适？
-      name: 'get_activity_list',
-
-      data: {
-        groupid: this.data.groupid
-      },
-
+      name: 'get_group_list_for_user',
       success: function (res) {
-        var data = res.result.postlist.data
+        var data = res.result.grouplist.data
         for (let i = 0; i < data.length; i++) {
           console.log(data[i])
-          data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
-          data[i].start_time = util.formatTime(new Date(data[i].start_time))
-          data[i].end_time = util.formatTime(new Date(data[i].end_time))
+          data[i].join_time = util.formatTime(new Date(data[i].join_time))
         }
         wx.hideLoading()
         that.setData({
-          postlist: data
+          grouplist: data
         })
         wx.stopPullDownRefresh()
       },
@@ -183,5 +158,7 @@ Page({
       }
     })
   },
+
+
 
 })

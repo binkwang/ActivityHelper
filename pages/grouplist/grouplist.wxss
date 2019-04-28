@@ -1,0 +1,44 @@
+/* pages/grouplist/grouplist.wxss */
+
+.divLine{
+ background: #EEEDEE;
+ width: 100%;
+ height: 10rpx;
+}
+
+.share_button{
+  background: #EEEDEE;
+  font-size: 12pt;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
+}
+
+.post_list{
+  margin-left: 15rpx;
+  margin-right: 15rpx;
+  margin-top: 14rpx;
+  margin-bottom: 12rpx;
+}
+
+.activity_title{
+  font-size: 12pt;
+  display: -webkit-box;   
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;      
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+.extra_info{
+  display: block;
+  font-size: 10pt;
+  width: 650rpx;
+  color:midnightblue;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+}
+.location{
+  width: 580rpx;
+  padding-right: 30rpx;
+}

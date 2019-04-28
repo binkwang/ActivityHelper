@@ -18,9 +18,13 @@ exports.main = async (event, context) => {
       end_time: true,
       location: true,
       number_limit: true
+    }).where({
+      group_id: event.groupid,
     }).orderBy('publish_time', 'desc').get(),
   }
 }
+
+
 
 // exports.main = async (event, context) => {
 //   await db.createCollection('group')

@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/grouplist/grouplist",
     "pages/postlist/postlist",
     "pages/logs/logs",
     "pages/publish/publish",
@@ -9,9 +10,10 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#00BFFF",
-    "navigationBarTitleText": "吃瓜群众",
+    "navigationBarTitleText": "NZ活动助手",
     "navigationBarTextStyle": "white"
   },
+
   "tabBar--暂时不需要": {
     "selectedColor": "#00BFFF",
     "list": [
@@ -25,6 +27,7 @@
       }
     ]
   },
+  
   "cloud": true,
   "sitemapLocation": "sitemap.json"
 }

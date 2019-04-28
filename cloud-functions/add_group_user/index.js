@@ -15,6 +15,7 @@ exports.main = async (event, context) => {
     await db.collection('group_user').add({
       data: {
         group_id: event.group_id,
+        group_name: event.group_name,
         user_id: event.userInfo.openId, // 群成员id，能否根据openId获取nick_name/avatar_url？
         join_time: timestamp,
         nick_name: event.nick_name, // 成员昵称，怎样保证昵称和头像是最新的？
