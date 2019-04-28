@@ -49,7 +49,7 @@ Page({
 
     wx.cloud.callFunction({
       // 如果多次调用则存在冗余问题，应该用一个常量表示。放在哪里合适？
-      name: 'get_post_list',
+      name: 'get_activity_list',
       success: function (res) {
         var data = res.result.postlist.data
         for (let i = 0; i < data.length; i++) {

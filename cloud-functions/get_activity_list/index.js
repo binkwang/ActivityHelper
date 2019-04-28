@@ -9,7 +9,7 @@ const db = cloud.database({
 
 exports.main = async (event, context) => {
   return {
-    postlist: await db.collection('post_collection').field({
+    postlist: await db.collection('activity').field({
       _id: true,
       publish_time: true,
       sponsor_name: true,
@@ -23,8 +23,8 @@ exports.main = async (event, context) => {
 }
 
 // exports.main = async (event, context) => {
-//   // return await db.createCollection('post_collection')
-//   return await db.createCollection('participation_collection')
+//   await db.createCollection('group')
+//   await db.createCollection('group_user')
+//   await db.createCollection('activity')
+//   await db.createCollection('participation')
 // }
-
-

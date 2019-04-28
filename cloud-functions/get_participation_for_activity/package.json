@@ -1,5 +1,5 @@
 {
-  "name": "get_post_list",
+  "name": "get_participation_for_activity",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

@@ -1,7 +1,6 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 
-
 cloud.init()
 /**
  * 在此处设置数据库环境会导致每个云函数都需要手动设置，不能一次修改，十分麻烦
@@ -17,7 +16,7 @@ exports.main = async (event, context) => {
     const timestamp = Date.now()
 
     // // 更新 update_time
-    // await db.collection('post_collection').where({
+    // await db.collection('activity').where({
     //   _id: event.postid
     // })
     // .update({
@@ -26,7 +25,7 @@ exports.main = async (event, context) => {
     //   }
     // })
 
-    await db.collection('participation_collection').add({
+    await db.collection('participation').add({
       // data 字段表示需新增的 JSON 数据
       data: {
         // 存入一条评论

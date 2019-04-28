@@ -1,5 +1,5 @@
 {
-  "name": "get_comment_for_post",
+  "name": "remove_participation",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

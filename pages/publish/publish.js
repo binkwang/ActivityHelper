@@ -53,7 +53,7 @@ Page({
   publish: function () {
     var that = this
     wx.cloud.callFunction({
-      name: 'publish_post',
+      name: 'publish_activity',
       data: {
         sponsor_name: app.globalData.currentNickName,
         sponsor_avatar_url: app.globalData.currentAvatarUrl,

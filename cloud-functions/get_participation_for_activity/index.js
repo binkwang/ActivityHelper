@@ -9,11 +9,10 @@ const db = cloud.database({
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  try {
-    await db.collection('participation_collection').where({
-      _id: event.participationId
-    }).remove()
-  } catch (e) {
-    console.error(e)
+  return {
+    comment_list: await db.collection('participation').where({
+      postid: event.postid
+    }).orderBy('time', 'desc').get(),
+
   }
 }

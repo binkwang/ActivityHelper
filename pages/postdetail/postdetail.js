@@ -40,7 +40,7 @@ Page({
     var that = this
 
     wx.cloud.callFunction({
-      name: 'get_post_detail',
+      name: 'get_activity_detail',
 
       data: {
         postid: postid
@@ -72,7 +72,7 @@ Page({
     var that = this
 
     wx.cloud.callFunction({
-      name: 'get_comment_for_post',
+      name: 'get_participation_for_activity',
 
       data: {
         postid: postid,
@@ -193,7 +193,7 @@ Page({
     var that = this
 
     wx.cloud.callFunction({
-      name: 'add_comment',
+      name: 'add_participation',
 
       data: {
         postid: postid,
@@ -214,7 +214,7 @@ Page({
     var that = this
 
     wx.cloud.callFunction({
-      name: 'cancel_participation',
+      name: 'remove_participation',
 
       data: {
         participationId: participationId

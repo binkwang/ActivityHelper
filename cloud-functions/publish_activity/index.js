@@ -8,7 +8,7 @@ const db = cloud.database({
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    return await db.collection('post_collection').add({
+    return await db.collection('activity').add({
       data: {
         sponsor_id: event.userInfo.openId,
         sponsor_name: event.sponsor_name,
