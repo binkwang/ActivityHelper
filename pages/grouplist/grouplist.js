@@ -8,7 +8,19 @@ Page({
    */
   data: {
     grouplist: null,
+    openGid: '',
+  },
 
+
+
+  // TODO: Improve
+  clickReload: function () {
+    let that = this
+    app.getShareTiket(function (globalData) {
+      that.setData({
+        openGid: globalData.openGid
+      })
+    })
   },
 
   /**
@@ -16,6 +28,17 @@ Page({
    */
   onLoad: function (options) {
     var that = this
+
+    // 页面开启转发功能
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+
+    app.getShareTiket(function (globalData) {
+      that.setData({
+        openGid: globalData.openGid
+      })
+    })
 
     wx.getStorage({
       key: app.globalData.userInfo,
@@ -81,14 +104,6 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  shareToGroup: function (e) {
-    // 调出聊天列表
-    console.log("share to group...")
   },
 
   onItemClick: function (e) {
@@ -158,7 +173,6 @@ Page({
       }
     })
   },
-
 
 
 })

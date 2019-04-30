@@ -9,6 +9,7 @@
 .share_button{
   background: #EEEDEE;
   font-size: 12pt;
+  margin-top: 20px;
   margin-left: 15rpx;
   margin-right: 15rpx;
 }

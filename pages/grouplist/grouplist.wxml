@@ -14,4 +14,16 @@
     </view>
 </block>
 
-<button class="share_button" bindtap="shareToGroup">去其他群创建活动助手</button>
+<button class="share_button" open-type="share">去其他群创建活动助手</button>
+
+
+<!-- TODO: Improve -->
+<view>
+  <view wx:if="{{openGid}}" class='groupName'> 群名称：
+    <open-data type="groupName" open-gid="{{openGid}}"></open-data>
+  </view>
+  <view wx:else>
+    <button class='share_button' bindtap='clickReload'>点击加载群名称和群ID</button>
+  </view>
+
+</view>
