@@ -9,8 +9,8 @@ Page({
    */
   data: {
     groupid: '', // 用户显示该group的活动
-    postlist: null,
-    update: false,// 用于发布动态后的强制刷新标记
+    activities: null,
+    shouldRefresh: false, // 用于发布动态后的强制刷新标记
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
 
@@ -25,17 +25,26 @@ Page({
       groupid: options.groupid
     })
 
-    wx.getStorage({
-      key: app.globalData.userInfo,
 
-      success: function (res) {
-        app.globalData.currentNickName = res.nickName
-        app.globalData.currentAvatarUrl = res.avatarUrl
-      },
-      fail: function () {
-        that.getUserInfo()
-      }
-    })
+    // // TODO： 
+
+    // // groupid可能有两个来源：
+    // // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在
+    // // 第一次点击shard card跳转到此页面，此时该群在数据裤中还不存在，要建群
+
+    // if (isGrougExisting) {
+    //   wx.startPullDownRefresh()
+    //   this.refresh()
+    // } else {
+    //   // 在数据库中创建该群
+    //   // 然后刷新页面
+    // }
+
+    // // 检查该用户是否是该群成员，如果不是，则加入该群
+
+    // if (!isUserInGroup) {
+    //   // 用户加入群中
+    // }
 
     wx.startPullDownRefresh()
     this.refresh()
@@ -54,12 +63,13 @@ Page({
   onShow: function () {
     var that = this
 
-    if (this.data.update) {
+    if (this.data.shouldRefresh) {
+
       wx.startPullDownRefresh()
       this.refresh()
 
       this.setData({
-        update: false
+        shouldRefresh: false
       })
     }
   },
@@ -126,7 +136,6 @@ Page({
     })
 
     wx.cloud.callFunction({
-      // 如果多次调用则存在冗余问题，应该用一个常量表示。放在哪里合适？
       name: 'get_activity_list',
 
       data: {
@@ -134,54 +143,24 @@ Page({
       },
 
       success: function (res) {
-        var data = res.result.postlist.data
+        var data = res.result.activities.data
+
         for (let i = 0; i < data.length; i++) {
           console.log(data[i])
           data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
           data[i].start_time = util.formatTime(new Date(data[i].start_time))
           data[i].end_time = util.formatTime(new Date(data[i].end_time))
         }
-        wx.hideLoading()
+        
         that.setData({
-          postlist: data
+          activities: data
         })
+
+        wx.hideLoading()
         wx.stopPullDownRefresh()
       },
       fail: console.error
     })
   },
-
-  getUserInfo: function () {
-    var that = this
-
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: res => {
-
-              wx.setStorage({
-                key: app.globalData.userInfo,
-                data: res.userInfo,
-              })
-
-              app.globalData.currentNickName = res.userInfo.nickName
-              app.globalData.currentAvatarUrl = res.userInfo.avatarUrl
-            },
-            fail: function () {
-              console.log('getUserInfo fail..')
-            }
-          })
-
-        } else {
-          // 跳转到授权页面 
-          wx.navigateTo({
-            url: '/pages/authorize/authorize',
-          })
-        }
-      }
-    })
-  },
-
+  
 })

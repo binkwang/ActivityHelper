@@ -69,7 +69,7 @@ Page({
         var pages = getCurrentPages();             //  获取页面栈
         var prevPage = pages[pages.length - 2];    // 上一个页面
         prevPage.setData({
-          update: true
+          shouldRefresh: true
         })
         wx.hideLoading()
         wx.navigateBack({

@@ -1,4 +1,4 @@
-<block wx:for="{{postlist}}">
+<block wx:for="{{activities}}">
     <view class="divLine"></view>
     <!--block不能设置css-->
     <view class='post_list' bindtap='onItemClick' data-postid='{{item._id}}'>

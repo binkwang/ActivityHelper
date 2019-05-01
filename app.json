@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/grouplist/grouplist",
-    "pages/postlist/postlist",
+    "pages/group/group",
     "pages/logs/logs",
     "pages/publish/publish",
     "pages/postdetail/postdetail",
@@ -18,7 +18,7 @@
     "selectedColor": "#00BFFF",
     "list": [
       {
-        "pagePath": "pages/postlist/postlist",
+        "pagePath": "pages/group/group",
         "text": "发现"
       },
       {

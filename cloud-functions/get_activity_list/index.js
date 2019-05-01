@@ -9,7 +9,7 @@ const db = cloud.database({
 
 exports.main = async (event, context) => {
   return {
-    postlist: await db.collection('activity').field({
+    activities: await db.collection('activity').field({
       _id: true,
       publish_time: true,
       sponsor_name: true,

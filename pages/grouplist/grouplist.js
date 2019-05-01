@@ -11,15 +11,11 @@ Page({
     openGid: '',
   },
 
+  watchBack: function (openGid) {
+    console.log('Have got openGid: ' + openGid)
 
-
-  // TODO: Improve
-  clickReload: function () {
-    let that = this
-    app.getShareTiket(function (globalData) {
-      that.setData({
-        openGid: globalData.openGid
-      })
+    wx.navigateTo({
+      url: '../group/group?groupid=' + openGid,
     })
   },
 
@@ -34,11 +30,7 @@ Page({
       withShareTicket: true
     })
 
-    app.getShareTiket(function (globalData) {
-      that.setData({
-        openGid: globalData.openGid
-      })
-    })
+    app.watch(that.watchBack)
 
     wx.getStorage({
       key: app.globalData.userInfo,
@@ -109,7 +101,7 @@ Page({
   onItemClick: function (e) {
     console.log("groupid:", e.currentTarget.dataset.groupid)
     wx.navigateTo({
-      url: '../postlist/postlist?groupid=' + e.currentTarget.dataset.groupid,
+      url: '../group/group?groupid=' + e.currentTarget.dataset.groupid,
     })
   },
 
@@ -173,6 +165,5 @@ Page({
       }
     })
   },
-
 
 })
