@@ -14,6 +14,7 @@ exports.main = async (event, context) => {
 
     await db.collection('group').add({
       data: {
+        _id: event.group_id,
         group_id: event.group_id,
         create_time: timestamp,
         creater_id: event.userInfo.openId, //创建者id，能否根据openId获取nick_name/avatar_url？

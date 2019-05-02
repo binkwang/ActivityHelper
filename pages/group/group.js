@@ -9,6 +9,8 @@ Page({
    */
   data: {
     groupid: '', // 用户显示该group的活动
+    groupdetail: '',
+    userlist: '',
     activities: null,
     shouldRefresh: false, // 用于发布动态后的强制刷新标记
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -32,7 +34,7 @@ Page({
     // // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在
     // // 第一次点击shard card跳转到此页面，此时该群在数据裤中还不存在，要建群
 
-    // if (isGrougExisting) {
+    // if (isGroupExisting) {
     //   wx.startPullDownRefresh()
     //   this.refresh()
     // } else {
@@ -47,7 +49,8 @@ Page({
     // }
 
     wx.startPullDownRefresh()
-    this.refresh()
+
+    this.checkGroupExist(this.data.groupid)
   },
 
   /**
@@ -114,7 +117,7 @@ Page({
    */
   newPost: function(e) {
     wx.navigateTo({
-      url: '../publish/publish'
+      url: '../publish/publish?groupid=' + this.data.groupid,
     })
   },
   
@@ -125,6 +128,104 @@ Page({
     })
   },
 
+  checkGroupExist: function (groupid) {
+    var that = this
+
+    wx.showLoading({
+      title: '加载群信息',
+    })
+
+    wx.cloud.callFunction({
+      name: 'get_group',
+
+      data: {
+        groupid: groupid
+      },
+
+      success: function (res) {
+
+        var data = res.result.groups.data
+
+        if (data.length > 0) {
+          var groupdetail = data[0]
+          console.log('groupdetail: ', groupdetail)
+          groupdetail.create_time = util.formatTime(new Date(groupdetail.create_time))
+
+          that.setData({
+            groupdetail: groupdetail
+          })
+
+          wx.hideLoading()
+
+          // 当前用户入群
+          that.addUserToGroup(that.data.groupid)
+
+          // group存在，拉取group活动 / 当前用户入群
+          that.refresh()
+
+        } else {
+          console.log('group不存在')
+
+          wx.hideLoading()
+
+          // 创建
+          that.cretatGroup(that.data.groupid)
+        }
+
+      },
+      fail: console.error
+    })
+  },
+
+  cretatGroup: function (groupid) {
+    var that = this
+
+    wx.showLoading({
+      title: '创建群',
+    })
+
+    wx.cloud.callFunction({
+      name: 'add_group',
+
+      data: {
+        group_id: this.data.groupid,
+        nick_name: app.globalData.currentNickName,
+        avatar_url: app.globalData.currentAvatarUrl,
+      },
+
+      success: function (res) {
+        console.log(res.result)
+
+        wx.hideLoading()
+
+        // 创建成功，重新加载群信息
+        that.checkGroupExist(that.data.groupid)
+      },
+
+      fail: console.error
+    })
+  },
+
+  // 当前用户入群
+  addUserToGroup: function (groupid) {
+    var that = this
+    
+    wx.cloud.callFunction({
+      name: 'add_group_user',
+      data: {
+        group_id: groupid,
+        nick_name: app.globalData.currentNickName,
+        avatar_url: app.globalData.currentAvatarUrl,
+      },
+
+      success: function (res) {
+        console.log('当前用户入群-成功')
+      },
+      fail: console.error
+    })
+
+  },
+
   /**
    * 刷新数据
    */
@@ -132,7 +233,7 @@ Page({
     var that = this
 
     wx.showLoading({
-      title: '加载中',
+      title: '加载活动',
     })
 
     wx.cloud.callFunction({
@@ -162,5 +263,37 @@ Page({
       fail: console.error
     })
   },
-  
+
+  // 获取群成员
+  getUsers: function (groupid) {
+    var that = this
+
+    wx.showLoading({
+      title: '加载群成员',
+    })
+
+    wx.cloud.callFunction({
+      name: 'get_user_list_for_group',
+
+      data: {
+        groupid: groupid
+      },
+
+      success: function (res) {
+        var userlist = res.result.userlist.data
+
+        for (let i = 0; i < userlist.length; i++) {
+          console.log(userlist[i])
+          userlist[i].join_time = util.formatTime(new Date(userlist[i].join_time))
+        }
+
+        that.setData({
+          userlist: userlist
+        })
+
+        wx.hideLoading()
+      },
+      fail: console.error
+    })
+  },
 })

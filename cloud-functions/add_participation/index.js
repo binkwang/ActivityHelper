@@ -26,9 +26,7 @@ exports.main = async (event, context) => {
     // })
 
     await db.collection('participation').add({
-      // data 字段表示需新增的 JSON 数据
       data: {
-        // 存入一条评论
         postid: event.postid, // 评论对应的post
         participant_id: event.userInfo.openId, // 唯一标识，不要用自己传的，用sdk产生的
         nick_name: event.nick_name, // 评论者名字

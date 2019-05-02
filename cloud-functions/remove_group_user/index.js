@@ -11,8 +11,7 @@ const db = cloud.database({
 exports.main = async (event, context) => {
   try {
     await db.collection('group_user').where({
-      group_id: event.group_id,
-      user_id: event.user_id,
+      _id: (event.group_id + event.userInfo.openId)
     }).remove()
   } catch (e) {
     console.error(e)

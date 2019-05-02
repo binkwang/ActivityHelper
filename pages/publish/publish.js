@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    groupid: '',
     activity_title: '',
     location: '',
     number_limit: 0,
@@ -17,8 +18,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(getApp().globalData)
-    // 本页面要传数据到服务器，要对是否拿到这些数据做校验
+
+    this.setData({
+      groupid: options.groupid
+    })
+
+    console.log("this.data.groupidupid: ", this.data.groupid)
+
   },
 
   input_activity_title: function (e) {
@@ -55,14 +61,15 @@ Page({
     wx.cloud.callFunction({
       name: 'publish_activity',
       data: {
+        groupid: this.data.groupid,
         sponsor_name: app.globalData.currentNickName,
         sponsor_avatar_url: app.globalData.currentAvatarUrl,
         activity_title: this.data.activity_title,
         location: this.data.location,
         number_limit: this.data.number_limit,
-        publish_time: "",
-        start_time: "",
-        end_time: ""
+        publish_time: "", // TODO:
+        start_time: "", // TODO:
+        end_time: "" // TODO:
       },
       success: function (res) {
         // 强制刷新，这个传参很粗暴

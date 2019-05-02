@@ -10,6 +10,7 @@ exports.main = async (event, context) => {
   try {
     return await db.collection('activity').add({
       data: {
+        group_id: event.groupid,
         sponsor_id: event.userInfo.openId,
         sponsor_name: event.sponsor_name,
         sponsor_avatar_url: event.sponsor_avatar_url,
