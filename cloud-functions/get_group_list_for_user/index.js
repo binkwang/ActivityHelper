@@ -10,7 +10,7 @@ const db = cloud.database({
 exports.main = async (event, context) => {
   try {
     return {
-      grouplist: await db.collection('group_user').field({
+      groupList: await db.collection('group_user').field({
         _id: true,
         group_id: true,
         user_id: true,

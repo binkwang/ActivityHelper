@@ -7,11 +7,11 @@ Page({
    */
   data: {
     contentLoaded: false,
-    commentLoaded: false,
-    postid: '',
+    participationsLoaded: false,
+    activityId: '',
     detail: {},
     imageUrls: [],
-    comments: [],
+    participations: [],
     hasEnrolled: false,
     participationId: '', // current user participation id
     buttonTitle: '参加'
@@ -27,38 +27,45 @@ Page({
     var that = this
 
     this.setData({
-      postid: options.postid
+      activityId: options.activityId
     })
 
-    this.getPostDetail(this.data.postid)
-    this.refreshComment(this.data.postid)
+    this.getActivityDetail(this.data.activityId)
+    this.refreshParticipations(this.data.activityId)
   },
 
 
 
-  getPostDetail: function (postid) {
+  getActivityDetail: function (activityId) {
     var that = this
 
     wx.cloud.callFunction({
       name: 'get_activity_detail',
 
       data: {
-        postid: postid
+        activityId: activityId
       },
 
       success: function (res) {
-        var postdetail = res.result.postdetail.data[0]
-        postdetail.publish_time = util.formatTime(new Date(postdetail.publish_time))
-        postdetail.start_time = util.formatTime(new Date(postdetail.start_time))
-        postdetail.end_time = util.formatTime(new Date(postdetail.end_time))
+
+        let data = res.result.activitydetail.data
+        
+        if (data.length > 0) {
+          var activitydetail = data[0]
+          activitydetail.publish_time = util.formatTime(new Date(activitydetail.publish_time))
+          activitydetail.start_time = util.formatTime(new Date(activitydetail.start_time))
+          activitydetail.end_time = util.formatTime(new Date(activitydetail.end_time))
+
+          that.setData({
+            detail: activitydetail
+          })
+        }
 
         that.setData({
-          detail: postdetail,
           contentLoaded: true
         })
 
         that.checkLoadFinish()
-
       },
 
       fail: console.error
@@ -68,28 +75,28 @@ Page({
   /**
    * 获取评论
    */
-  refreshComment: function (postid) {
+  refreshParticipations: function (activityId) {
     var that = this
 
     wx.cloud.callFunction({
       name: 'get_participation_for_activity',
 
       data: {
-        postid: postid,
+        activityId: activityId,
       },
 
       success: function (res) {
 
-        var commentList = res.result.comment_list.data
-        that.checkHasEnrolled(commentList)
+        var participations = res.result.participations.data
+        that.checkHasEnrolled(participations)
 
-        for (let i = 0; i < commentList.length; i++) {
-          commentList[i].time = util.formatTime(new Date(commentList[i].time))
+        for (let i = 0; i < participations.length; i++) {
+          participations[i].time = util.formatTime(new Date(participations[i].time))
         }
 
         that.setData({
-          comments: commentList,
-          commentLoaded: true
+          participations: participations,
+          participationsLoaded: true
         })
 
         that.checkLoadFinish()
@@ -112,7 +119,7 @@ Page({
     if (this.data.hasEnrolled) {
       this.cancelParticipation(this.data.participationId)
     } else {
-      this.addParticipation(this.data.postid)
+      this.addParticipation(this.data.activityId)
     }
   },
 
@@ -162,7 +169,7 @@ Page({
    * 判断当前用户是否已经参加
    */
   checkLoadFinish: function() {
-    if (this.data.contentLoaded && this.data.commentLoaded){
+    if (this.data.contentLoaded && this.data.participationsLoaded){
       wx.hideLoading()
     }
   },
@@ -170,18 +177,18 @@ Page({
   /**
    * 判断当前用户是否已经参加
    */
-  checkHasEnrolled: function (commentList) {
+  checkHasEnrolled: function (participations) {
     this.setData({
       hasEnrolled: false,
       participationId: '',
       buttonTitle: '参加'
     })
 
-    for (let i = 0; i < commentList.length; i++) {
-      if (commentList[i].participant_id == app.globalData.openId) {
+    for (let i = 0; i < participations.length; i++) {
+      if (participations[i].participant_id == app.globalData.openId) {
         this.setData({
           hasEnrolled: true,
-          participationId: commentList[i]._id,
+          participationId: participations[i]._id,
           buttonTitle: '取消参加'
         })
         break
@@ -189,21 +196,21 @@ Page({
     }
   },
 
-  addParticipation: function (postid) {
+  addParticipation: function (activityId) {
     var that = this
 
     wx.cloud.callFunction({
       name: 'add_participation',
 
       data: {
-        postid: postid,
+        activityId: activityId,
         nick_name: app.globalData.currentNickName,
         avatar_url: app.globalData.currentAvatarUrl,
       },
 
       success: function (res) {
         wx.hideLoading()
-        that.refreshComment(postid)
+        that.refreshParticipations(activityId)
       },
 
       fail: console.error
@@ -222,7 +229,7 @@ Page({
 
       success: function (res) {
         wx.hideLoading()
-        that.refreshComment(that.data.postid)
+        that.refreshParticipations(that.data.activityId)
       },
 
       fail: console.error

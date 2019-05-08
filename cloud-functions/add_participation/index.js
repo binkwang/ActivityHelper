@@ -15,23 +15,13 @@ exports.main = async (event, context) => {
   try {
     const timestamp = Date.now()
 
-    // // 更新 update_time
-    // await db.collection('activity').where({
-    //   _id: event.postid
-    // })
-    // .update({
-    //   data: {
-    //     update_time: timestamp
-    //   }
-    // })
-
     await db.collection('participation').add({
       data: {
-        postid: event.postid, // 评论对应的post
-        participant_id: event.userInfo.openId, // 唯一标识，不要用自己传的，用sdk产生的
-        nick_name: event.nick_name, // 评论者名字
-        avatar_url: event.avatar_url, // 评论者头像
-        time: timestamp, // 评论发生的时间
+        activity_id: event.activityId,
+        participant_id: event.userInfo.openId,
+        nick_name: event.nick_name,
+        avatar_url: event.avatar_url,
+        time: timestamp,
       }
     })
   } catch (e) {

@@ -19,7 +19,7 @@ exports.main = async (event, context) => {
       location: true,
       number_limit: true
     }).where({
-      group_id: event.groupid,
+      group_id: event.groupId, //如果groupId为空，则返回全部数据？？
     }).orderBy('publish_time', 'desc').get(),
   }
 }

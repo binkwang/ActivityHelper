@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupid: '',
+    groupId: '',
     activity_title: '',
     location: '',
     number_limit: 0,
@@ -20,10 +20,10 @@ Page({
   onLoad: function (options) {
 
     this.setData({
-      groupid: options.groupid
+      groupId: options.groupId
     })
 
-    console.log("this.data.groupidupid: ", this.data.groupid)
+    console.log("this.data.groupId: ", this.data.groupId)
 
   },
 
@@ -61,7 +61,7 @@ Page({
     wx.cloud.callFunction({
       name: 'publish_activity',
       data: {
-        groupid: this.data.groupid,
+        groupid: this.data.groupId,
         sponsor_name: app.globalData.currentNickName,
         sponsor_avatar_url: app.globalData.currentAvatarUrl,
         activity_title: this.data.activity_title,

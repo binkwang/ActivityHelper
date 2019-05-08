@@ -10,8 +10,8 @@ const db = cloud.database({
 // 云函数入口函数
 exports.main = async (event, context) => {
   return {
-    comment_list: await db.collection('participation').where({
-      postid: event.postid
+    participations: await db.collection('participation').where({
+      activity_id: event.activityId
     }).orderBy('time', 'desc').get(),
 
   }

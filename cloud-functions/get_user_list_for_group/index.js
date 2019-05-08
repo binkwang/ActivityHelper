@@ -18,7 +18,7 @@ exports.main = async (event, context) => {
         avatar_url: true,
         join_time: true
       }).where({
-        group_id: event.groupid
+        group_id: event.groupId
       }).orderBy('join_time', 'desc').get(),
     }
   } catch (e) {

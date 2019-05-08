@@ -1,8 +1,6 @@
 <!--pages/grouplist/grouplist.wxml-->
 
-<!-- <text>pages/grouplist/grouplist.wxml</text> -->
-
-<block wx:for="{{grouplist}}">
+<block wx:for="{{groupList}}">
     <view class="divLine"></view>
     <view class='post_list' bindtap='onItemClick' data-groupid='{{item.group_id}}'>
         <view>

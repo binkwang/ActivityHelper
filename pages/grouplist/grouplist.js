@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    grouplist: null,
+    groupList: null,
     openGid: '',
   },
 
@@ -15,7 +15,7 @@ Page({
     console.log('Have got openGid: ' + openGid)
 
     wx.navigateTo({
-      url: '../group/group?groupid=' + openGid,
+      url: '../group/group?groupId=' + openGid,
     })
   },
 
@@ -101,7 +101,7 @@ Page({
   onItemClick: function (e) {
     console.log("groupid:", e.currentTarget.dataset.groupid)
     wx.navigateTo({
-      url: '../group/group?groupid=' + e.currentTarget.dataset.groupid,
+      url: '../group/group?groupId=' + e.currentTarget.dataset.groupid,
     })
   },
 
@@ -118,15 +118,18 @@ Page({
     wx.cloud.callFunction({
       name: 'get_group_list_for_user',
       success: function (res) {
-        var data = res.result.grouplist.data
+        var data = res.result.groupList.data
+
         for (let i = 0; i < data.length; i++) {
           console.log(data[i])
           data[i].join_time = util.formatTime(new Date(data[i].join_time))
         }
-        wx.hideLoading()
+
         that.setData({
-          grouplist: data
+          groupList: data
         })
+
+        wx.hideLoading()
         wx.stopPullDownRefresh()
       },
       fail: console.error

@@ -4,7 +4,7 @@
     "pages/group/group",
     "pages/logs/logs",
     "pages/publish/publish",
-    "pages/postdetail/postdetail",
+    "pages/activitydetail/activitydetail",
     "pages/authorize/authorize"
   ],
   "window": {

@@ -15,7 +15,7 @@ exports.main = async (event, context) => {
     await db.collection('group_user').add({
       data: {
         _id: (event.group_id + event.userInfo.openId),
-        group_id: event.group_id,
+        group_id: event.groupId,
         group_name: event.group_name,
         user_id: event.userInfo.openId, // 群成员id，能否根据openId获取nick_name/avatar_url？
         join_time: timestamp,

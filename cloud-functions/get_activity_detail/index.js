@@ -10,8 +10,8 @@ const db = cloud.database({
 exports.main = async (event, context) => {
   
   return {
-    postdetail: await db.collection('activity').where({
-      _id: event.postid
+    activitydetail: await db.collection('activity').where({
+      _id: event.activityId
     }).get(),
   }
 }

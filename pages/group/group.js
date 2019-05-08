@@ -8,9 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupid: '', // 用户显示该group的活动
-    groupdetail: '',
-    userlist: '',
+    groupId: '', // 用户显示该group的活动
+    groupDetail: '', // 暂时没用到
+    users: null, // 显示群成员
     activities: null,
     shouldRefresh: false, // 用于发布动态后的强制刷新标记
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -21,16 +21,16 @@ Page({
    */
   onLoad: function (options) {
     var that = this
-    console.log('options.groupid:', options.groupid)
+    console.log('options.groupId:', options.groupId)
 
     this.setData({
-      groupid: options.groupid
+      groupId: options.groupId
     })
 
 
     // // TODO： 
 
-    // // groupid可能有两个来源：
+    // // groupId可能有两个来源：
     // // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在
     // // 第一次点击shard card跳转到此页面，此时该群在数据裤中还不存在，要建群
 
@@ -50,7 +50,7 @@ Page({
 
     wx.startPullDownRefresh()
 
-    this.checkGroupExist(this.data.groupid)
+    this.checkGroupExist(this.data.groupId)
   },
 
   /**
@@ -117,18 +117,18 @@ Page({
    */
   newPost: function(e) {
     wx.navigateTo({
-      url: '../publish/publish?groupid=' + this.data.groupid,
+      url: '../publish/publish?groupId=' + this.data.groupId,
     })
   },
   
   onItemClick: function (e) {
-    console.log(e.currentTarget.dataset.postid)
+    console.log("activityId:", e.currentTarget.dataset.activityid)
     wx.navigateTo({
-      url: '../postdetail/postdetail?postid=' + e.currentTarget.dataset.postid,
+      url: '../activitydetail/activitydetail?activityId=' + e.currentTarget.dataset.activityid,
     })
   },
 
-  checkGroupExist: function (groupid) {
+  checkGroupExist: function (groupId) {
     var that = this
 
     wx.showLoading({
@@ -139,7 +139,7 @@ Page({
       name: 'get_group',
 
       data: {
-        groupid: groupid
+        groupId: groupId
       },
 
       success: function (res) {
@@ -147,18 +147,17 @@ Page({
         var data = res.result.groups.data
 
         if (data.length > 0) {
-          var groupdetail = data[0]
-          console.log('groupdetail: ', groupdetail)
-          groupdetail.create_time = util.formatTime(new Date(groupdetail.create_time))
+          var detail = data[0]
+          detail.create_time = util.formatTime(new Date(detail.create_time))
 
           that.setData({
-            groupdetail: groupdetail
+            groupDetail: detail
           })
 
           wx.hideLoading()
 
           // 当前用户入群
-          that.addUserToGroup(that.data.groupid)
+          that.addUserToGroup(that.data.groupId)
 
           // group存在，拉取group活动 / 当前用户入群
           that.refresh()
@@ -169,7 +168,7 @@ Page({
           wx.hideLoading()
 
           // 创建
-          that.cretatGroup(that.data.groupid)
+          that.cretatGroup(that.data.groupId)
         }
 
       },
@@ -177,7 +176,7 @@ Page({
     })
   },
 
-  cretatGroup: function (groupid) {
+  cretatGroup: function (groupId) {
     var that = this
 
     wx.showLoading({
@@ -188,7 +187,7 @@ Page({
       name: 'add_group',
 
       data: {
-        group_id: this.data.groupid,
+        groupId: this.data.groupId,
         nick_name: app.globalData.currentNickName,
         avatar_url: app.globalData.currentAvatarUrl,
       },
@@ -199,7 +198,7 @@ Page({
         wx.hideLoading()
 
         // 创建成功，重新加载群信息
-        that.checkGroupExist(that.data.groupid)
+        that.checkGroupExist(that.data.groupId)
       },
 
       fail: console.error
@@ -207,13 +206,13 @@ Page({
   },
 
   // 当前用户入群
-  addUserToGroup: function (groupid) {
+  addUserToGroup: function (groupId) {
     var that = this
     
     wx.cloud.callFunction({
       name: 'add_group_user',
       data: {
-        group_id: groupid,
+        groupId: groupId,
         nick_name: app.globalData.currentNickName,
         avatar_url: app.globalData.currentAvatarUrl,
       },
@@ -236,11 +235,12 @@ Page({
       title: '加载活动',
     })
 
+    console.log("this.data.groupId=============: ", this.data.groupId)
+
     wx.cloud.callFunction({
       name: 'get_activity_list',
-
       data: {
-        groupid: this.data.groupid
+        groupId: this.data.groupId
       },
 
       success: function (res) {
@@ -265,7 +265,7 @@ Page({
   },
 
   // 获取群成员
-  getUsers: function (groupid) {
+  getUsers: function (groupId) {
     var that = this
 
     wx.showLoading({
@@ -276,19 +276,19 @@ Page({
       name: 'get_user_list_for_group',
 
       data: {
-        groupid: groupid
+        groupId: groupId
       },
 
       success: function (res) {
-        var userlist = res.result.userlist.data
+        var data = res.result.users.data
 
-        for (let i = 0; i < userlist.length; i++) {
-          console.log(userlist[i])
-          userlist[i].join_time = util.formatTime(new Date(userlist[i].join_time))
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i])
+          data[i].join_time = util.formatTime(new Date(data[i].join_time))
         }
 
         that.setData({
-          userlist: userlist
+          users: data
         })
 
         wx.hideLoading()

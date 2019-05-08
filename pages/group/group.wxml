@@ -1,8 +1,8 @@
 <block wx:for="{{activities}}">
     <view class="divLine"></view>
     <!--block不能设置css-->
-    <view class='post_list' bindtap='onItemClick' data-postid='{{item._id}}'>
-        <!--postId会默认转成lowercase-->
+    <view class='post_list' bindtap='onItemClick' data-activityid='{{item._id}}'>
+        <!--activityid 传给js文件-->
         <view>
             <text class='activity_title'>{{item.activity_title}}</text>
         </view>
@@ -24,7 +24,5 @@
         </view>
     </view>
 </block>
-
-<!-- <image bindtap="chooseimage" class="moment_img new_post" bindtap="newPost" src='../../images/newPost.png'></image> -->
 
 <image class="new_post" bindtap="newPost" src='../../images/newPost.png'></image>
