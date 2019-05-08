@@ -9,10 +9,14 @@ Page({
    */
   data: {
     groupId: '', // 用户显示该group的活动
+    parentType: '', // '0'-从list页面进入，'1'-从shared card进去
     groupDetail: '', // 暂时没用到
-    users: null, // 显示群成员
-    activities: null,
-    shouldRefresh: false, // 用于发布动态后的强制刷新标记
+    users: [], // 显示群成员
+    activities: [],
+    groupDetailLoaded: false,
+    activitiesLoaded: false,
+    usersLoaded: false,
+    shouldRefreshActivities: false, // 发布新活动后的刷新标记
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
 
@@ -24,33 +28,20 @@ Page({
     console.log('options.groupId:', options.groupId)
 
     this.setData({
-      groupId: options.groupId
+      groupId: options.groupId,
+      parentType: options.parentType
     })
 
+    // groupId可能有两个来源：
+    // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在；
+    // 点击shard card跳转到此页面
+    // 如果是第一次点击shard card，则该群在数据库中还不存在，要建群，然后把当前用户加入群中
 
-    // // TODO： 
+    wx.showLoading({
+      title: '加载中',
+    })
 
-    // // groupId可能有两个来源：
-    // // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在
-    // // 第一次点击shard card跳转到此页面，此时该群在数据裤中还不存在，要建群
-
-    // if (isGroupExisting) {
-    //   wx.startPullDownRefresh()
-    //   this.refresh()
-    // } else {
-    //   // 在数据库中创建该群
-    //   // 然后刷新页面
-    // }
-
-    // // 检查该用户是否是该群成员，如果不是，则加入该群
-
-    // if (!isUserInGroup) {
-    //   // 用户加入群中
-    // }
-
-    wx.startPullDownRefresh()
-
-    this.checkGroupExist(this.data.groupId)
+    this.getGroupDetails(this.data.groupId)
   },
 
   /**
@@ -66,13 +57,11 @@ Page({
   onShow: function () {
     var that = this
 
-    if (this.data.shouldRefresh) {
-
-      wx.startPullDownRefresh()
-      this.refresh()
+    if (this.data.shouldRefreshActivities) {
+      this.getActivities()
 
       this.setData({
-        shouldRefresh: false
+        shouldRefreshActivities: false
       })
     }
   },
@@ -95,7 +84,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.refresh()
   },
 
   /**
@@ -122,18 +110,16 @@ Page({
   },
   
   onItemClick: function (e) {
-    console.log("activityId:", e.currentTarget.dataset.activityid)
+    let activityId = e.currentTarget.dataset.activityid
+    console.log("activityId:", activityId)
+
     wx.navigateTo({
-      url: '../activitydetail/activitydetail?activityId=' + e.currentTarget.dataset.activityid,
+      url: '../activitydetail/activitydetail?activityId=' + activityId,
     })
   },
 
-  checkGroupExist: function (groupId) {
+  getGroupDetails: function (groupId) {
     var that = this
-
-    wx.showLoading({
-      title: '加载群信息',
-    })
 
     wx.cloud.callFunction({
       name: 'get_group',
@@ -151,24 +137,25 @@ Page({
           detail.create_time = util.formatTime(new Date(detail.create_time))
 
           that.setData({
-            groupDetail: detail
+            groupDetail: detail,
+            groupDetailLoaded: true
           })
 
-          wx.hideLoading()
-
-          // 当前用户入群
-          that.addUserToGroup(that.data.groupId)
-
-          // group存在，拉取group活动 / 当前用户入群
-          that.refresh()
+          if (that.data.parentType === '0') { // 如果用户从群分享卡片点击进入，该用户可能未加入
+            that.addUserToGroup(that.data.groupId)
+          }
+          
+          that.getUsers()
+          that.getActivities()
 
         } else {
-          console.log('group不存在')
 
-          wx.hideLoading()
-
-          // 创建
-          that.cretatGroup(that.data.groupId)
+          if (that.data.parentType === '0') { // 如果用户从群分享卡片点击进入，该群可能尚未创建
+            console.log('group 不存在')
+            that.cretatGroup(that.data.groupId)
+          } else {
+            console.log('获取group信息失败')
+          }
         }
 
       },
@@ -178,10 +165,6 @@ Page({
 
   cretatGroup: function (groupId) {
     var that = this
-
-    wx.showLoading({
-      title: '创建群',
-    })
 
     wx.cloud.callFunction({
       name: 'add_group',
@@ -193,19 +176,15 @@ Page({
       },
 
       success: function (res) {
-        console.log(res.result)
-
-        wx.hideLoading()
-
-        // 创建成功，重新加载群信息
-        that.checkGroupExist(that.data.groupId)
+        console.log("group创建成功 - ", res.result)
+        that.getGroupDetails(that.data.groupId)
       },
 
       fail: console.error
     })
   },
 
-  // 当前用户入群
+  // 当前用户入群，即使该成员已经入群，调用该函数也没有影响
   addUserToGroup: function (groupId) {
     var that = this
     
@@ -213,29 +192,20 @@ Page({
       name: 'add_group_user',
       data: {
         groupId: groupId,
-        nick_name: app.globalData.currentNickName,
-        avatar_url: app.globalData.currentAvatarUrl,
+        nickName: app.globalData.currentNickName,
+        avatarUrl: app.globalData.currentAvatarUrl,
       },
 
       success: function (res) {
-        console.log('当前用户入群-成功')
+        console.log('当前用户入群 - 成功')
       },
       fail: console.error
     })
-
   },
 
-  /**
-   * 刷新数据
-   */
-  refresh: function () {
+  getActivities: function () {
     var that = this
-
-    wx.showLoading({
-      title: '加载活动',
-    })
-
-    console.log("this.data.groupId=============: ", this.data.groupId)
+    console.log("groupId: ", this.data.groupId)
 
     wx.cloud.callFunction({
       name: 'get_activity_list',
@@ -245,7 +215,6 @@ Page({
 
       success: function (res) {
         var data = res.result.activities.data
-
         for (let i = 0; i < data.length; i++) {
           console.log(data[i])
           data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
@@ -254,11 +223,11 @@ Page({
         }
         
         that.setData({
-          activities: data
+          activities: data,
+          activitiesLoaded: true
         })
 
-        wx.hideLoading()
-        wx.stopPullDownRefresh()
+        that.checkLoadFinish()
       },
       fail: console.error
     })
@@ -268,32 +237,35 @@ Page({
   getUsers: function (groupId) {
     var that = this
 
-    wx.showLoading({
-      title: '加载群成员',
-    })
-
     wx.cloud.callFunction({
       name: 'get_user_list_for_group',
-
       data: {
         groupId: groupId
       },
 
       success: function (res) {
         var data = res.result.users.data
-
         for (let i = 0; i < data.length; i++) {
           console.log(data[i])
           data[i].join_time = util.formatTime(new Date(data[i].join_time))
         }
-
+        
         that.setData({
-          users: data
+          users: data,
+          usersLoaded: true
         })
 
-        wx.hideLoading()
+        that.checkLoadFinish()
       },
       fail: console.error
     })
   },
+
+  checkLoadFinish: function () {
+    if (this.data.groupDetailLoaded && this.data.activitiesLoaded && this.data.usersLoaded) {
+      console.log("全部数据加载完成")
+      wx.hideLoading()
+    }
+  },
+
 })

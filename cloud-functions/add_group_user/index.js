@@ -19,8 +19,8 @@ exports.main = async (event, context) => {
         group_name: event.group_name,
         user_id: event.userInfo.openId, // 群成员id，能否根据openId获取nick_name/avatar_url？
         join_time: timestamp,
-        nick_name: event.nick_name, // 成员昵称，怎样保证昵称和头像是最新的？
-        avatar_url: event.avatar_url, // 成员头像
+        nick_name: event.nickName, // 成员昵称，怎样保证昵称和头像是最新的？
+        avatar_url: event.avatarUrl, // 成员头像
       }
     })
 

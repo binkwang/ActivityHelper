@@ -1,4 +1,5 @@
-<block wx:for="{{activities}}">
+
+<block wx:if='{{groupDetailLoaded && activitiesLoaded && usersLoaded}}' wx:for="{{activities}}">
     <view class="divLine"></view>
     <!--block不能设置css-->
     <view class='post_list' bindtap='onItemClick' data-activityid='{{item._id}}'>
@@ -25,4 +26,31 @@
     </view>
 </block>
 
+<view class="divLine"></view>
+
+<view>
+<text class='author_name comment_author_name'>群成员列表</text>
+</view>
+
+<block wx:for="{{users}}">
+    <view class="divLine"></view>
+    <view class='all_user_list'>
+        <view class='title_area'>
+          <view class='avatar_area'>
+              <image class='avatar' src='{{item.avatar_url}}'/>
+          </view>
+          <view class='text_area'>
+              <view>
+                  <text class='author_name'>{{item.nick_name}}</text>
+              </view>
+              <view class='publish_time'>
+                  <text class='publish_time'>{{item.join_time}}</text>
+              </view>
+          </view>
+        </view>
+    </view>
+</block>
+
 <image class="new_post" bindtap="newPost" src='../../images/newPost.png'></image>
+
+

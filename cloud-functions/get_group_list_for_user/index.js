@@ -16,7 +16,7 @@ exports.main = async (event, context) => {
         user_id: true,
         group_name: true
       }).where({
-        user_id: event.userInfo.openId // 当前用户的群
+        user_id: event.userInfo.openId
       }).orderBy('join_time', 'desc').get(),
     }
   } catch (e) {

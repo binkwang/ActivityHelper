@@ -24,6 +24,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
+    
     var that = this
 
     this.setData({

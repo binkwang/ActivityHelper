@@ -15,7 +15,7 @@ Page({
     console.log('Have got openGid: ' + openGid)
 
     wx.navigateTo({
-      url: '../group/group?groupId=' + openGid,
+      url: '../group/group?groupId=' + openGid + '&parentType=0' //parentType=0代表从shared card点击进入
     })
   },
 
@@ -99,9 +99,10 @@ Page({
   },
 
   onItemClick: function (e) {
-    console.log("groupid:", e.currentTarget.dataset.groupid)
+    let groupId = e.currentTarget.dataset.groupid
+    console.log("groupId: ", groupId)
     wx.navigateTo({
-      url: '../group/group?groupId=' + e.currentTarget.dataset.groupid,
+      url: '../group/group?groupId=' + groupId + '&parentType=1' //parentType=1代表从前一个list页面跳转过去
     })
   },
 
