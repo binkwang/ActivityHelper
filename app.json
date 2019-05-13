@@ -13,7 +13,6 @@
     "navigationBarTitleText": "NZ活动助手",
     "navigationBarTextStyle": "white"
   },
-
   "tabBar--暂时不需要": {
     "selectedColor": "#00BFFF",
     "list": [
@@ -27,7 +26,6 @@
       }
     ]
   },
-  
   "cloud": true,
   "sitemapLocation": "sitemap.json"
 }

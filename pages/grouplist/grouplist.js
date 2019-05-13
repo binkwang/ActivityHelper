@@ -11,14 +11,6 @@ Page({
     openGid: '',
   },
 
-  watchBack: function (openGid) {
-    console.log('Have got openGid: ' + openGid)
-
-    wx.navigateTo({
-      url: '../group/group?groupId=' + openGid + '&parentType=0' //parentType=0代表从shared card点击进入
-    })
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -29,8 +21,6 @@ Page({
     wx.showShareMenu({
       withShareTicket: true
     })
-
-    app.watch(that.watchBack)
 
     wx.getStorage({
       key: app.globalData.userInfo,
@@ -70,12 +60,12 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
+  // /**
+  //  * 生命周期函数--监听页面卸载
+  //  */
+  // onUnload: function () {
 
-  },
+  // },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -96,13 +86,20 @@ Page({
    */
   onShareAppMessage: function () {
 
+    return {
+      title: '000000',
+      path: '/pages/group/group'
+    }
+
   },
 
   onItemClick: function (e) {
     let groupId = e.currentTarget.dataset.groupid
     console.log("groupId: ", groupId)
+    
     wx.navigateTo({
-      url: '../group/group?groupId=' + groupId + '&parentType=1' //parentType=1代表从前一个list页面跳转过去
+      //parentType=1代表从前一个list页面跳转过去 (后面不能有逗号)
+      url: '../group/group?groupId=' + groupId + '&parentType=1' 
     })
   },
 

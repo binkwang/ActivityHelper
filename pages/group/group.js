@@ -2,6 +2,9 @@
 const util = require('../../utils/util.js');  
 const app = getApp()
 
+// TODO:
+// 多个接口合成一个，放在云端，加快网络请求速度
+
 Page({
 
   /**
@@ -25,23 +28,44 @@ Page({
    */
   onLoad: function (options) {
     var that = this
-    console.log('options.groupId:', options.groupId)
 
-    this.setData({
-      groupId: options.groupId,
-      parentType: options.parentType
+    // 页面开启转发功能
+    wx.showShareMenu({
+      withShareTicket: true
     })
-
-    // groupId可能有两个来源：
-    // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在；
-    // 点击shard card跳转到此页面
-    // 如果是第一次点击shard card，则该群在数据库中还不存在，要建群，然后把当前用户加入群中
 
     wx.showLoading({
       title: '加载中',
     })
 
-    this.getGroupDetails(this.data.groupId)
+    // 此页面的父页面有两个来源：
+    // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在；
+    // 点击shard card跳转到此页面
+    // 如果是第一次点击shard card，则该群在数据库中还不存在，要建群，然后把当前用户加入群中
+
+    let shareTicket = app.globalData.shareTicket
+
+    console.log('group page, shareTicket:', shareTicket)
+
+    if (shareTicket) {
+
+      // getLoginCode参数是一个回调函数
+      app.getLoginCode(function () {
+        that.getShareInfo(shareTicket)
+      })
+
+    } else if (options.groupId) {
+
+      this.setData({
+        groupId: options.groupId,
+        parentType: options.parentType
+      })
+
+      this.loadPageData(this.data.groupId)
+
+    } else {
+      console.log('unexpected..')
+    }
   },
 
   /**
@@ -118,8 +142,58 @@ Page({
     })
   },
 
+  loadPageData: function (groupId) {
+    this.getGroupDetails(groupId)
+    this.getUsers(groupId)
+    this.getActivities(groupId)
+  },
+
+  getShareInfo: function (shareTicket) {
+    let that = this
+
+    wx.getShareInfo({
+      shareTicket: shareTicket,
+
+      success: function (res) {
+        console.log('打印 getShareInfo:' + JSON.stringify(res))
+        that.getGroupId(res.encryptedData, res.iv)
+      }
+    })
+  },
+
+  getGroupId: function (encryptedData, iv) {
+    let that = this
+
+    wx.cloud.callFunction({
+      name: 'get_opengid',
+      data: {
+        js_code: app.globalData.loginCode,
+        appId: app.globalData.appId,
+        encryptedData: encryptedData,
+        iv: iv
+      },
+      success: function (res) {
+        console.log('打印 get_opengid success res: ' + JSON.stringify(res))
+        console.log('打印 get_opengid success openGId: ' + res.result.openGId)
+
+        // set data
+        that.setData({
+          groupId: res.result.openGId,
+          parentType: '0' // 从share ticket进入
+        })
+
+        that.loadPageData(that.data.groupId)
+      },
+      fail: function (err) {
+        console.log('打印 get_opengid err: ' + JSON.stringify(err))
+      }
+    })
+  },
+
   getGroupDetails: function (groupId) {
     var that = this
+
+    console.log('加载群详情..')
 
     wx.cloud.callFunction({
       name: 'get_group',
@@ -141,16 +215,18 @@ Page({
             groupDetailLoaded: true
           })
 
-          if (that.data.parentType === '0') { // 如果用户从群分享卡片点击进入，该用户可能未加入
+          that.checkLoadFinish()
+
+          // 如果用户从群分享卡片点击进入，该用户可能未加入
+          // 获取群信息成功之后，使用户入群
+          if (that.data.parentType === '0') { 
             that.addUserToGroup(that.data.groupId)
           }
-          
-          that.getUsers()
-          that.getActivities()
 
         } else {
 
-          if (that.data.parentType === '0') { // 如果用户从群分享卡片点击进入，该群可能尚未创建
+          // 如果用户从群分享卡片点击进入，该群可能尚未创建
+          if (that.data.parentType === '0') { 
             console.log('group 不存在')
             that.cretatGroup(that.data.groupId)
           } else {
@@ -176,8 +252,8 @@ Page({
       },
 
       success: function (res) {
-        console.log("group创建成功 - ", res.result)
-        that.getGroupDetails(that.data.groupId)
+        console.log("group创建成功")
+        that.loadPageData(that.data.groupId)
       },
 
       fail: console.error
@@ -203,19 +279,21 @@ Page({
     })
   },
 
-  getActivities: function () {
+  getActivities: function (groupId) {
     var that = this
-    console.log("groupId: ", this.data.groupId)
+
+    console.log('加载活动列表..')
 
     wx.cloud.callFunction({
       name: 'get_activity_list',
       data: {
-        groupId: this.data.groupId
+        groupId: groupId
       },
 
       success: function (res) {
         var data = res.result.activities.data
         for (let i = 0; i < data.length; i++) {
+          console.log('获取活动列表..')
           console.log(data[i])
           data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
           data[i].start_time = util.formatTime(new Date(data[i].start_time))
@@ -237,6 +315,8 @@ Page({
   getUsers: function (groupId) {
     var that = this
 
+    console.log('加载群成员..')
+
     wx.cloud.callFunction({
       name: 'get_user_list_for_group',
       data: {
@@ -246,10 +326,11 @@ Page({
       success: function (res) {
         var data = res.result.users.data
         for (let i = 0; i < data.length; i++) {
+          console.log('获取群成员列表..')
           console.log(data[i])
           data[i].join_time = util.formatTime(new Date(data[i].join_time))
         }
-        
+
         that.setData({
           users: data,
           usersLoaded: true
