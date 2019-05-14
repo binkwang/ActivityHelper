@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/publish/publish",
     "pages/grouplist/grouplist",
     "pages/group/group",
     "pages/logs/logs",
+    "pages/publish/publish",
     "pages/activitydetail/activitydetail",
     "pages/authorize/authorize"
   ],

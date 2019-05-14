@@ -70,9 +70,6 @@ function dateTimePicker(startYear, endYear, date) {
   // 默认开始显示数据
   var defaultDate = date ? [...date.split(' ')[0].split('-'), ...date.split(' ')[1].split(':')] : getNewDateArry();
 
-  console.log("date----------------", date)
-  console.log("defaultDate----------------", defaultDate)
-
   // 处理联动列表数据
   /*年月日 时分*/
   dateTimeArray[0] = getLoopArray(start, end);
@@ -103,8 +100,22 @@ function deepcopyArray(obj) {
   return out;
 }
 
+function convertToTimetamp(dateTimeArray, dateTime) {
+
+  var date = dateTimeArray[0][dateTime[0]] + '/'
+    + dateTimeArray[1][dateTime[1]] + '/'
+    + dateTimeArray[2][dateTime[2]] + ' '
+    + dateTimeArray[3][dateTime[3]] + ':'
+    + dateTimeArray[4][dateTime[4]] + ':00';
+
+  //var timestamp = new Date(date).getTime();
+
+  return new Date(date).getTime();
+}
+
 module.exports = {
   dateTimePicker: dateTimePicker,
   getMonthDay: getMonthDay,
+  convertToTimetamp: convertToTimetamp,
   deepcopyArray: deepcopyArray
 }

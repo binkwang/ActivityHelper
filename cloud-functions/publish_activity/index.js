@@ -18,8 +18,8 @@ exports.main = async (event, context) => {
         location: event.location,
         number_limit: event.number_limit,
         publish_time: Date.now(),
-        start_time: Date.now(),
-        end_time: Date.now()
+        start_time: event.start_time,
+        end_time: event.end_time
       }
     })
   } catch (e) {

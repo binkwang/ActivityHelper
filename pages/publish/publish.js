@@ -150,6 +150,10 @@ Page({
 
   publish: function () {
     var that = this
+
+    let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
+    let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
+
     wx.cloud.callFunction({
       name: 'publish_activity',
       data: {
@@ -159,9 +163,8 @@ Page({
         activity_title: this.data.activity_title,
         location: this.data.location,
         number_limit: this.data.number_limit,
-        publish_time: "", // TODO:
-        start_time: "", // TODO:
-        end_time: "" // TODO:
+        start_time: start_time,
+        end_time: end_time
       },
       success: function (res) {
         // 强制刷新，这个传参很粗暴
