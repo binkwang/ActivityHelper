@@ -1,5 +1,7 @@
 // pages/publish/publish.js
 const app = getApp()
+var dateTimePicker = require('../../utils/dateTimePicker.js');
+
 Page({
 
   /**
@@ -11,7 +13,17 @@ Page({
     location: '',
     number_limit: 0,
     maxContentLength: 100,
-    minContentLength: 2
+    minContentLength: 2,
+    startYear: 2019,
+    endYear: 2020,
+    dateTime: null,
+    dateTimeArray: null,
+    originalDateTime: null,
+    originalDateTimeArray: null,
+    endDateTime: null,
+    endDateTimeArray: null,
+    originalEndDateTime: null,
+    originalEndDateTimeArray: null,
   },
 
   /**
@@ -25,6 +37,86 @@ Page({
 
     console.log("this.data.groupId: ", this.data.groupId)
 
+    // 获取完整的年月日 时分秒，以及默认显示的数组
+    var startPicker = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
+
+    this.setData({
+      dateTime: startPicker.dateTime,
+      dateTimeArray: startPicker.dateTimeArray,
+      originalDateTime: startPicker.dateTime.slice(0),
+      originalDateTimeArray: dateTimePicker.deepcopyArray(startPicker.dateTimeArray),
+    });
+
+    // 获取完整的年月日 时分秒，以及默认显示的数组
+    var endPicker = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
+
+    this.setData({
+      endDateTime: endPicker.dateTime,
+      endDateTimeArray: endPicker.dateTimeArray,
+      originalEndDateTime: endPicker.dateTime.slice(0),
+      originalEndDateTimeArray: dateTimePicker.deepcopyArray(endPicker.dateTimeArray),
+    });
+  },
+
+  changeDateTime(e) {
+    this.setData({
+      dateTime: e.detail.value,
+      originalDateTime: e.detail.value.slice(0),
+      originalDateTimeArray: dateTimePicker.deepcopyArray(this.data.dateTimeArray),
+    });
+  },
+
+  cancelChangeDateTime(e) {
+    this.setData({
+      dateTime: this.data.originalDateTime,
+      dateTimeArray: this.data.originalDateTimeArray,
+    });
+  },
+
+  changeDateTimeColumn(e) {
+
+    //引用赋值，改变arr的值，this.data.dateTime也会被改变
+    var arr = this.data.dateTime, dateArr = this.data.dateTimeArray; 
+
+    // e.detail.column: 当前改变的列的索引号
+    // e.detail.value: 当前改变的列的新值
+    arr[e.detail.column] = e.detail.value;
+
+    // 设置当前年月的天数组
+    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]); 
+    
+    // set data, 页面会自动刷新
+    this.setData({
+      dateTime: arr,
+      dateTimeArray: dateArr
+    });
+  },
+
+  changeEndDateTime(e) {
+    this.setData({ 
+      endDateTime: e.detail.value,
+      originalEndDateTime: e.detail.value.slice(0),
+      originalEndDateTimeArray: dateTimePicker.deepcopyArray(this.data.endDateTimeArray),
+    });
+  },
+
+  cancelEndChangeDateTime(e) {
+    this.setData({
+      endDateTime: this.data.originalEndDateTime,
+      endDateTimeArray: this.data.originalEndDateTimeArray,
+    });
+  },
+
+  changeEndDateTimeColumn(e) {
+    var arr = this.data.endDateTime, dateArr = this.data.endDateTimeArray;
+
+    arr[e.detail.column] = e.detail.value;
+    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+
+    this.setData({
+      endDateTime: arr,
+      endDateTimeArray: dateArr
+    });
   },
 
   input_activity_title: function (e) {

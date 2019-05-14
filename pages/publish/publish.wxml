@@ -16,14 +16,22 @@
 
   <!-- TODO: start_time / end_time -->
 
-    <!-- <view class="image_content">
-        <view class='image' wx:for="{{img_url}}">
-            <image class="moment_img" src="{{item}}"></image>
-        </view>
-        <view class='image' style='display:{{hideAdd?"none":"block"}}'>
-            <image bindtap="chooseimage" class="moment_img" src='../../images/add.png'></image>
-        </view>
-    </view> -->
+  <view class="tui-picker-content">
+    <picker mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcancel="cancelChangeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
+      <view class="tui-picker-detail">
+        开始时间: {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="tui-picker-content">
+    <picker mode="multiSelector" value="{{endDateTime}}" bindchange="changeEndDateTime" bindcancel="cancelEndChangeDateTime" bindcolumnchange="changeEndDateTimeColumn" range="{{endDateTimeArray}}">
+      <view class="tui-picker-detail">
+        开始时间: {{endDateTimeArray[0][endDateTime[0]]}}-{{endDateTimeArray[1][endDateTime[1]]}}-{{endDateTimeArray[2][endDateTime[2]]}} {{endDateTimeArray[3][endDateTime[3]]}}:{{endDateTimeArray[4][endDateTime[4]]}}
+      </view>
+    </picker>
+  </view>
+
 
     <button bindtap="send">发布</button>
 </view>

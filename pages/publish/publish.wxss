@@ -1,5 +1,7 @@
 /* pages/publish/publish.wxss */
 
+/* @import "../picker/picker.wxss"; */
+
 /*横向布局  */
 .layout_horizontal{
   height: auto;
@@ -13,17 +15,15 @@
 .page{
  padding-left: 20rpx;
  padding-right: 20rpx;
- padding-top: 5rpx;
+ padding-top: 20rpx;
 }
 
 .label{
- /* background-color:antiquewhite; */
+ background-color:antiquewhite;
  width: 100%;
  margin-bottom: 5px;
- /* margin-left: 5px; */
  margin-right: 5px;
  font-size: 12px
- /* padding: 5px */
 }
 
 .input_text{
@@ -32,22 +32,32 @@
  margin-bottom: 20px;
  margin-right: 5px;
  font-size: 14px;
- padding: 5px
 }
 
-
-/* .image{
- width:31%;
- height: 100px;
- padding: 2px
+.tui-picker-content{
+  /* padding: 30rpx; */
+  text-align: left;
 }
-.moment_img{
- width: 98px;
- height: 98px;
-}
-.image_content{
- width: 100%;
- display: flex;
- flex-wrap: wrap;
- margin-bottom: 20px
+/* .tui-picker-name{
+  height: 80rpx;
+  line-height: 80rpx;
 } */
+
+/* .tui-picker-detail{
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  font-size: 12px;
+  padding: 0 10px;
+  overflow: hidden;
+} */
+
+.tui-picker-detail{
+ background-color:antiquewhite;
+ height: 80rpx;
+ line-height: 80rpx;
+ width: 100%;
+ margin-bottom: 20px;
+ font-size: 12px
+}
+
