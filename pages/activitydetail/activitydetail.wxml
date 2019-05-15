@@ -32,6 +32,9 @@
         <view>
             <text class='text'>人数上限：{{detail.number_limit}}</text>
         </view>
+        <view>
+            <text class='text'>类型：{{detail.activity_type}}</text>
+        </view>
 
         <!-- TODO： paticipates' avatar -->
 

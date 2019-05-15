@@ -1,6 +1,7 @@
 // pages/posts/posts.js
-const util = require('../../utils/util.js');  
 const app = getApp()
+const util = require('../../utils/util.js');  
+const model = require('../../utils/model.js')
 
 // TODO:
 // 多个接口合成一个，放在云端，加快网络请求速度
@@ -298,6 +299,7 @@ Page({
           data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
           data[i].start_time = util.formatTime(new Date(data[i].start_time))
           data[i].end_time = util.formatTime(new Date(data[i].end_time))
+          data[i].activity_type = model.getTypeName(data[i].activity_type)
         }
         
         that.setData({

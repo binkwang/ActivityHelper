@@ -14,6 +14,7 @@ exports.main = async (event, context) => {
       publish_time: true,
       sponsor_name: true,
       activity_title: true,
+      activity_type: true,
       start_time: true,
       end_time: true,
       location: true,
@@ -23,8 +24,6 @@ exports.main = async (event, context) => {
     }).orderBy('publish_time', 'desc').get(),
   }
 }
-
-
 
 // exports.main = async (event, context) => {
 //   await db.createCollection('group')

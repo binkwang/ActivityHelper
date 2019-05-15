@@ -15,6 +15,7 @@ exports.main = async (event, context) => {
         sponsor_name: event.sponsor_name,
         sponsor_avatar_url: event.sponsor_avatar_url,
         activity_title: event.activity_title,
+        activity_type: event.activity_type,
         location: event.location,
         number_limit: event.number_limit,
         publish_time: Date.now(),

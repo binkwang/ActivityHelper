@@ -1,5 +1,7 @@
-const util = require('../../utils/util.js');  
-const app = getApp()
+ const app = getApp()
+const util = require('../../utils/util.js'); 
+const model = require('../../utils/model.js')
+
 Page({
 
   /**
@@ -52,10 +54,12 @@ Page({
         let data = res.result.activitydetail.data
         
         if (data.length > 0) {
+
           var activitydetail = data[0]
           activitydetail.publish_time = util.formatTime(new Date(activitydetail.publish_time))
           activitydetail.start_time = util.formatTime(new Date(activitydetail.start_time))
           activitydetail.end_time = util.formatTime(new Date(activitydetail.end_time))
+          activitydetail.activity_type = model.getTypeName(activitydetail.activity_type)
 
           that.setData({
             detail: activitydetail

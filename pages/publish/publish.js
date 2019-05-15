@@ -1,6 +1,16 @@
 // pages/publish/publish.js
 const app = getApp()
-var dateTimePicker = require('../../utils/dateTimePicker.js');
+const dateTimePicker = require('../../utils/dateTimePicker.js')
+const model = require('../../utils/model.js')
+
+// var type = model.activityType.sports;
+
+// if (type == 1) {
+//   console.log("运动!");
+// }
+// else {
+//   console.log("It is NOT 运动");
+// }
 
 Page({
 
@@ -10,6 +20,7 @@ Page({
   data: {
     groupId: '',
     activity_title: '',
+    activity_type: 0, // 默认值为“其他”类型
     location: '',
     number_limit: 0,
     maxContentLength: 100,
@@ -161,6 +172,7 @@ Page({
         sponsor_name: app.globalData.currentNickName,
         sponsor_avatar_url: app.globalData.currentAvatarUrl,
         activity_title: this.data.activity_title,
+        activity_type: this.data.activity_type,
         location: this.data.location,
         number_limit: this.data.number_limit,
         start_time: start_time,
