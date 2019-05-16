@@ -1,27 +1,29 @@
 <!--pages/grouplist/grouplist.wxml-->
 
+<view class='container'>
+
 <block wx:for="{{groupList}}">
-    <view class="divLine"></view>
-    <view class='post_list' bindtap='onItemClick' data-groupid='{{item.group_id}}'>
-        <view>
-            <text class='activity_title'>group_id: {{item.group_id}}</text>
+
+    <!-- <view class="divider-line"></view> -->
+
+    <view class='group-list' bindtap='onItemClick' data-groupid='{{item.group_id}}'>
+
+        <view class="layout_horizontal">
+          
+          <image class="activity-type-image" src='../../images/group.png'></image>
+
+          <view wx:if="{{item.group_id}}" class='main-label'> 群名称：<open-data type="groupName" open-gid="{{item.group_id}}"></open-data></view>
+
+          <image class="chevron-image" src='../../images/chevron.png'></image>
+
         </view>
-        <view>
-            <text class='extra_info start_time'>group_name: {{item.group_name}}</text>
-        </view>
+
     </view>
 </block>
 
-<button class="share_button" open-type="share">去其他群创建活动助手</button>
+<button class="yellow_border_button" open-type="share">去其他群创建活动助手</button>
+
+</view>
 
 
-<!-- TODO: Improve -->
-<!-- <view>
-  <view wx:if="{{openGid}}" class='groupName'> 群名称：
-    <open-data type="groupName" open-gid="{{openGid}}"></open-data>
-  </view>
-  <view wx:else>
-    <button class='share_button' bindtap='clickReload'>点击加载群名称和群ID</button>
-  </view>
 
-</view> -->

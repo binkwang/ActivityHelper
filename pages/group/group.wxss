@@ -28,6 +28,7 @@
   margin-right: 15rpx;
   margin-top: 14rpx;
   margin-bottom: 12rpx;
+  background:  rgb(255, 255, 255);
 }
 .activity_title{
   font-size: 12pt;

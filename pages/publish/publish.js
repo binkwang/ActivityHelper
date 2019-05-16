@@ -3,15 +3,6 @@ const app = getApp()
 const dateTimePicker = require('../../utils/dateTimePicker.js')
 const model = require('../../utils/model.js')
 
-// var type = model.activityType.sports;
-
-// if (type == 1) {
-//   console.log("运动!");
-// }
-// else {
-//   console.log("It is NOT 运动");
-// }
-
 Page({
 
   /**

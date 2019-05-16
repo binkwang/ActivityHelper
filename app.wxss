@@ -1,5 +1,5 @@
 /**app.wxss**/
-.container {
+/* .container {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -7,4 +7,116 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
-} 
+}  */
+
+page{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: rgb(246, 247, 250);
+  background-color: #FCBD1B; */
+  background-color: rgb(17, 17, 17);
+}
+
+.container{
+  /* display: flex; */
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: space-around;
+  box-sizing: border-box;
+  font-family: '微软雅黑';
+}
+
+
+.page-body{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 1300rpx;
+}
+
+.main-label{
+  font-size: 12pt;
+  display: -webkit-box;   
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;      
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.sub-label{
+  font-size: 10pt;
+  display: -webkit-box;   
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;      
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.yellow_bg_button{
+  font-size: 10pt;
+  font-family: "Times New Roman", Times, serif;
+
+  margin-left: 5pt;
+  margin-right: 5pt;
+  margin-top: 20pt;
+  padding-top: 3pt;
+  padding-bottom: 3pt;
+
+  border-radius: 3px;
+  background: #FCBD1B;
+}
+
+
+.yellow_border_button{
+  font-size: 10pt;
+  font-family: "Times New Roman", Times, serif;
+
+  margin-left: 5pt;
+  margin-right: 5pt;
+  margin-top: 20pt;
+  padding-top: 3pt;
+  padding-bottom: 3pt;
+
+  border-radius: 3px;
+  color: #FCBD1B; /* 文字颜色 */
+  background-color:rgba(0, 0, 0, 0); /* 背景透明 */
+
+  border-color: #FCBD1B;
+  border-style:solid;
+  border-width: thin;
+  /* border: thin solid  #FCBD1B; */
+}
+
+
+/* 字体大小 */
+.f10{font-size:10px;}
+.f12{font-size:12px;}
+.f14{font-size:14px;}
+.f16{font-size:16px;}
+
+/* 字体样式 */
+.fbold{font-weight:bold;}
+.fnormal{font-weight:normal;}
+
+/* 字体家族 */
+.ftimes{font-family: "Times New Roman", Times, serif;}
+
+/* 颜色 */
+.fred{color:#f00;}
+.fblack{color:#000;}
+.fwhite{color:#fff;}
+
+.brand-yellow{color:#FCBD1B;}
+
+
+/* 叠加使用 */
+/* <div class="f12 fred fbold">12PX 红色 加粗</div>
+<div class="f12 fred fnormal">12PX 红色 正常</div>
+<div class="f14 fblack fnormal">14PX 黑色 正常</div> */
