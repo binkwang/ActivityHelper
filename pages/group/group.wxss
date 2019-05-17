@@ -1,106 +1,96 @@
 /* pages/group/group.wxss */
-/*横向布局  */
-.layout_horizontal{
+
+.layout_vertical{
   height: auto;
-  display: flex;
-  /*row 横向  column 列表  */
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-.divLine{
- background: #EEEDEE;
- width: 100%;
- height: 10rpx;
-}
-.new_post{
-  float: right;
-  position: fixed;
-  bottom: 60rpx;
-  right: 60rpx;
-  /*border-radius: 500px;*/
-  width: 100rpx;
-  height: 100rpx;
+  display: flex; /* flex布局 */
+  flex-direction: column; /* rcolumn 纵向 */
+  justify-content: flex-start; /* 设置弹性盒子元素在主轴（横轴）的对齐方式*/
+  align-items: left;
+  /* flex-wrap: wrap; */
+  width: 70%;
+
+  /* border-color: #FCBD1B;
+  border-style:solid;
+  border-width: thin; */
 }
 
-.post_list{
-  margin-left: 15rpx;
-  margin-right: 15rpx;
-  margin-top: 14rpx;
-  margin-bottom: 12rpx;
-  background:  rgb(255, 255, 255);
+.activity-type-image{
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+  margin-left: 10pt;
+  margin-right: 5pt;
+  width: 24pt;
+  height: 24pt;
+  /* background:  rgb(0, 255, 255); */
 }
-.activity_title{
-  font-size: 12pt;
+
+.group-user-title-label{
+  font-size: 10pt;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  color: #ffffff; /* 文字颜色 */
+  margin-left: 15pt;
+  margin-right: 15pt;
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+
   display: -webkit-box;   
   word-break: break-all;
   text-overflow: ellipsis;
   overflow: hidden;      
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
-}
-.extra_info{
-  display: block;
-  font-size: 10pt;
-  width: 650rpx;
-  color:midnightblue;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow:ellipsis;
-}
-.location{
-  width: 580rpx;
-  padding-right: 30rpx;
+  /* background:  rgb(0, 255, 255); */
 }
 
-.all_user_list{
-  margin-bottom: 102rpx;
+.new-post{
+  float: right;
+  position: fixed;
+  bottom: 60rpx;
+  right: 60rpx;
+  width: 100rpx;
+  height: 100rpx;
 }
 
-.user_item{
-  padding-top: 10rpx;
-  margin-left: 20rpx;
-  margin-right: 20rpx;
+.activity-list{
+  margin-left: 5pt;
+  margin-right: 5pt;
+  margin-top: 5pt;
+  margin-bottom: 0pt;
+  border-radius: 3px;
+  background: rgb(255, 255, 255);
 }
 
-.user_item_head{
-  display: flex;
-  flex-direction: row;
+.user-list{
+  margin-left: 5pt;
+  margin-right: 5pt;
+  margin-top: 0pt;
+  margin-bottom: 2pt;
+  border-radius: 3px;
+  background: rgb(60, 60, 60);
 }
 
-.text_area {
-  margin-left: 30rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.author_name{
-  font-size: 14pt;
-}
-.comment_author_name{
-  font-size: 12pt;
-}
-
-.publish_time{
-  font-size: 8pt;
-  color: gray;
-  margin-top: 1rpx;
-}
-
-.divLine{
- background: #EEEDEE;
- width: 100%;
- height: 10rpx;
-}
-
-.title_area{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.activity-type-image{
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+  margin-left: 10pt;
+  /* width: 80rpx;
+  height: 80rpx; */
+  width: 24pt;
+  height: 24pt;
+  border-radius: 3px;
+  /* background:  rgb(0, 255, 255); */
 }
 
 .avatar{
-  width: 80rpx;
-  height: 80rpx;
+  margin-left: 10pt;
+  margin-right: 5pt;
+  margin-top: 5pt;
+  margin-bottom: 5pt;
+  width: 20pt;
+  height: 20pt;
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
 }
+

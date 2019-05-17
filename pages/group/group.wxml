@@ -1,59 +1,75 @@
 
 <block wx:if='{{groupDetailLoaded && activitiesLoaded && usersLoaded}}' wx:for="{{activities}}">
-    <view class="divLine"></view>
-    <!--block不能设置css-->
-    <view class='post_list' bindtap='onItemClick' data-activityid='{{item._id}}'>
-        <!--activityid 传给js文件-->
-        <view>
-            <text class='activity_title'>{{item.activity_title}}</text>
-        </view>
+
+    <view class='activity-list' bindtap='onItemClick' data-activityid='{{item._id}}'>
+
         <view class="layout_horizontal">
-            <view>
-                <text class='extra_info location'>地点：{{item.location}}</text>
+
+            <!-- <image class="activity-type-image" src='../../images/group.png'></image> -->
+            <image class="activity-type-image" src='{{item.activity_image_path}}'></image>
+
+            <view class="layout_vertical">
+
+              <!-- <view>
+                <text class='main-label top-margin-5'>{{item.activity_title}}</text>
+              </view> -->
+
+              <view class='main-label top-margin-5'>
+                {{item.activity_title}}
+              </view>
+
+
+
+              <view>
+                <text class='sub-label top-margin-2'>地点：{{item.location}}</text>
+              </view>
+
+
+              <!-- TODO: 已报名人数/总人数限制 -->
+              <view>
+                  <text class='sub-label top-margin-2'>{{item.number_limit}}人</text>
+              </view>
+
+
+              <view>
+                  <text class='sub-label top-margin-2'>开始时间：{{item.start_time}}</text>
+              </view>
+
+              <view>
+                  <text class='sub-label top-margin-2 bottom-margin-5'>结束时间：{{item.end_time}}</text>
+              </view>
+
             </view>
 
-            <!-- TODO: 已报名人数/总人数限制 -->
-            <view>
-                <text class='extra_info number_limit'>{{item.number_limit}}人</text>
-            </view>
+
+            <image class="chevron-image" src='../../images/chevron.png'></image>
+
         </view>
-        <view>
-            <text class='extra_info start_time'>开始时间：{{item.start_time}}</text>
-        </view>
-        <view>
-            <text class='extra_info start_time'>结束时间：{{item.end_time}}</text>
-        </view>
-        <view>
-            <text class='extra_info start_time'>类型：{{item.activity_type}}</text>
-        </view>
+
+
+
     </view>
 </block>
 
-<view class="divLine"></view>
-
 <view>
-<text class='author_name comment_author_name'>群成员列表</text>
+<text class="group-user-title-label">群成员列表</text>
 </view>
 
 <block wx:for="{{users}}">
-    <view class="divLine"></view>
-    <view class='all_user_list'>
-        <view class='title_area'>
-          <view class='avatar_area'>
-              <image class='avatar' src='{{item.avatar_url}}'/>
-          </view>
-          <view class='text_area'>
-              <view>
-                  <text class='author_name'>{{item.nick_name}}</text>
-              </view>
-              <view class='publish_time'>
-                  <text class='publish_time'>{{item.join_time}}</text>
-              </view>
-          </view>
-        </view>
+
+    <view class='user-list'>
+
+      <view class="layout_horizontal">
+
+        <image class='avatar' src='{{item.avatar_url}}'></image>
+        <text class='sub-label color-white'>{{item.nick_name}}</text>
+
+      </view>
+
     </view>
 </block>
 
-<image class="new_post" bindtap="newPost" src='../../images/newPost.png'></image>
+<view class='space-height-20'>..</view>
 
+<image class="new-post" bindtap="newPost" src='../../images/newPost.png'></image>
 

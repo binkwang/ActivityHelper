@@ -1,6 +1,6 @@
 <!--pages/grouplist/grouplist.wxml-->
 
-<view class='container'>
+<view>
 
 <block wx:for="{{groupList}}">
 
@@ -10,9 +10,9 @@
 
         <view class="layout_horizontal">
           
-          <image class="activity-type-image" src='../../images/group.png'></image>
+          <image class="group-image" src='../../images/group.png'></image>
 
-          <view wx:if="{{item.group_id}}" class='main-label'> 群名称：<open-data type="groupName" open-gid="{{item.group_id}}"></open-data></view>
+          <view wx:if="{{item.group_id}}" class='main-label top-margin-15 bottom-margin-15'> 群名称：<open-data type="groupName" open-gid="{{item.group_id}}"></open-data></view>
 
           <image class="chevron-image" src='../../images/chevron.png'></image>
 

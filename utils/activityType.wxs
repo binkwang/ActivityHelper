@@ -1,0 +1,14 @@
+var filter = {
+  numberToFix: function (value) {
+    return value.toFixed(1)
+  }
+}
+module.exports = {
+  numberToFix: filter.numberToFix
+}
+
+// 在需要使用numberToFix函数的页面引入numbertofix.wxs文件
+// < wxs module = "filter" src = "../../utils/activityType.wxs" > </wxs>
+
+// 调用即可
+// < text class="aa" > {{ filter.numberToFix(item.vote_count / vote.data.voters_count * 100) }}% </text>

@@ -9,6 +9,14 @@
   box-sizing: border-box;
 }  */
 
+.layout_horizontal{
+  height: auto;
+  display: flex; /* flex布局 */
+  flex-direction: row; /* row 横向 */
+  justify-content: flex-start; /* 设置弹性盒子元素在主轴（横轴）的对齐方式*/
+  align-items: center;
+}
+
 page{
   width: 100%;
   height: 100%;
@@ -16,20 +24,19 @@ page{
   flex-direction: column;
   /* background-color: rgb(246, 247, 250);
   background-color: #FCBD1B; */
-  background-color: rgb(17, 17, 17);
+  background-color: rgb(34, 34, 34);
 }
 
 .container{
-  /* display: flex; */
+  /* display: flex;
 
   flex-direction: column;
-
   align-items: center;
-
   justify-content: space-around;
   box-sizing: border-box;
-  font-family: '微软雅黑';
-}
+  font-family: '微软雅黑'; */
+  background-color: rgb(34, 34, 34);
+} 
 
 
 .page-body{
@@ -40,17 +47,46 @@ page{
 }
 
 .main-label{
-  font-size: 12pt;
+  font-size: 10pt;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  color: #000000; /* 文字颜色 */
+  margin-left: 5pt;
+  margin-right: 5pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  
+  /* padding-top: 15pt; //padding是内边距；margin是外边距
+  padding-bottom: 15pt; */
+
   display: -webkit-box;   
   word-break: break-all;
   text-overflow: ellipsis;
   overflow: hidden;      
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+  /* background:  rgb(0, 255, 255); */
+}
+
+.chevron-image{
+  margin-right: 10pt;
+  width: 12pt;
+  height: 12pt;
+  vertical-align: middle;
+  margin-left: auto;   /* 使chevron-image右对其 */
+  /* background:  rgb(0, 255, 255); */
 }
 
 .sub-label{
-  font-size: 10pt;
+  font-size: 8pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: #666666; /* 文字颜色 */
+  margin-left: 5pt;
+  margin-right: 5pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+
   display: -webkit-box;   
   word-break: break-all;
   text-overflow: ellipsis;
@@ -94,6 +130,33 @@ page{
   /* border: thin solid  #FCBD1B; */
 }
 
+.top-margin-2{
+  margin-top: 2pt;
+}
+
+.bottom-margin-2{
+  margin-bottom: 2pt;
+}
+
+.top-margin-5{
+  margin-top: 5pt;
+}
+
+.bottom-margin-5{
+  margin-bottom: 5pt;
+}
+
+.top-margin-15{
+  margin-top: 15pt;
+}
+
+.bottom-margin-15{
+  margin-bottom: 15pt;
+}
+
+.bottom-margin-20{
+  margin-bottom: 20pt;
+}
 
 /* 字体大小 */
 .f10{font-size:10px;}
@@ -109,14 +172,8 @@ page{
 .ftimes{font-family: "Times New Roman", Times, serif;}
 
 /* 颜色 */
-.fred{color:#f00;}
-.fblack{color:#000;}
-.fwhite{color:#fff;}
+.color-white{color: #ffffff;}
+.color-brand-yellow{color:#FCBD1B;}
 
-.brand-yellow{color:#FCBD1B;}
-
-
-/* 叠加使用 */
-/* <div class="f12 fred fbold">12PX 红色 加粗</div>
-<div class="f12 fred fnormal">12PX 红色 正常</div>
-<div class="f14 fblack fnormal">14PX 黑色 正常</div> */
+/* 其他 */
+.space-height-20 {height: 20pt;}

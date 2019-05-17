@@ -109,6 +109,18 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+
+    this.setData({
+      groupDetailLoaded: false,
+      activitiesLoaded: false,
+      usersLoaded: false,
+    })
+
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    this.loadPageData(this.data.groupId)
   },
 
   /**
@@ -299,7 +311,8 @@ Page({
           data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
           data[i].start_time = util.formatTime(new Date(data[i].start_time))
           data[i].end_time = util.formatTime(new Date(data[i].end_time))
-          data[i].activity_type = model.getTypeName(data[i].activity_type)
+          data[i].activity_type_name = model.getTypeName(data[i].activity_type)
+          data[i].activity_image_path = model.getTypeImagePath(data[i].activity_type)
         }
         
         that.setData({
@@ -345,10 +358,15 @@ Page({
   },
 
   checkLoadFinish: function () {
-    if (this.data.groupDetailLoaded && this.data.activitiesLoaded && this.data.usersLoaded) {
+
+    if (this.data.groupDetailLoaded 
+    && this.data.activitiesLoaded 
+    && this.data.usersLoaded) {
       console.log("全部数据加载完成")
       wx.hideLoading()
+      wx.stopPullDownRefresh()
     }
+
   },
 
 })

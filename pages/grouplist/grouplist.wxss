@@ -2,12 +2,11 @@
 
 
 
-.divider-line{
+/* .divider-line{
  background: #EEEDEE;
  width: 100%;
  height: 1rpx;
-}
-
+} */
 
 .group-list{
   margin-left: 5pt;
@@ -26,7 +25,7 @@
   align-items: center;
 }
 
-.activity-type-image{
+.group-image{
   margin-top: 10pt;
   margin-bottom: 10pt;
   margin-left: 10pt;
@@ -34,57 +33,8 @@
   height: 80rpx; */
   width: 24pt;
   height: 24pt;
-  border-radius: 3px;
   /* background:  rgb(0, 255, 255); */
 }
-
-
-
-
-.main-label{
-  font-size: 10pt;
-  font-family: "Times New Roman", Times, serif;
-  margin-left: 5pt;
-  margin-right: 5pt;
-  margin-top: 15pt;
-  margin-bottom: 15pt;
-  
-  /* padding-top: 15pt; //padding是内边距；margin是外边距
-  padding-bottom: 15pt; */
-
-  display: -webkit-box;   
-  word-break: break-all;
-  text-overflow: ellipsis;
-  overflow: hidden;      
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  /* background:  rgb(0, 255, 255); */
-}
-
-.chevron-image{
-  margin-right: 10pt;
-  width: 12pt;
-  height: 12pt;
-  vertical-align: middle;
-  margin-left: auto;   /* 使chevron-image右对其 */
-  /* background:  rgb(0, 255, 255); */
-}
-
-.sub-label{
-  font-size: 8pt;
-  margin-left: 10rpx;
-  margin-right: 10rpx;
-  padding-top: 5rpx;
-  padding-bottom: 15rpx;
-  display: -webkit-box;   
-  word-break: break-all;
-  text-overflow: ellipsis;
-  overflow: hidden;      
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-}
-
-
 
 
 /* .extra_info{
