@@ -1,0 +1,8 @@
+<template name="selectItemTemplate">
+
+  <view catchtap='participantTapped' data-itemId="{{participant_id}}" class="{{chageColor?'selected layout_vertical':'normal layout_vertical'}}">
+    <image class='participant-avatar' src='{{avatar_url}}'></image>
+    <text class='nick-name-label'>{{nick_name}}</text>
+  </view>
+
+</template>

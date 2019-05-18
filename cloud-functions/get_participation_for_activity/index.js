@@ -10,7 +10,14 @@ const db = cloud.database({
 // 云函数入口函数
 exports.main = async (event, context) => {
   return {
-    participations: await db.collection('participation').where({
+    participations: await db.collection('participation').field({
+      _id: true,
+      activity_id: true,
+      avatar_url: true,
+      nick_name: true,
+      participant_id: true,
+      time: true
+    }).where({
       activity_id: event.activityId
     }).orderBy('time', 'desc').get(),
 

@@ -15,6 +15,7 @@ Page({
     imageUrls: [],
     participations: [],
     hasEnrolled: false,
+    enrollDisabled: false, // TODO: 是否禁用“参加/取消参加“功能
     participationId: '', // current user participation id
     buttonTitle: '参加'
   },
@@ -30,14 +31,18 @@ Page({
     var that = this
 
     this.setData({
-      activityId: options.activityId
+      // activityId: options.activityId
+      activityId: '96c1cbbe5cdbf1f91285be470c6d8a4f'
     })
 
     this.getActivityDetail(this.data.activityId)
     this.refreshParticipations(this.data.activityId)
+
+    // app.getLoginCode(function () {
+    //   that.getActivityDetail(that.data.activityId)
+    //   that.refreshParticipations(that.data.activityId)
+    // })
   },
-
-
 
   getActivityDetail: function (activityId) {
     var that = this
@@ -59,7 +64,8 @@ Page({
           activitydetail.publish_time = util.formatTime(new Date(activitydetail.publish_time))
           activitydetail.start_time = util.formatTime(new Date(activitydetail.start_time))
           activitydetail.end_time = util.formatTime(new Date(activitydetail.end_time))
-          activitydetail.activity_type = model.getTypeName(activitydetail.activity_type)
+          activitydetail.activity_type_name = model.getTypeName(activitydetail.activity_type)
+          activitydetail.activity_image_path = model.getTypeImagePath(activitydetail.activity_type)
 
           that.setData({
             detail: activitydetail
@@ -214,7 +220,7 @@ Page({
       },
 
       success: function (res) {
-        wx.hideLoading()
+        that.data.participationsLoaded = false // 这样给data赋值不会导致页面刷新
         that.refreshParticipations(activityId)
       },
 
@@ -233,11 +239,41 @@ Page({
       },
 
       success: function (res) {
-        wx.hideLoading()
+        that.data.participationsLoaded = false // 这样给data赋值不会导致页面刷新
         that.refreshParticipations(that.data.activityId)
       },
 
       fail: console.error
     })
+  },
+  
+  // 点击participant单元格
+  participantTapped: function (event) {
+
+    var participantId = event.currentTarget.dataset.itemid;
+    console.log("participantTapped: ", participantId)
+
+    // var newSelectItems = [];
+    // for (var i = 0; i < this.data.selectItems.length; i++) {
+    //   if (itemid == this.data.selectItems[i].itemid) {
+    //     //"text": "10元", "itemid": "1", "chageColor": false
+    //     newSelectItems[i] = {
+    //       "text": this.data.selectItems[i].text,
+    //       "itemid": this.data.selectItems[i].itemid,
+    //       "chageColor": true
+    //     };
+    //   } else {
+    //     newSelectItems[i] = {
+    //       "text": this.data.selectItems[i].text,
+    //       "itemid": this.data.selectItems[i].itemid,
+    //       "chageColor": false
+    //     };
+    //   }
+    // }
+
+    // this.setData({
+    //   selectItems: newSelectItems,
+    // });
   }
+
 })

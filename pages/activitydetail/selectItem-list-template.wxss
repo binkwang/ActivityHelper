@@ -1,0 +1,11 @@
+@import "../activitydetail/selectItem-template.wxss";
+
+.seletct-list-template {
+  width: 100%;
+}
+
+.inner-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

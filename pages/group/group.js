@@ -21,7 +21,7 @@ Page({
     activitiesLoaded: false,
     usersLoaded: false,
     shouldRefreshActivities: false, // 发布新活动后的刷新标记
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo') //TODO： 获取用户信息
   },
 
   /**
@@ -54,6 +54,11 @@ Page({
       app.getLoginCode(function () {
         that.getShareInfo(shareTicket)
       })
+
+      // TODO：getUserInfo
+
+
+      
 
     } else if (options.groupId) {
 
@@ -110,11 +115,10 @@ Page({
    */
   onPullDownRefresh: function () {
 
-    this.setData({
-      groupDetailLoaded: false,
-      activitiesLoaded: false,
-      usersLoaded: false,
-    })
+    // 这样给data能避免页面刷新
+    this.data.groupDetailLoaded = false; 
+    this.data.activitiesLoaded = false;
+    this.data.usersLoaded = false;
 
     wx.showLoading({
       title: '加载中',

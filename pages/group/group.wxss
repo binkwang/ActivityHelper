@@ -58,7 +58,7 @@
   margin-top: 5pt;
   margin-bottom: 0pt;
   border-radius: 3px;
-  background: rgb(255, 255, 255);
+  background: rgb(51, 51, 51);
 }
 
 .user-list{
@@ -67,7 +67,7 @@
   margin-top: 0pt;
   margin-bottom: 2pt;
   border-radius: 3px;
-  background: rgb(60, 60, 60);
+  background: rgb(34, 34, 34);
 }
 
 .activity-type-image{
@@ -82,15 +82,5 @@
   /* background:  rgb(0, 255, 255); */
 }
 
-.avatar{
-  margin-left: 10pt;
-  margin-right: 5pt;
-  margin-top: 5pt;
-  margin-bottom: 5pt;
-  width: 20pt;
-  height: 20pt;
-  border-radius: 50%;
-  display: block;
-  overflow: hidden;
-}
+
 

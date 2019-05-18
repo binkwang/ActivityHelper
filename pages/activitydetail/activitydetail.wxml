@@ -1,75 +1,88 @@
+
+<import src="../activitydetail/selectItem-list-template.wxml" />
+
 <view class='activitydetail' wx:if='{{contentLoaded && participationsLoaded}}'>
-    
-    <!-- 活动发起者信息 -->
-    <view class='title_area'>
-        <view class='avatar_area'>
-            <image class='avatar' src='{{detail.sponsor_avatar_url}}'/>
-        </view>
-        <view class='text_area'>
-            <view>
-                <text class='author_name'>{{detail.sponsor_name}}</text>
-            </view>
-            <view class='publish_time'>
-                <text class='publish_time'>发布于 {{detail.publish_time}}</text>
-            </view>
-        </view>
+
+  <!-- 活动发起者信息 -->
+  <view class="sponsor-view top-radius top-margin-5 layout_horizontal">
+      <image class='sponsor-avatar-view' src='{{detail.sponsor_avatar_url}}'></image>
+      <text class='sponsor-name-label'>{{detail.sponsor_name}}</text>
+  </view>
+
+  <view class="extra-info-view bottom-radius layout_horizontal">
+    <text class='sub-label top-margin-5 bottom-margin-5 left-margin-10'>发布于 {{detail.publish_time}}</text>
+  </view>
+
+  <!-- 活动详情 -->
+  <view class="activity-detail-view">
+
+    <view class='line'></view>
+
+    <view class="detail-info-item-container layout_horizontal">
+        <image class="activity-type-image" src='{{detail.activity_image_path}}'></image>
+        <view class='detail-info-item-title'>{{detail.activity_title}}</view>
     </view>
 
-    <!-- 活动详情 -->
-    <view class='content'>
-        <view>
-            <text class='text'>{{detail.activity_title}}</text>
-        </view>
-        <view>
-            <text class='text'>开始时间：{{detail.start_time}}</text>
-        </view>
-        <view>
-            <text class='text'>结束时间：{{detail.end_time}}</text>
-        </view>
-        <view>
-            <text class='text'>地点：{{detail.location}}</text>
-        </view>
-        <view>
-            <text class='text'>人数上限：{{detail.number_limit}}</text>
-        </view>
-        <view>
-            <text class='text'>类型：{{detail.activity_type}}</text>
-        </view>
+    <view class='line'></view>
 
-        <!-- TODO： paticipates' avatar -->
-
-        <!-- // paticipates' avatar
-        <view class='image_area'>
-            <view class='image' wx:for='{{imageUrls}}'>
-                <image src='{{item}}' mode='widthFix'></image>
-            </view>
-        </view> -->
-
+    <view class="detail-info-item-container">
+      <text class='detail-info-item'>开始时间：{{detail.start_time}}</text>
     </view>
 
+    <view class='line'></view>
 
-    <!-- 参与活动按钮 -->
-    <view class='send' bindtap='updateParticipation'>{{buttonTitle}}</view>
-
-    <!-- 参与者列表 -->
-    <view class='all_comment_list'>
-        <view class='comment_list' wx:for="{{participations}}">
-            <view class='comment_item'>
-                <view class='comment_item_head'>
-                    <view class='avatar_area'>
-                        <image class="userinfo-avatar avatar" src="{{item.avatar_url}}" background-size="cover"></image>
-                    </view>
-                    <view class='text_area'>
-                        <view>
-                            <text class='author_name comment_author_name'>{{item.nick_name}}</text>
-                        </view>
-                        <view class='publish_time'>
-                            <text class='publish_time'>{{item.time}}</text>
-                        </view>
-                    </view>
-                </view>
-            </view>
-            <view class='divLine' wx:if='{{index < participations.length-1}}'></view>
-        </view>
+    <view class="detail-info-item-container">
+      <text class='detail-info-item'>结束时间：{{detail.end_time}}</text>
     </view>
+
+    <view class='line'></view>
+
+    <view class="detail-info-item-container">
+      <text class='detail-info-item'>地点：{{detail.location}}</text>
+    </view>
+
+    <view class='line'></view>
+
+    <view class="detail-info-item-container">
+      <text class='detail-info-item'>人数上限：{{detail.number_limit}}</text>
+    </view>
+
+    <view class='line'></view>
+
+    <view class="detail-info-item-container">
+      <text class='detail-info-item'>活动类型：{{detail.activity_type_name}}</text>
+    </view>
+
+    <view class='line bottom-margin-5'></view>
+
+  </view>
+
+
+  <!-- 参与活动开关 -->
+  <view class='line'></view>
+  <view class="detail-info-item-container layout_horizontal">
+    <text class='detail-info-item'>是否参加</text>
+    <switch class="switch" color="#FCBD1B" disabled="{{enrollDisabled}}"checked="{{hasEnrolled}}" bindchange="updateParticipation"/>
+  </view>
+  <view class='line'></view>
+
+
+  <!-- 参与者列表
+  <block wx:for="{{participations}}">
+    <view class='line'></view>
+
+    <view class='participation-list layout_horizontal'>
+      <image class='avatar-view' src='{{item.avatar_url}}'></image>
+      <text class='sub-label color-white'>{{item.nick_name}}</text>
+    </view>
+
+    <view class='line'></view>
+  </block> -->
+
+  <view class='participation-collection'>
+    <template is="selectItemListTemplate" data="{{participations}}" />
+  </view>
+
+  <view class="declaration-view">*组织者有权限移除任一参与者*</view>
+
 </view>

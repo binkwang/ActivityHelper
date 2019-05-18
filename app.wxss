@@ -24,7 +24,7 @@ page{
   flex-direction: column;
   /* background-color: rgb(246, 247, 250);
   background-color: #FCBD1B; */
-  background-color: rgb(34, 34, 34);
+  background-color: rgb(17, 17, 17);
 }
 
 .container{
@@ -50,49 +50,49 @@ page{
   font-size: 10pt;
   font-weight: bold;
   font-family: "Times New Roman", Times, serif;
-  color: #000000; /* 文字颜色 */
-  margin-left: 5pt;
-  margin-right: 5pt;
+  color: #ffffff; /* 文字颜色 */
   margin-top: 0pt;
   margin-bottom: 0pt;
+  margin-left: 5pt;
+  margin-right: 5pt;
   
-  /* padding-top: 15pt; //padding是内边距；margin是外边距
+  /* padding-top: 15pt;
   padding-bottom: 15pt; */
 
-  display: -webkit-box;   
-  word-break: break-all;
-  text-overflow: ellipsis;
-  overflow: hidden;      
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  display: -webkit-box; /* 定义为盒子显示 */ 
+  word-break: break-all; /* 可以在word中间换行 */
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
+  overflow: hidden; /* 隐藏超出部分 */      
+  -webkit-box-orient: vertical; /* 竖向编排 */ 
+  -webkit-line-clamp: 2; /* 最多显示2行 */
   /* background:  rgb(0, 255, 255); */
 }
 
 .chevron-image{
   margin-right: 10pt;
-  width: 12pt;
-  height: 12pt;
+  width: 16pt;
+  height: 16pt;
   vertical-align: middle;
   margin-left: auto;   /* 使chevron-image右对其 */
   /* background:  rgb(0, 255, 255); */
 }
 
 .sub-label{
-  font-size: 8pt;
+  font-size: 10pt;
   font-weight: normal;
   font-family: "Times New Roman", Times, serif;
-  color: #666666; /* 文字颜色 */
-  margin-left: 5pt;
-  margin-right: 5pt;
+  color: rgb(204, 204, 204); /* 文字颜色 */
   margin-top: 0pt;
   margin-bottom: 0pt;
+  margin-left: 5pt;
+  margin-right: 5pt;
 
   display: -webkit-box;   
   word-break: break-all;
   text-overflow: ellipsis;
   overflow: hidden;      
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 2;
 }
 
 .yellow_bg_button{
@@ -128,6 +128,38 @@ page{
   border-style:solid;
   border-width: thin;
   /* border: thin solid  #FCBD1B; */
+}
+
+.avatar-view{
+  margin-left: 10pt;
+  margin-right: 5pt;
+  margin-top: 5pt;
+  margin-bottom: 5pt;
+  width: 24pt;
+  height: 24pt;
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+}
+
+.left-margin-10{
+  margin-left: 10pt;
+}
+
+.left-margin-15{
+  margin-left: 15pt;
+}
+
+.right-margin-15{
+  margin-right: 15pt;
+}
+
+.top-margin-0{
+  margin-top: 0pt;
+}
+
+.bottom-margin-0{
+  margin-bottom: 0pt;
 }
 
 .top-margin-2{
@@ -177,3 +209,9 @@ page{
 
 /* 其他 */
 .space-height-20 {height: 20pt;}
+
+.border{
+  border-color: #FCBD1B;
+  border-style:solid;
+  border-width: thin;
+}

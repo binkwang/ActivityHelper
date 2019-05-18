@@ -1,73 +1,44 @@
 
 <block wx:if='{{groupDetailLoaded && activitiesLoaded && usersLoaded}}' wx:for="{{activities}}">
 
-    <view class='activity-list' bindtap='onItemClick' data-activityid='{{item._id}}'>
+  <view class='activity-list' bindtap='onItemClick' data-activityid='{{item._id}}'>
 
-        <view class="layout_horizontal">
+    <view class="layout_horizontal">
 
-            <!-- <image class="activity-type-image" src='../../images/group.png'></image> -->
-            <image class="activity-type-image" src='{{item.activity_image_path}}'></image>
+      <image class="activity-type-image" src='{{item.activity_image_path}}'></image>
 
-            <view class="layout_vertical">
-
-              <!-- <view>
-                <text class='main-label top-margin-5'>{{item.activity_title}}</text>
-              </view> -->
-
-              <view class='main-label top-margin-5'>
-                {{item.activity_title}}
-              </view>
-
-
-
-              <view>
-                <text class='sub-label top-margin-2'>地点：{{item.location}}</text>
-              </view>
-
-
-              <!-- TODO: 已报名人数/总人数限制 -->
-              <view>
-                  <text class='sub-label top-margin-2'>{{item.number_limit}}人</text>
-              </view>
-
-
-              <view>
-                  <text class='sub-label top-margin-2'>开始时间：{{item.start_time}}</text>
-              </view>
-
-              <view>
-                  <text class='sub-label top-margin-2 bottom-margin-5'>结束时间：{{item.end_time}}</text>
-              </view>
-
-            </view>
-
-
-            <image class="chevron-image" src='../../images/chevron.png'></image>
-
+      <view class="layout_vertical">
+      
+        <view class='main-label top-margin-5'> {{item.activity_title}}
         </view>
 
+        <!-- TODO: 已报名人数/总人数限制 -->
+        <view>
+            <text class='sub-label top-margin-2'>{{item.number_limit}}人</text>
+        </view>
 
-
-    </view>
-</block>
-
-<view>
-<text class="group-user-title-label">群成员列表</text>
-</view>
-
-<block wx:for="{{users}}">
-
-    <view class='user-list'>
-
-      <view class="layout_horizontal">
-
-        <image class='avatar' src='{{item.avatar_url}}'></image>
-        <text class='sub-label color-white'>{{item.nick_name}}</text>
+        <!-- TODO: 状态 -->
+        <view>
+            <text class='sub-label top-margin-2 bottom-margin-5'>状态</text>
+        </view>
 
       </view>
 
+      <image class="chevron-image" src='../../images/chevron.png'></image>
+
     </view>
+      
+  </view>
 </block>
+
+<!-- 群成员列表
+<view> <text class="group-user-title-label">群成员列表</text> </view>
+<block wx:for="{{users}}">
+  <view class='user-list layout_horizontal'>
+    <image class='avatar-view' src='{{item.avatar_url}}'></image>
+    <text class='sub-label color-white'>{{item.nick_name}}</text>
+  </view>
+</block> -->
 
 <view class='space-height-20'>..</view>
 

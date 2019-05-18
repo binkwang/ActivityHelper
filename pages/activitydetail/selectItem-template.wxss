@@ -1,0 +1,44 @@
+.layout_vertical{
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+
+  height: auto;
+  display: flex; /* flex布局 */
+  flex-direction: column; /* rcolumn 纵向 */
+  justify-content: flex-start; /* 设置弹性盒子元素在主轴（横轴）的对齐方式*/
+  align-items: center;
+  width: 20%;
+}
+
+.participant-avatar{
+  margin-top: 10pt;
+  width: 24pt;
+  height: 24pt;
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+}
+
+.nick-name-label{
+  font-size: 6pt;
+  margin-top: 6pt;
+  text-align: center;
+  width: 90%; 
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204);
+
+  display: inline-block; /* 设置inline-block属相 */
+  white-space: nowrap; /* 强制不换行 */
+  overflow: hidden; /* 隐藏超出部分 */
+  text-overflow: ellipsis; /* 显示省略号 */
+}
+
+.selected{
+  color: red
+}
+.normal{
+  color: black;
+}

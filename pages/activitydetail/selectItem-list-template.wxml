@@ -1,0 +1,11 @@
+<import src="../activitydetail/selectItem-template.wxml" />
+
+<template name="selectItemListTemplate">
+  <view class='seletct-list-template'>
+    <view class='inner-container'>
+      <block wx:for="{{participations}}" wx:for-item="participation" wx:key="key">
+            <template is="selectItemTemplate" data="{{...participation}}" />
+      </block>
+    </view>
+  </view>
+</template>
