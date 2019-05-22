@@ -82,5 +82,51 @@
   /* background:  rgb(0, 255, 255); */
 }
 
+.status-label{
+  font-size: 8pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204); /* 文字颜色 */
+
+  width: 40%;
+  margin-left: 0pt;
+  margin-right: 20pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+}
+
+.number-limit-label{
+  font-size: 8pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204); /* 文字颜色 */
+
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  /* margin-left: auto; 右对其 */
+  /* margin-right: 20pt; */
+}
+
+.required-item-flag{
+  font-size: 10pt;
+  font-weight: bolder;
+  font-family: "Times New Roman", Times, serif;
+  color: #E11819;
+
+  margin-left: 2pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+}
+
+.status-image{
+  margin-left: 0pt;
+  margin-right: 5pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+
+  width: 8pt;
+  height: 8pt;
+  /* background:  rgb(0, 255, 255); */
+}
 
 

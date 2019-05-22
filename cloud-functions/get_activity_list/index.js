@@ -9,6 +9,7 @@ const db = cloud.database({
 
 exports.main = async (event, context) => {
   return {
+    currentTime: Date.now(),
     activities: await db.collection('activity').field({
       _id: true,
       publish_time: true,
@@ -24,10 +25,3 @@ exports.main = async (event, context) => {
     }).orderBy('publish_time', 'desc').get(),
   }
 }
-
-// exports.main = async (event, context) => {
-//   await db.createCollection('group')
-//   await db.createCollection('group_user')
-//   await db.createCollection('activity')
-//   await db.createCollection('participation')
-// }

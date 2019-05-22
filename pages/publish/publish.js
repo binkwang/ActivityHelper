@@ -11,11 +11,10 @@ Page({
   data: {
     groupId: '',
     activity_title: '',
-    activity_type: 0, // 默认值为“其他”类型
+    activityTypes: [],
+    selectedActivityType: null,
     location: '',
-    number_limit: 0,
-    maxContentLength: 100,
-    minContentLength: 2,
+    numLimit: 10, // 默认值
     startYear: 2019,
     endYear: 2020,
     dateTime: null,
@@ -26,16 +25,108 @@ Page({
     endDateTimeArray: null,
     originalEndDateTime: null,
     originalEndDateTimeArray: null,
+
+    titleLengthMin: 2,
+    titleLengthMax: 50,
+    currentTitleLength: 0,
+
+    currentLocationLength: 0,
+
+    sliderActiveColor: "#FCBD1B",
+    sliderBackgroundColor: "#555555",
+    sliderBlockColor: "#FCBD1B",
+  },
+
+  activityTypeSelected: function (event) {
+
+    let typeId = event.currentTarget.dataset.itemid;
+    console.log("typeId: ", typeId)
+
+    for (var i = 0; i < this.data.activityTypes.length; i++) {
+      if (typeId == this.data.activityTypes[i].typeId) {
+        this.data.activityTypes[i].isSelected = true;
+        this.selectedActivityType = this.data.activityTypes[i]
+      } else {
+        this.data.activityTypes[i].isSelected = false;
+      }
+    }
+
+    this.setData({
+      selectedActivityType: this.selectedActivityType,
+      activityTypes: this.data.activityTypes,
+    });
+  },
+
+
+  titleInputs: function (e) {
+    
+    var value = e.detail.value; // 获取输入框的内容
+    var length = parseInt(value.length); // 获取输入框内容的长度
+    
+    //最少字数限制
+    // if (length <= this.data.titleLengthMin) {
+    // } else if (length > this.data.titleLengthMin) {
+    // }
+
+    if (length <= this.data.titleLengthMax) {
+      this.setData({
+        activity_title: value,
+        currentTitleLength: length, //当前字数 
+      })
+    } else {
+      return
+    }
+  },
+
+  locationInputs: function (e) {
+
+    var value = e.detail.value; // 获取输入框的内容
+    var length = parseInt(value.length); // 获取输入框内容的长度
+
+    if (length <= this.data.titleLengthMax) {
+      this.setData({
+        location: value,
+        currentLocationLength: length, //当前字数 
+      })
+    } else {
+      return
+    }
+
+  },
+
+  //完成一次拖动后触发的事件
+  sliderchange: function (e) {
+    // wx.showToast({
+    //   title: "拖动后触发" + e.detail.value,
+    //   duration: 1000
+    // })
+  },
+
+  //拖动过程中的触发的事件
+  sliderchanging: function (e) {
+    // wx.showToast({
+    //   title: "拖动中触发" + e.detail.value,
+    //   duration: 1000
+    // })
+
+    var value = e.detail.value;
+    this.setData({
+      numLimit: value,
+    })
+
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     this.setData({
-      groupId: options.groupId
+      groupId: options.groupId,
+      activityTypes: model.activityTypes
     })
+
+    console.log("activityTypes: ", this.data.activityTypes)
 
     console.log("this.data.groupId: ", this.data.groupId)
 
@@ -121,40 +212,14 @@ Page({
     });
   },
 
-  input_activity_title: function (e) {
-    if (e.detail.value.length >= this.data.maxContentLength) {
-      wx.showToast({
-        title: '标题达到最大字数限制',
-      })
-    }
-    this.setData({
-      activity_title: e.detail.value
-    })
-  },
-
-  input_location: function (e) {
-    if (e.detail.value.length >= this.data.maxContentLength) {
-      wx.showToast({
-        title: '地点达到最大字数限制',
-      })
-    }
-    this.setData({
-      location: e.detail.value
-    })
-  },
-
-  input_number_limit: function (e) {
-    this.setData({
-      number_limit: Number(e.detail.value)
-    })
-  },
-
-
   publish: function () {
     var that = this
 
     let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
     let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
+
+
+
 
     wx.cloud.callFunction({
       name: 'publish_activity',
@@ -163,9 +228,9 @@ Page({
         sponsor_name: app.globalData.currentNickName,
         sponsor_avatar_url: app.globalData.currentAvatarUrl,
         activity_title: this.data.activity_title,
-        activity_type: this.data.activity_type,
+        activityType: this.data.selectedActivityType.typeId,
         location: this.data.location,
-        number_limit: this.data.number_limit,
+        number_limit: this.data.numLimit,
         start_time: start_time,
         end_time: end_time
       },
@@ -189,11 +254,27 @@ Page({
 
   //发布按钮事件
   send: function () {
-    if (this.data.activity_title.length == 0) {
-    //if (this.data.activity_title.length < this.data.minContentLength) {
+
+    console.log("this.data.selectedActivityType: ", this.data.selectedActivityType)
+
+    if (this.data.selectedActivityType == null) {
       wx.showToast({
         image: '../../images/warn.png',
-        title: '标题太短!',
+        title: '请选择活动类型',
+      })
+      return
+    }
+
+    if (this.data.activity_title.length == 0) {
+      wx.showToast({
+        image: '../../images/warn.png',
+        title: '请输入标题',
+      })
+      return
+    } else if (this.data.activity_title.length < this.data.titleLengthMin) {
+      wx.showToast({
+        image: '../../images/warn.png',
+        title: '请输入2个字以上的标题',
       })
       return
     }
@@ -201,27 +282,42 @@ Page({
     if (this.data.location.length == 0) {
       wx.showToast({
         image: '../../images/warn.png',
-        title: '请输入地点!',
+        title: '请输入地点',
+      })
+      return
+    } else if (this.data.location.length < this.data.titleLengthMin) {
+      wx.showToast({
+        image: '../../images/warn.png',
+        title: '请输入2个字以上的地点',
       })
       return
     }
 
-    if (this.data.number_limit == 0) {
+    if (this.data.numLimit == 0) {
       wx.showToast({
         image: '../../images/warn.png',
-        title: '请输入人数限制!',
+        title: '请选择人数上限',
       })
       return
     }
-    
-    var that = this;
+
+    let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
+    let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
+
+    if (start_time >= end_time) {
+      wx.showToast({
+        image: '../../images/warn.png',
+        title: '结束时间应该晚于开始时间',
+      })
+      return
+    }
 
     wx.showLoading({
       title: '发布中',
       mask: true
     })
 
-    that.publish()
+    this.publish()
   },
 
   /**
@@ -272,7 +368,6 @@ Page({
   onShareAppMessage: function () {
 
   },
-
 
   publishFail(info) {
     wx.showToast({

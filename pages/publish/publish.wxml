@@ -1,37 +1,104 @@
+<import src="../publish/activity-type-template.wxml" />
+
 <view class='page'>
-  <view>
-    <view class="label">标题</view>
-    <input class="input_text" bindinput="input_activity_title" placeholder="请输入活动标题" />
+
+  <!-- 活动类型 -->
+  <view class="section-container">
+
+    <view class="layout_horizontal">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">活动类型</text>
+      <text class="current-selected-value">{{selectedActivityType.typeName}}</text>
+    </view>
+
+    <template is="activityTypesTemplate" data="{{activityTypes}}" />
+
   </view>
 
-  <view>
-    <view class="label">地点</view>
-    <input class="input_text" bindinput="input_location" placeholder="请输入地点" />
+  <!-- 标题 -->
+  <view class="section-container top-margin-5">
+    <view class="layout_horizontal">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">标题</text>
+      <text class="current-input-length-hint">{{currentTitleLength}} / {{titleLengthMin}}-{{titleLengthMax}}字</text>
+    </view>
+
+    <view class="input-area-container top-margin-5">
+      <textarea class="input-area" placeholder='请输入...' minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="titleInputs">   
+    </textarea>
+    </view>
   </view>
 
-  <view class="">
-    <view class="label">人数限制</view>
-    <input class="input_text" bindinput="input_number_limit" placeholder="请输入人数限制" />
+  <!-- 地点 -->
+  <view class="section-container top-margin-5">
+    <view class="layout_horizontal">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">地点</text>
+      <text class="current-input-length-hint">{{currentLocationLength}} / {{titleLengthMin}}-{{titleLengthMax}}字</text>
+    </view>
+
+    <view class="input-area-container top-margin-5">
+      <textarea class="input-area" placeholder='请输入...' minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="locationInputs">   
+    </textarea>
+    </view>
+    
   </view>
 
-  <!-- TODO: start_time / end_time -->
+  <!-- 人数限制 -->
+  <view class="section-container top-margin-5">
 
-  <view class="tui-picker-content">
+    <view class="layout_horizontal bottom-margin-5">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">人数限制</text>
+      <text class="current-selected-value">{{numLimit}}人</text>
+    </view>
+
+    <view>
+      <slider bindchange="sliderchange" bindchanging="sliderchanging" min="{{1}}" max="{{50}}" activeColor="{{sliderActiveColor}}" backgroundColor="{{sliderBackgroundColor}}" block-size="{{18}}" block-color="{{sliderBlockColor}}" step="{{1}}" value="{{numLimit}}" show-value="{{false}}"></slider>
+    </view>
+
+  </view>
+
+  <!-- 开始时间 -->
+  <view class="section-container top-margin-5">
     <picker mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcancel="cancelChangeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
-      <view class="tui-picker-detail">
-        开始时间: {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}
+
+      <view class="layout_horizontal">
+        <text class="required-item-flag">* </text>
+        <text class="item-hint">开始时间</text>
       </view>
+
+      <view class="layout_horizontal time-item-container">
+        <view class="sub-label">
+        {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}
+        </view>
+        <image class="chevron-image" src='../../images/chevron.png'></image>
+      </view>
+
     </picker>
   </view>
 
-  <view class="tui-picker-content">
+  <!-- 结束时间 -->
+  <view class="section-container top-margin-5">
     <picker mode="multiSelector" value="{{endDateTime}}" bindchange="changeEndDateTime" bindcancel="cancelEndChangeDateTime" bindcolumnchange="changeEndDateTimeColumn" range="{{endDateTimeArray}}">
-      <view class="tui-picker-detail">
-        开始时间: {{endDateTimeArray[0][endDateTime[0]]}}-{{endDateTimeArray[1][endDateTime[1]]}}-{{endDateTimeArray[2][endDateTime[2]]}} {{endDateTimeArray[3][endDateTime[3]]}}:{{endDateTimeArray[4][endDateTime[4]]}}
+
+      <view class="layout_horizontal">
+        <text class="required-item-flag">* </text>
+        <text class="item-hint">结束时间</text>
       </view>
+
+      <view class="layout_horizontal time-item-container">
+        <view class="sub-label">
+        {{endDateTimeArray[0][endDateTime[0]]}}-{{endDateTimeArray[1][endDateTime[1]]}}-{{endDateTimeArray[2][endDateTime[2]]}} {{endDateTimeArray[3][endDateTime[3]]}}:{{endDateTimeArray[4][endDateTime[4]]}}
+        </view>
+        <image class="chevron-image" src='../../images/chevron.png'></image>
+      </view>
+
     </picker>
   </view>
 
 
-    <button bindtap="send">发布</button>
+<!-- 发布按钮 -->
+<button class="yellow_bg_button left-margin-0 right-margin-0 top-margin-10 bottom-margin-50" bindtap="send">发布</button>
+
 </view>

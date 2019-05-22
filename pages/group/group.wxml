@@ -5,21 +5,19 @@
 
     <view class="layout_horizontal">
 
-      <image class="activity-type-image" src='{{item.activity_image_path}}'></image>
+      <image class="activity-type-image" src='{{item.activity_type.typeImage}}'></image>
 
       <view class="layout_vertical">
       
         <view class='main-label top-margin-5'> {{item.activity_title}}
         </view>
 
-        <!-- TODO: 已报名人数/总人数限制 -->
-        <view>
-            <text class='sub-label top-margin-2'>{{item.number_limit}}人</text>
-        </view>
+        <!-- TODO: 状态 已报名人数/总人数限制-->
 
-        <!-- TODO: 状态 -->
-        <view>
-            <text class='sub-label top-margin-2 bottom-margin-5'>状态</text>
+        <view class="layout_horizontal left-right-margin-5 top-margin-5 bottom-margin-5">
+          <!-- <image class="status-image" src='{{item.activity_status.statusImage}}'></image> -->
+          <text class='status-label'>{{item.activity_status.statusDescription}}</text>
+          <text class='number-limit-label'>限{{item.number_limit}}人</text>
         </view>
 
       </view>

@@ -31,8 +31,8 @@ Page({
     var that = this
 
     this.setData({
-      // activityId: options.activityId
-      activityId: '96c1cbbe5cdbf1f91285be470c6d8a4f'
+      activityId: options.activityId
+      // activityId: '96c1cbbe5cdbf1f91285be470c6d8a4f' // mock
     })
 
     this.getActivityDetail(this.data.activityId)
@@ -64,8 +64,8 @@ Page({
           activitydetail.publish_time = util.formatTime(new Date(activitydetail.publish_time))
           activitydetail.start_time = util.formatTime(new Date(activitydetail.start_time))
           activitydetail.end_time = util.formatTime(new Date(activitydetail.end_time))
-          activitydetail.activity_type_name = model.getTypeName(activitydetail.activity_type)
-          activitydetail.activity_image_path = model.getTypeImagePath(activitydetail.activity_type)
+
+          activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
           that.setData({
             detail: activitydetail

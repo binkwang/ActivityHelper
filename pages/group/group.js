@@ -308,15 +308,17 @@ Page({
       },
 
       success: function (res) {
+        var currentTime = res.result.currentTime
         var data = res.result.activities.data
         for (let i = 0; i < data.length; i++) {
           console.log('获取活动列表..')
           console.log(data[i])
+          data[i].activity_status = that.getActivityStatus(data[i].start_time, data[i].end_time, currentTime)
+          data[i].activity_type = model.getActivityType(data[i].activity_type)
+          
           data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
           data[i].start_time = util.formatTime(new Date(data[i].start_time))
           data[i].end_time = util.formatTime(new Date(data[i].end_time))
-          data[i].activity_type_name = model.getTypeName(data[i].activity_type)
-          data[i].activity_image_path = model.getTypeImagePath(data[i].activity_type)
         }
         
         that.setData({
@@ -372,5 +374,23 @@ Page({
     }
 
   },
+
+  getActivityStatus: function (startTime, endTime, currentTime) {
+    var that = this;
+    var activityStatus;
+    if (currentTime < startTime) {
+      // 未开始
+      activityStatus = model.getActivityStatus(model.activityStatus.notStarted)
+    } else if (currentTime > endTime) {
+      // 已结束
+      activityStatus = model.getActivityStatus(model.activityStatus.ended)
+    } else {
+      // 进行中
+      activityStatus = model.getActivityStatus(model.activityStatus.inProgress)
+    }
+    return activityStatus;
+
+  }
+
 
 })

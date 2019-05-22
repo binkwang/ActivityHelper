@@ -1,115 +1,70 @@
+const activityStatusArray = [
+  { "statusId": "0", "statusDescription": "未知", "statusImage": "../../images/activity_status_unknow_yellow_FCBD1B.png" },
+  { "statusId": "1", "statusDescription": "尚未开始", "statusImage": "../../images/activity_status_not_started_red_E11819.png" },
+  { "statusId": "2", "statusDescription": "已结束", "statusImage": "../../images/activity_status_ended_blue_0064AC.png" },
+  { "statusId": "3", "statusDescription": "进行中", "statusImage": "../../images/activity_status_ongoing_green_1C8728.png" }]
+
+
+const activityStatus = {
+  unKnown: 0, // 未知
+  notStarted: 1, // 尚未开始
+  ended: 2, // 已结束
+  inProgress: 3 // 进行中
+}
+
+function getActivityStatus(index) {
+  var status = activityStatusArray[0]
+
+  for (let i = 0; i < activityStatusArray.length; i++) {
+    if (index == activityStatusArray[i].statusId) {
+      status = activityStatusArray[i]
+      break
+    }
+  }
+  return status
+}
+
+const activityTypes = [
+  { "typeId": "0", "typeImage": "../../images/activity_type_others.png", "typeName": "其他", "isSelected": false }, 
+  { "typeId": "1", "typeImage": "../../images/activity_type_ball.png", "typeName": "打球", "isSelected": false }, 
+  { "typeId": "2", "typeImage": "../../images/activity_type_dinner.png", "typeName": "聚餐", "isSelected": false }, 
+  { "typeId": "3", "typeImage": "../../images/activity_type_hiking.png", "typeName": "徒步", "isSelected": false }, 
+  { "typeId": "4", "typeImage": "../../images/activity_type_cinema.png", "typeName": "电影", "isSelected": false }, 
+  { "typeId": "5", "typeImage": "../../images/activity_type_chess.png", "typeName": "棋牌", "isSelected": false }, 
+  { "typeId": "6", "typeImage": "../../images/activity_type_fishing.png", "typeName": "钓鱼", "isSelected": false }, 
+  { "typeId": "7", "typeImage": "../../images/activity_type_ktv.png", "typeName": "唱歌", "isSelected": false }, 
+  { "typeId": "8", "typeImage": "../../images/activity_type_running.png", "typeName": "跑步", "isSelected": false }, 
+  { "typeId": "9", "typeImage": "../../images/activity_type_skiing.png", "typeName": "滑雪", "isSelected": false }]
+
 const activityType = {
   others: 0, // 其他
-  sports: 1, // 运动
+  ball: 1, // 打球
   meal: 2, // 聚餐
   hiking: 3, // 徒步
   cinema: 4, // 看电影
   chess: 5, // 棋牌
   fishing: 6, // 钓鱼
-  ktv: 7 // 唱歌
+  ktv: 7, // 唱歌
+  running: 8, // 跑步
+  skiing: 9 // 滑雪
 }
 
-function getTypeName(index) {
-  var name = "其他";
+function getActivityType(index) {
+  var type = activityTypes[0]
 
-  if (index == 1) {
-    name = "球类";
-  } else if (index == 2) {
-    name = "聚餐";
-  } else if (index == 3) {
-    name = "徒步";
-  } else if (index == 4) {
-    name = "电影";
-  } else if (index == 5) {
-    name = "棋牌";
-  } else if (index == 6) {
-    name = "钓鱼";
-  } else if (index == 7) {
-    name = "唱歌";
-  } else if (index == 8) {
-    name = "跑步";
-  } else if (index == 9) {
-    name = "滑雪";
-  } else  {
-    name = "其他";
+  for (let i = 0; i < activityTypes.length; i++) {
+    if (index == activityTypes[i].typeId) {
+      type = activityTypes[i]
+      break
+    }
   }
-  return name
-}
-
-function getTypeImagePath(index) {
-  let prefixPath = "../../images/";
-  let imageFormat = ".png"
-  var imageName = "activity_type_others";
-
-  if (index == 1) {
-    imageName = "activity_type_ball";
-  } else if (index == 2) {
-    imageName = "activity_type_dinner";
-  } else if (index == 3) {
-    imageName = "activity_type_hiking";
-  } else if (index == 4) {
-    imageName = "activity_type_cinema";
-  } else if (index == 5) {
-    imageName = "activity_type_chess";
-  } else if (index == 6) {
-    imageName = "activity_type_fishing";
-  } else if (index == 7) {
-    imageName = "activity_type_ktv";
-  } else if (index == 8) {
-    imageName = "activity_type_running";
-  } else if (index == 9) {
-    imageName = "activity_type_skiing";
-  } else {
-    imageName = "activity_type_others";
-  }
-
-  return prefixPath + imageName + imageFormat;
-}
-
-const activityStatus = {
-  unknown: 0, // 状态未知
-  notStarted: 1, // 尚未开始
-  ongoing: 2, // 进行中
-  ended: 3, // 已结束
-}
-
-function getActivityStatusDescription(statusIndex) {
-  var description = "状态未知";
-
-  if (statusIndex == 1) {
-    description = "尚未开始";
-  } else if (statusIndex == 2) {
-    description = "进行中";
-  } else if (statusIndex == 3) {
-    description = "已结束";
-  } else {
-    description = "状态未知";
-  }
-  return description
-}
-
-function getActivityStatusImagePath(statusIndex) {
-  let prefixPath = "../../images/";
-  let imageFormat = ".png"
-  var imageName = "activity_status_unknown";
-
-  if (index == 1) {
-    imageName = "activity_status_not_started_red_E11819";
-  } else if (index == 2) {
-    imageName = "activity_status_ongoing_green_1C8728";
-  } else if (index == 3) {
-    imageName = "activity_status_ended_blue_0064AC";
-  } else {
-    imageName = "activity_status_unknow_yellow_FCBD1B";
-  }
-
-  return prefixPath + imageName + imageFormat;
+  return type
 }
 
 module.exports = {
+  activityTypes: activityTypes,
   activityType: activityType,
-  getTypeName: getTypeName,
-  getTypeImagePath: getTypeImagePath,
-  getActivityStatusDescription,
-  getActivityStatusImagePath
+  getActivityType: getActivityType,
+  activityStatus: activityStatus,
+  getActivityStatus: getActivityStatus
 }

@@ -11,11 +11,18 @@
 
 .layout_horizontal{
   height: auto;
+  width: 100%;
   display: flex; /* flex布局 */
   flex-direction: row; /* row 横向 */
   justify-content: flex-start; /* 设置弹性盒子元素在主轴（横轴）的对齐方式*/
+  /* justify-content: space-between; 两端对其 */
   align-items: center;
 }
+
+.justify-content-space-between {
+  justify-content: space-between;  /* 两端对其 */
+}
+
 
 page{
   width: 100%;
@@ -65,7 +72,6 @@ page{
   overflow: hidden; /* 隐藏超出部分 */      
   -webkit-box-orient: vertical; /* 竖向编排 */ 
   -webkit-line-clamp: 2; /* 最多显示2行 */
-  /* background:  rgb(0, 255, 255); */
 }
 
 .chevron-image{
@@ -102,11 +108,11 @@ page{
   margin-left: 5pt;
   margin-right: 5pt;
   margin-top: 20pt;
-  padding-top: 3pt;
-  padding-bottom: 3pt;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
 
   border-radius: 3px;
-  background: #FCBD1B;
+  background-color: #FCBD1B;
 }
 
 
@@ -117,12 +123,12 @@ page{
   margin-left: 5pt;
   margin-right: 5pt;
   margin-top: 20pt;
-  padding-top: 3pt;
-  padding-bottom: 3pt;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
 
   border-radius: 3px;
   color: #FCBD1B; /* 文字颜色 */
-  background-color:rgba(0, 0, 0, 0); /* 背景透明 */
+  background-color: rgba(0, 0, 0, 0); /* 背景透明 */
 
   border-color: #FCBD1B;
   border-style:solid;
@@ -140,6 +146,19 @@ page{
   border-radius: 50%;
   display: block;
   overflow: hidden;
+}
+
+.left-margin-0{
+  margin-left: 0pt;
+}
+
+.right-margin-0{
+  margin-right: 0pt;
+}
+
+.left-right-margin-5{
+  margin-left: 5pt;
+  margin-right: 5pt;
 }
 
 .left-margin-10{
@@ -178,6 +197,14 @@ page{
   margin-bottom: 5pt;
 }
 
+.top-margin-10{
+  margin-top: 10pt;
+}
+
+.bottom-margin-10{
+  margin-bottom: 10pt;
+}
+
 .top-margin-15{
   margin-top: 15pt;
 }
@@ -186,8 +213,16 @@ page{
   margin-bottom: 15pt;
 }
 
+.top-margin-20{
+  margin-top: 20pt;
+}
+
 .bottom-margin-20{
   margin-bottom: 20pt;
+}
+
+.bottom-margin-50{
+  margin-bottom: 50pt;
 }
 
 /* 字体大小 */

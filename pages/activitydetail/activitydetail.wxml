@@ -19,7 +19,7 @@
     <view class='line'></view>
 
     <view class="detail-info-item-container layout_horizontal">
-        <image class="activity-type-image" src='{{detail.activity_image_path}}'></image>
+        <image class="activity-type-image" src='{{detail.activity_type.typeImage}}'></image>
         <view class='detail-info-item-title'>{{detail.activity_title}}</view>
     </view>
 
@@ -50,7 +50,7 @@
     <view class='line'></view>
 
     <view class="detail-info-item-container">
-      <text class='detail-info-item'>活动类型：{{detail.activity_type_name}}</text>
+      <text class='detail-info-item'>活动类型：{{detail.activity_type.typeName}}</text>
     </view>
 
     <view class='line bottom-margin-5'></view>

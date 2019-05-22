@@ -1,63 +1,125 @@
 /* pages/publish/publish.wxss */
-
-/* @import "../picker/picker.wxss"; */
-
-/*横向布局  */
-.layout_horizontal{
-  height: auto;
-  display: flex;
-  /*row 横向  column 列表  */
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
+@import "../publish/activity-type-template.wxss";
 
 .page{
- padding-left: 20rpx;
- padding-right: 20rpx;
- padding-top: 20rpx;
+  padding-left: 5pt; /* padding内边距 */
+  padding-right: 5pt;
+  padding-top: 5pt; 
+  padding-bottom: 5pt;
 }
 
-.label{
- background-color:antiquewhite;
- width: 100%;
- margin-bottom: 5px;
- margin-right: 5px;
- font-size: 12px
+.section-container{
+  height: auto;
+  border-radius: 3px;
+  background-color: rgb(51, 51, 51);
+
+  padding-left: 5pt;
+  padding-right: 5pt;
+  padding-top: 5pt; 
+  padding-bottom: 5pt;
 }
 
-.input_text{
- background-color: gainsboro;
- width: 100%;
- margin-bottom: 20px;
- margin-right: 5px;
- font-size: 14px;
+.required-item-flag{
+  font-size: 10pt;
+  font-weight: bolder;
+  font-family: "Times New Roman", Times, serif;
+  color: #E11819;
+
+  margin-left: 2pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
 }
 
-.tui-picker-content{
-  /* padding: 30rpx; */
-  text-align: left;
-}
-/* .tui-picker-name{
-  height: 80rpx;
-  line-height: 80rpx;
-} */
+.item-hint{
+  font-size: 8pt;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204);
 
-/* .tui-picker-detail{
-  height: 80rpx;
-  line-height: 80rpx;
-  background-color: #fff;
-  font-size: 12px;
-  padding: 0 10px;
-  overflow: hidden;
-} */
-
-.tui-picker-detail{
- background-color:antiquewhite;
- height: 80rpx;
- line-height: 80rpx;
- width: 100%;
- margin-bottom: 20px;
- font-size: 12px
+  margin-left: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
 }
 
+.current-selected-value{
+  font-size: 8pt;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  color: #ffffff; 
+
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  margin-left: auto; /* 使chevron-image右对其 */
+  margin-right: 5pt;
+}
+
+.current-input-length-hint{
+  font-size: 8pt;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  color: #ffffff; 
+
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  margin-left: auto; /* 使chevron-image右对其 */
+  margin-right: 5pt;
+}
+
+.input-area-container{
+  width: 100%;
+  box-sizing:border-box;
+
+  padding-left: 2pt;
+  padding-right: 2pt;
+  padding-top: 2pt; 
+  padding-bottom: 2pt;
+
+  /* border-style: solid;
+  border-width: thin;
+  border-color: #555555;
+  border-radius: 3px; */
+}
+
+.input-area{
+  height: 140rpx;
+  width: 100%;
+  box-sizing:border-box;
+
+  font-size: 10pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204);
+
+  /* border-style: solid;
+  border-width: thin;
+  border-color: #888888;
+  border-radius: 3px; */
+}
+
+.time-item-container{
+  background: rgb(51, 51, 51);
+  border-radius: 3px;
+  padding-top: 10pt;
+  padding-bottom: 5pt;
+}
+
+.layout_vertical{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  width: 70%;
+}
+
+.activity-type-collection{
+  margin-left: 5pt;
+  margin-right: 5pt;
+  background-color: rgb(17, 17, 17);
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+
+  /* border-color: red;
+  border-style:solid;
+  border-width: thin; */
+}

@@ -1,0 +1,28 @@
+
+<!-- activityTypesTemplate -->
+
+<template name="activityTypesTemplate">
+  <view class='weui-grids'>
+
+    <view class="weui-grid" wx:for="{{activityTypes}}" wx:for-item="activityType" wx:key="typeId">
+        <template is="activityTypeItemTemplate" data="{{...activityType}}" />
+    </view>
+
+  </view>
+</template>
+
+
+<!-- activityTypeItemTemplate -->
+
+<template name="activityTypeItemTemplate">
+  <view class="{{isSelected?'selected':'normal'}}" catchtap='activityTypeSelected' data-itemId="{{typeId}}">
+
+    <view class="weui-grid__bg">
+      <view class="weui-grid__icon">
+        <image src="{{typeImage}}" mode="scaleToFill" />
+      </view>
+      <text class="weui-grid__label">{{typeName}}</text>
+    </view>
+    
+  </view>
+</template>
