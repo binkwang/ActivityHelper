@@ -7,7 +7,7 @@ App({
 
   globalData: {
     loginCode: '',
-    openId: '',
+    openId: '', // 当前用户id
     shareTicket: '',
     userInfo: 'userInfo',
     currentNickName: '',

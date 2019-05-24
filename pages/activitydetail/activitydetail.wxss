@@ -16,7 +16,7 @@
 .declaration-view{
   font-size: 6pt;
   margin-top: 5pt;
-  margin-bottom: 20pt;
+  margin-bottom: 10pt;
   text-align: center;
   font-weight: normal;
   font-family: "Times New Roman", Times, serif;
@@ -30,28 +30,51 @@
   -webkit-line-clamp: 4;
 }
 
-.sponsor-view{
+.section-header-view{
   margin-left: 5pt;
   margin-right: 5pt;
-  margin-top: 5pt;
-  margin-bottom: 0pt;
+  /* margin-top: 0pt;
+  margin-bottom: 0pt; */
   background: rgb(51, 51, 51);
+
+  height: auto;
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start; 
+  align-items: center;
+}
+
+.extra-info-view{
+  margin-left: 5pt;
+  margin-right: 5pt;
+  /* margin-top: 0pt;
+  margin-bottom: 5pt; */
+  background: rgb(34, 34, 34);
+
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+}
+
+.participations-view{
+  margin-left: 5pt;
+  margin-right: 5pt;
+  background: rgb(34, 34, 34);
 }
 
 .sponsor-avatar-view{
   margin-left: 10pt;
   /* margin-right: 5pt; */
-  margin-top: 5pt;
-  margin-bottom: 5pt;
-  width: 36pt;
-  height: 36pt;
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+  width: 24pt;
+  height: 24pt;
   border-radius: 50%;
   display: block;
   overflow: hidden;
 }
 
-.sponsor-name-label{
-  font-size: 16pt;
+.section-header-main-title-label{
+  font-size: 12pt;
   font-weight: bold;
   font-family: "Times New Roman", Times, serif;
   color: #ffffff; /* 文字颜色 */
@@ -66,32 +89,17 @@
   text-overflow: ellipsis; /* 显示省略号 */
 }
 
-.extra-info-view{
+.line{
+  background: rgb(85, 85, 85);
+  height: 1rpx;
   margin-left: 5pt;
   margin-right: 5pt;
-  margin-top: 0pt;
-  margin-bottom: 5pt;
-  background: rgb(34, 34, 34);
-}
-
-.detail-info-item-container{
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  background: rgb(34, 34, 34);
-}
-
-.line{
- background: rgb(85, 85, 85);
- width: 100%;
- height: 3rpx;
 }
 
 .activity-type-image{
   margin-top: 10pt;
   margin-bottom: 10pt;
-  margin-left: 15pt;
+  margin-left: 10pt;
   width: 24pt;
   height: 24pt;
   /* background: rgb(0, 255, 255); */
@@ -99,14 +107,14 @@
 
 .detail-info-item-title{
   font-size: 10pt;
-  font-weight: bold;
+  font-weight: normal;
   font-family: "Times New Roman", Times, serif;
-  color: #ffffff; /* 文字颜色 */
+  color: rgb(204, 204, 204); /* 文字颜色 */
   margin-left: 10pt;
-  margin-right: 15pt;
+  margin-right: 10pt;
   
-  padding-top: 10pt;
-  padding-bottom: 10pt;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
 
   width: 70%;
 
@@ -116,6 +124,7 @@
   overflow: hidden;      
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+
 }
 
 .detail-info-item{
@@ -136,14 +145,6 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
 }
-
-/* .participation-list{
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  background: rgb(34, 34, 34);
-} */
 
 .top-radius {
   border-top-left-radius: 3px;

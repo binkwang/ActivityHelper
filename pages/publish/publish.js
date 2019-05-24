@@ -218,9 +218,6 @@ Page({
     let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
     let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
 
-
-
-
     wx.cloud.callFunction({
       name: 'publish_activity',
       data: {
@@ -228,7 +225,7 @@ Page({
         sponsor_name: app.globalData.currentNickName,
         sponsor_avatar_url: app.globalData.currentAvatarUrl,
         activity_title: this.data.activity_title,
-        activityType: this.data.selectedActivityType.typeId,
+        activity_type: this.data.selectedActivityType.typeId,
         location: this.data.location,
         number_limit: this.data.numLimit,
         start_time: start_time,

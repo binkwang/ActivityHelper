@@ -17,7 +17,8 @@ Page({
     hasEnrolled: false,
     enrollDisabled: false, // TODO: 是否禁用“参加/取消参加“功能
     participationId: '', // current user participation id
-    buttonTitle: '参加'
+    buttonTitle: '参加',
+    isSponsor: false, // 当前用户是否为活动发起者
   },
 
   /**
@@ -55,7 +56,6 @@ Page({
       },
 
       success: function (res) {
-
         let data = res.result.activitydetail.data
         
         if (data.length > 0) {
@@ -67,8 +67,13 @@ Page({
 
           activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
+          if (activitydetail.sponsor_id == app.globalData.openId) {
+            this.isSponsor = true
+          }
+
           that.setData({
-            detail: activitydetail
+            detail: activitydetail,
+            isSponsor: this.isSponsor
           })
         }
 
@@ -220,7 +225,7 @@ Page({
       },
 
       success: function (res) {
-        that.data.participationsLoaded = false // 这样给data赋值不会导致页面刷新
+        that.data.participationsLoaded = false // 这样给data赋值避免页面刷新
         that.refreshParticipations(activityId)
       },
 
@@ -228,6 +233,7 @@ Page({
     })
   },
 
+  // 通过participationId来删除参与者
   cancelParticipation: function (participationId) {
     var that = this
 
@@ -239,41 +245,77 @@ Page({
       },
 
       success: function (res) {
-        that.data.participationsLoaded = false // 这样给data赋值不会导致页面刷新
+        that.data.participationsLoaded = false // 这样给data赋值避免页面刷新
         that.refreshParticipations(that.data.activityId)
       },
 
       fail: console.error
     })
   },
+
+  // 通过participantId/activityId来删除参与者
+  cancelParticipation2: function (participantId, activityId) {
+    var that = this
+
+    wx.cloud.callFunction({
+      name: 'remove_participation2',
+
+      data: {
+        participantId: participantId,
+        activityId: activityId
+      },
+
+      success: function (res) {
+        that.data.participationsLoaded = false // 这样给data赋值避免页面刷新
+        that.refreshParticipations(that.data.activityId)
+      },
+
+      fail: console.error
+    })
+  },
+
+  editActivityInfo: function (event) {
+    console.log("editActivityInfo button tapped")
+
+    wx.showModal({
+      title: '操作提示',
+      content: '修改活动信息后，请及时告知所有参与者',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('confirm selected')
+          // navigate to edit page
+          
+        } else if (res.cancel) {
+          console.log('cancel selected')
+        }
+      }
+    })
+  },
   
-  // 点击participant单元格
+  // participant单元格点击事件
   participantTapped: function (event) {
+    var that = this
 
     var participantId = event.currentTarget.dataset.itemid;
     console.log("participantTapped: ", participantId)
 
-    // var newSelectItems = [];
-    // for (var i = 0; i < this.data.selectItems.length; i++) {
-    //   if (itemid == this.data.selectItems[i].itemid) {
-    //     //"text": "10元", "itemid": "1", "chageColor": false
-    //     newSelectItems[i] = {
-    //       "text": this.data.selectItems[i].text,
-    //       "itemid": this.data.selectItems[i].itemid,
-    //       "chageColor": true
-    //     };
-    //   } else {
-    //     newSelectItems[i] = {
-    //       "text": this.data.selectItems[i].text,
-    //       "itemid": this.data.selectItems[i].itemid,
-    //       "chageColor": false
-    //     };
-    //   }
-    // }
-
-    // this.setData({
-    //   selectItems: newSelectItems,
-    // });
-  }
+    // 活动发起人移除某参与人
+    if (this.data.isSponsor) {
+      wx.showModal({
+        title: '操作提示',
+        content: '确定移除该参加者吗？\n移除后请即使告知对方',
+        success: function (res) {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请稍候',
+            })
+            that.cancelParticipation2(participantId, that.data.activityId)
+          } else if (res.cancel) {
+            console.log('cancel selected')
+          }
+        }
+      })
+    }
+  },
 
 })

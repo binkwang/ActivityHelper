@@ -13,7 +13,7 @@
 }
 
 .participant-avatar{
-  margin-top: 10pt;
+  margin-top: 5pt;
   width: 24pt;
   height: 24pt;
   border-radius: 50%;
@@ -23,7 +23,8 @@
 
 .nick-name-label{
   font-size: 6pt;
-  margin-top: 6pt;
+  margin-top: 5pt;
+  margin-bottom: 5pt;
   text-align: center;
   width: 90%; 
   font-weight: normal;
