@@ -19,8 +19,8 @@ exports.main = async (event, context) => {
       data: {
         activity_id: event.activityId,
         participant_id: event.userInfo.openId,
-        nick_name: event.nick_name,
-        avatar_url: event.avatar_url,
+        nick_name: event.nickName,
+        avatar_url: event.avatarUrl,
         time: timestamp,
       }
     })

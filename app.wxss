@@ -241,6 +241,7 @@ page{
 /* 颜色 */
 .color-white{color: #ffffff;}
 .color-brand-yellow{color:#FCBD1B;}
+.color-red{color:#E11819;}
 
 /* 其他 */
 .space-height-20 {height: 20pt;}

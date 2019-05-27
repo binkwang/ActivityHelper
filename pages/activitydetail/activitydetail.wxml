@@ -33,8 +33,12 @@
       <text class='detail-info-item-title'>地点：{{detail.location}}</text>
     </view>
 
-    <view class="extra-info-view bottom-radius bottom-margin-5">
+    <view class="extra-info-view">
       <text class='detail-info-item-title'>人数上限：{{detail.number_limit}}</text>
+    </view>
+
+    <view class="extra-info-view bottom-radius bottom-margin-5">
+      <text class='detail-info-status-item-title'>{{detail.activity_status.statusDescription}}</text>
     </view>
 
   </view>
@@ -42,7 +46,7 @@
   <!-- 参与活动开关 -->
   <view class="section-header-view top-radius">
     <text class='section-header-main-title-label'>参加</text>
-    <switch class="switch" color="#FCBD1B" disabled="{{enrollDisabled}}"checked="{{hasEnrolled}}" bindchange="updateParticipation"/>
+    <switch class="switch" color="#FCBD1B" disabled="{{isActivityStarted || (!hasEnrolled && participations.length>=detail.number_limit)}}" checked="{{hasEnrolled}}" bindchange="updateParticipation"/>
   </view>
 
   <!-- 参与者列表 -->
@@ -50,9 +54,9 @@
     <template is="selectItemListTemplate" data="{{participations}}" />
   </view>
 
-  <view wx:if='{{isSponsor}}' class="declaration-view">*组织者可点击上方头像移除参与者*</view>
+  <view wx:if='{{isSponsor}}' class="declaration-view">*活动开始前，组织者可点击上方头像移除参与者*</view>
 
   <!-- 编辑按钮 -->
-  <button wx:if='{{isSponsor}}' class="yellow_bg_button left-margin-5 right-margin-5 top-margin-5 bottom-margin-20" bindtap="editActivityInfo">修改活动信息</button>
+  <button wx:if='{{isSponsor && !isActivityStarted}}' class="yellow_bg_button left-margin-5 right-margin-5 top-margin-5 bottom-margin-20" bindtap="editActivityInfo">修改活动信息</button>
 
 </view>

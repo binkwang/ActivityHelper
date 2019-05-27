@@ -10,6 +10,7 @@ const db = cloud.database({
 exports.main = async (event, context) => {
   
   return {
+    currentTime: Date.now(),
     activitydetail: await db.collection('activity').where({
       _id: event.activityId
     }).get(),

@@ -1,4 +1,4 @@
- const app = getApp()
+const app = getApp()
 const util = require('../../utils/util.js'); 
 const model = require('../../utils/model.js')
 
@@ -15,9 +15,8 @@ Page({
     imageUrls: [],
     participations: [],
     hasEnrolled: false,
-    enrollDisabled: false, // TODO: 是否禁用“参加/取消参加“功能
+    isActivityStarted: false,
     participationId: '', // current user participation id
-    buttonTitle: '参加',
     isSponsor: false, // 当前用户是否为活动发起者
   },
 
@@ -56,24 +55,28 @@ Page({
       },
 
       success: function (res) {
+        let currentTime = res.result.currentTime
         let data = res.result.activitydetail.data
         
         if (data.length > 0) {
 
           var activitydetail = data[0]
-          activitydetail.publish_time = util.formatTime(new Date(activitydetail.publish_time))
+          activitydetail.activity_status = that.getActivityStatus(activitydetail.start_time, activitydetail.end_time, currentTime)
+
           activitydetail.start_time = util.formatTime(new Date(activitydetail.start_time))
           activitydetail.end_time = util.formatTime(new Date(activitydetail.end_time))
+          activitydetail.publish_time = util.formatTime(new Date(activitydetail.publish_time))
 
           activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
           if (activitydetail.sponsor_id == app.globalData.openId) {
-            this.isSponsor = true
+            that.isSponsor = true
           }
 
           that.setData({
             detail: activitydetail,
-            isSponsor: this.isSponsor
+            isSponsor: that.isSponsor,
+            isActivityStarted: that.isActivityStarted
           })
         }
 
@@ -128,14 +131,22 @@ Page({
   updateParticipation: function () {
     var that = this
 
-    wx.showLoading({
-      title: '请稍候',
-    })
+    if (this.isActivityStarted) {
+      wx.showToast({
+        image: '../../images/warn.png',
+        title: '活动已经开始',
+      })
 
-    if (this.data.hasEnrolled) {
-      this.cancelParticipation(this.data.participationId)
     } else {
-      this.addParticipation(this.data.activityId)
+      wx.showLoading({
+        title: '请稍候',
+      })
+
+      if (this.data.hasEnrolled) {
+        this.cancelParticipation(this.data.participationId)
+      } else {
+        this.addParticipation(this.data.activityId, this.data.detail.number_limit)
+      }
     }
   },
 
@@ -185,7 +196,10 @@ Page({
    * 判断当前用户是否已经参加
    */
   checkLoadFinish: function() {
-    if (this.data.contentLoaded && this.data.participationsLoaded){
+    if (this.data.contentLoaded && this.data.participationsLoaded) {
+      console.log("this.data.detail.number_limit: ", this.data.detail.number_limit)
+      console.log("this.data.participations.length: ", this.data.participations.length)
+
       wx.hideLoading()
     }
   },
@@ -196,32 +210,35 @@ Page({
   checkHasEnrolled: function (participations) {
     this.setData({
       hasEnrolled: false,
-      participationId: '',
-      buttonTitle: '参加'
+      participationId: ''
     })
 
     for (let i = 0; i < participations.length; i++) {
       if (participations[i].participant_id == app.globalData.openId) {
         this.setData({
           hasEnrolled: true,
-          participationId: participations[i]._id,
-          buttonTitle: '取消参加'
+          participationId: participations[i]._id
         })
         break
       }
     }
   },
 
-  addParticipation: function (activityId) {
+  addParticipation: function (activityId, numberLimit) {
     var that = this
+
+    console.log("addParticipation activityId: ", activityId)
+    console.log("addParticipation numberLimit: ", numberLimit)
+    console.log("this.data.participations.length: ", this.data.participations.length)
 
     wx.cloud.callFunction({
       name: 'add_participation',
 
       data: {
         activityId: activityId,
-        nick_name: app.globalData.currentNickName,
-        avatar_url: app.globalData.currentAvatarUrl,
+        numberLimit: numberLimit,
+        nickName: app.globalData.currentNickName,
+        avatarUrl: app.globalData.currentAvatarUrl,
       },
 
       success: function (res) {
@@ -301,21 +318,51 @@ Page({
 
     // 活动发起人移除某参与人
     if (this.data.isSponsor) {
-      wx.showModal({
-        title: '操作提示',
-        content: '确定移除该参加者吗？\n移除后请即使告知对方',
-        success: function (res) {
-          if (res.confirm) {
-            wx.showLoading({
-              title: '请稍候',
-            })
-            that.cancelParticipation2(participantId, that.data.activityId)
-          } else if (res.cancel) {
-            console.log('cancel selected')
+
+      if (this.isActivityStarted) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '无法移除',
+        })
+
+      } else {
+
+        wx.showModal({
+          title: '操作提示',
+          content: '确定移除该参加者吗？\n移除后请即使告知对方',
+          success: function (res) {
+            if (res.confirm) {
+              wx.showLoading({
+                title: '请稍候',
+              })
+              that.cancelParticipation2(participantId, that.data.activityId)
+            } else if (res.cancel) {
+              console.log('cancel selected')
+            }
           }
-        }
-      })
+        })
+
+      }
     }
+  },
+
+  getActivityStatus: function (startTime, endTime, currentTime) {
+    var that = this;
+    var activityStatus;
+    if (currentTime < startTime) {
+      // 未开始
+      activityStatus = model.getActivityStatus(model.activityStatus.notStarted)
+      this.isActivityStarted = false
+    } else if (currentTime > endTime) {
+      // 已结束
+      activityStatus = model.getActivityStatus(model.activityStatus.ended)
+      this.isActivityStarted = true
+    } else {
+      // 进行中
+      activityStatus = model.getActivityStatus(model.activityStatus.inProgress)
+      this.isActivityStarted = true
+    }
+    return activityStatus;
   },
 
 })

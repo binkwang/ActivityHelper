@@ -124,7 +124,27 @@
   overflow: hidden;      
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+}
 
+.detail-info-status-item-title{
+  font-size: 10pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: #FCBD1B;
+  margin-left: 10pt;
+  margin-right: 10pt;
+  
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+
+  width: 70%;
+
+  display: -webkit-box;   
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;      
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .detail-info-item{
