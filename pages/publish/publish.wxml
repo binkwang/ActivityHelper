@@ -54,7 +54,7 @@
     </view>
 
     <view>
-      <slider bindchange="sliderchange" bindchanging="sliderchanging" min="{{1}}" max="{{50}}" activeColor="{{sliderActiveColor}}" backgroundColor="{{sliderBackgroundColor}}" block-size="{{18}}" block-color="{{sliderBlockColor}}" step="{{1}}" value="{{numLimit}}" show-value="{{false}}"></slider>
+      <slider bindchange="sliderchange" bindchanging="sliderchanging" min="{{1}}" max="{{50}}" activeColor="#FCBD1B" backgroundColor="#555555" block-size="{{18}}" block-color="#FCBD1B" step="{{1}}" value="{{numLimit}}" show-value="{{false}}"></slider>
     </view>
 
   </view>
@@ -99,6 +99,6 @@
 
 
 <!-- 发布按钮 -->
-<button class="yellow_bg_button left-margin-0 right-margin-0 top-margin-10 bottom-margin-50" bindtap="send">发布</button>
+<button class="yellow_bg_button left-margin-0 right-margin-0 top-margin-10 bottom-margin-50" bindtap="publishButtonTapped">发布</button>
 
 </view>
