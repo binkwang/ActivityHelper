@@ -1,4 +1,5 @@
-/* pages/publish/publish.wxss */
+/* pages/activityedit/activityedit.wxss */
+
 @import "../publish/activity-type-template.wxss";
 
 .page{
@@ -86,12 +87,6 @@
   color: rgb(204, 204, 204);
 }
 
-.time-item-container{
-  background: rgb(51, 51, 51);
-  border-radius: 3px;
-  padding-top: 10pt;
-  padding-bottom: 5pt;
-}
 
 .layout_vertical{
   height: auto;

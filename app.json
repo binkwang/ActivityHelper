@@ -5,7 +5,8 @@
     "pages/logs/logs",
     "pages/publish/publish",
     "pages/activitydetail/activitydetail",
-    "pages/authorize/authorize"
+    "pages/authorize/authorize",
+    "pages/activityedit/activityedit"
   ],
   "window": {
     "backgroundTextStyle": "light",

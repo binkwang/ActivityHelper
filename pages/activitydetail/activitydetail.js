@@ -8,16 +8,20 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 外部传入
+    activityId: '', 
+
+    // 获取activity detail之后赋值
     contentLoaded: false,
-    participationsLoaded: false,
-    activityId: '',
     detail: {},
-    imageUrls: [],
-    participations: [],
-    hasEnrolled: false,
-    isActivityStarted: false,
-    participationId: '', // current user participation id
     isSponsor: false, // 当前用户是否为活动发起者
+    isActivityStarted: false, // 当前活动是否已经开始
+
+    // 获取participations后赋值
+    participationsLoaded: false,
+    participations: [],
+    hasEnrolled: false, // 当前用户是否已经加入
+    participationId: '', // 当前用户participation id
   },
 
   /**
@@ -70,13 +74,13 @@ Page({
           activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
           if (activitydetail.sponsor_id == app.globalData.openId) {
-            that.isSponsor = true
+            that.data.isSponsor = true
           }
 
           that.setData({
             detail: activitydetail,
-            isSponsor: that.isSponsor,
-            isActivityStarted: that.isActivityStarted
+            isSponsor: that.data.isSponsor,
+            isActivityStarted: that.data.isActivityStarted
           })
         }
 
@@ -131,7 +135,7 @@ Page({
   updateParticipation: function () {
     var that = this
 
-    if (this.isActivityStarted) {
+    if (this.data.isActivityStarted) {
       wx.showToast({
         image: '../../images/warn.png',
         title: '活动已经开始',
@@ -291,21 +295,55 @@ Page({
     })
   },
 
-  editActivityInfo: function (event) {
-    console.log("editActivityInfo button tapped")
+  // editActivityInfo: function (event) {
+  //   console.log("editActivityInfo button tapped")
 
-    wx.showModal({
-      title: '操作提示',
-      content: '修改活动信息后，请及时告知所有参与者',
-      success: function (res) {
-        if (res.confirm) {
-          console.log('confirm selected')
-          // navigate to edit page
+  //   wx.showModal({
+  //     title: '操作提示',
+  //     content: '修改活动信息后，请及时告知所有参与者',
+  //     success: function (res) {
+  //       if (res.confirm) {
+  //         console.log('confirm selected')
+  //         // navigate to edit page
           
-        } else if (res.cancel) {
-          console.log('cancel selected')
-        }
-      }
+  //       } else if (res.cancel) {
+  //         console.log('cancel selected')
+  //       }
+  //     }
+  //   })
+  // },
+
+  editTitle: function (event) {
+    let extraInfo = "&editType=" + model.editType.title + "&activityTypeId=" + this.data.detail.activity_type.typeId + "&title=" + this.data.detail.activity_title
+    this.navigateTo(extraInfo)
+  },
+
+  editLocation: function (event) {
+    let extraInfo = "&editType=" + model.editType.location + "&location=" + this.data.detail.location
+    this.navigateTo(extraInfo)
+  },
+
+  // editStartTime: function (event) {
+  //   let extraInfo = "&activityType=" + detail.activity_type + "&title=" + detail.title
+  //   this.navigateTo('startTime')
+  // },
+
+  // editEndTime: function (event) {
+  //   let extraInfo = "&activityType=" + detail.activity_type + "&title=" + detail.title
+  //   this.navigateTo('endTime')
+  // },
+
+  editNumberLimit: function (event) {
+    let extraInfo = "&editType=" + model.editType.numberLimit + "&numberLimit=" + this.data.detail.number_limit
+    this.navigateTo(extraInfo)
+  },
+
+  navigateTo: function (extraInfo) {
+    var baseUrl = '../activityedit/activityedit?activityId=' + this.data.activityId
+    var targetUrl = baseUrl + extraInfo
+    console.log("targetUrl: ", targetUrl)
+    wx.navigateTo({
+      url: targetUrl
     })
   },
   
@@ -319,7 +357,7 @@ Page({
     // 活动发起人移除某参与人
     if (this.data.isSponsor) {
 
-      if (this.isActivityStarted) {
+      if (this.data.isActivityStarted) {
         wx.showToast({
           image: '../../images/warn.png',
           title: '无法移除',
@@ -352,15 +390,15 @@ Page({
     if (currentTime < startTime) {
       // 未开始
       activityStatus = model.getActivityStatus(model.activityStatus.notStarted)
-      this.isActivityStarted = false
+      this.data.isActivityStarted = false
     } else if (currentTime > endTime) {
       // 已结束
       activityStatus = model.getActivityStatus(model.activityStatus.ended)
-      this.isActivityStarted = true
+      this.data.isActivityStarted = true
     } else {
       // 进行中
       activityStatus = model.getActivityStatus(model.activityStatus.inProgress)
-      this.isActivityStarted = true
+      this.data.isActivityStarted = true
     }
     return activityStatus;
   },

@@ -16,26 +16,39 @@
   <!-- 活动详情 -->
   <view class="activity-detail-view">
 
-    <view class="section-header-view top-radius top-margin-5">
+    <view class="section-header-view top-radius top-margin-5" bindtap="editTitle">
         <image class="activity-type-image" src='{{detail.activity_type.typeImage}}'></image>
         <view class='section-header-main-title-label'>{{detail.activity_title}}</view>
+        <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
-    <view class="extra-info-view" >
+    <view class="extra-info-view" bindtap="editStartTime">
       <text class='detail-info-item-title'>开始时间：{{detail.start_time}}</text>
+      <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
-    <view class="extra-info-view">
+    <view class="single-line"></view>
+    
+    <view class="extra-info-view" bindtap="editEndTime">
       <text class='detail-info-item-title'>结束时间：{{detail.end_time}}</text>
+      <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
-    <view class="extra-info-view">
+    <view class="single-line"></view>
+
+    <view class="extra-info-view" bindtap="editLocation">
       <text class='detail-info-item-title'>地点：{{detail.location}}</text>
+      <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
-    <view class="extra-info-view">
+    <view class="single-line"></view>
+
+    <view class="extra-info-view" bindtap="editNumberLimit">
       <text class='detail-info-item-title'>人数上限：{{detail.number_limit}}</text>
+      <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
+
+    <view class="single-line"></view>
 
     <view class="extra-info-view bottom-radius bottom-margin-5">
       <text class='detail-info-status-item-title'>{{detail.activity_status.statusDescription}}</text>
@@ -54,9 +67,9 @@
     <template is="selectItemListTemplate" data="{{participations}}" />
   </view>
 
-  <view wx:if='{{isSponsor}}' class="declaration-view">*活动开始前，组织者可点击上方头像移除参与者*</view>
+  <view wx:if='{{isSponsor && !isActivityStarted}}' class="declaration-view">*活动开始前，组织者可点击上方头像移除参与者*</view>
 
   <!-- 编辑按钮 -->
-  <button wx:if='{{isSponsor && !isActivityStarted}}' class="yellow_bg_button left-margin-5 right-margin-5 top-margin-5 bottom-margin-20" bindtap="editActivityInfo">修改活动信息</button>
+  <!-- <button wx:if='{{isSponsor && !isActivityStarted}}' class="yellow_bg_button left-margin-5 right-margin-5 top-margin-5 bottom-margin-20" bindtap="editActivityInfo">修改活动信息</button> -->
 
 </view>

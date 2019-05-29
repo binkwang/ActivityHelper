@@ -61,10 +61,20 @@ function getActivityType(index) {
   return type
 }
 
+const editType = {
+  title: 0, // 标题
+  content: 1, // 内容
+  startTime: 2, // 开始时间
+  endTime: 3, // 结束时间
+  location: 4, // 地点
+  numberLimit: 5 // 人数上限
+}
+
 module.exports = {
   activityTypes: activityTypes,
   activityType: activityType,
   getActivityType: getActivityType,
   activityStatus: activityStatus,
-  getActivityStatus: getActivityStatus
+  getActivityStatus: getActivityStatus,
+  editType: editType
 }

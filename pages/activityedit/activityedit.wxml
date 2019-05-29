@@ -1,0 +1,66 @@
+<!--pages/activityedit/activityedit.wxml-->
+<import src="../publish/activity-type-template.wxml" />
+
+<view class='page'>
+
+  <!-- 活动类型 -->
+  <view wx:if='{{editType == 0}}' class="section-container">
+
+    <view class="layout_horizontal">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">活动类型</text>
+      <text class="current-selected-value">{{activityType.typeName}}</text>
+    </view>
+
+    <template is="activityTypesTemplate" data="{{activityTypes}}" />
+
+  </view>
+
+  <!-- 标题 -->
+  <view wx:if='{{editType == 0}}' class="section-container top-margin-5">
+    <view class="layout_horizontal">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">标题</text>
+      <text class="current-input-length-hint">{{currentTitleLength}} / {{titleLengthMin}}-{{titleLengthMax}}字</text>
+    </view>
+
+    <view class="input-area-container top-margin-5">
+      <textarea class="input-area" placeholder='请输入...' value="{{title}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="titleInputs">
+      </textarea>
+    </view>
+  </view>
+
+  <!-- 地点 -->
+  <view wx:if='{{editType == 4}}' class="section-container top-margin-5">
+    <view class="layout_horizontal">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">地点</text>
+      <text class="current-input-length-hint">{{currentLocationLength}} / {{titleLengthMin}}-{{titleLengthMax}}字</text>
+    </view>
+
+    <view class="input-area-container top-margin-5">
+      <textarea class="input-area" placeholder='请输入...' value="{{location}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="locationInputs">
+      </textarea>
+    </view>
+    
+  </view>
+
+  <!-- 人数限制 -->
+  <view wx:if='{{editType == 5}}' class="section-container top-margin-5">
+
+    <view class="layout_horizontal bottom-margin-5">
+      <text class="required-item-flag">* </text>
+      <text class="item-hint">人数限制</text>
+      <text class="current-selected-value">{{numberLimit}}人</text>
+    </view>
+
+    <view>
+      <slider bindchange="sliderchange" bindchanging="sliderchanging" min="{{1}}" max="{{50}}" activeColor="#FCBD1B" backgroundColor="#555555" block-size="{{18}}" block-color="#FCBD1B" step="{{1}}" value="{{numberLimit}}" show-value="{{false}}"></slider>
+    </view>
+
+  </view>
+
+<!-- 确认按钮 -->
+<button class="yellow_bg_button left-margin-0 right-margin-0 top-margin-10 bottom-margin-50" bindtap="confirmEdit">确认修改</button>
+
+</view>
