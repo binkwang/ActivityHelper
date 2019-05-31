@@ -102,8 +102,8 @@ function deepcopyArray(obj) {
 
 function convertToTimetamp(dateTimeArray, dateTime) {
 
-  var date = dateTimeArray[0][dateTime[0]] + '/'
-    + dateTimeArray[1][dateTime[1]] + '/'
+  var date = dateTimeArray[0][dateTime[0]] + '-'
+    + dateTimeArray[1][dateTime[1]] + '-'
     + dateTimeArray[2][dateTime[2]] + ' '
     + dateTimeArray[3][dateTime[3]] + ':'
     + dateTimeArray[4][dateTime[4]] + ':00';

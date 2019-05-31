@@ -3,7 +3,7 @@ const util = require('../../utils/util.js');
 const model = require('../../utils/model.js')
 
 Page({
-
+  
   /**
    * 页面的初始数据
    */
@@ -22,6 +22,8 @@ Page({
     participations: [],
     hasEnrolled: false, // 当前用户是否已经加入
     participationId: '', // 当前用户participation id
+
+    shouldRefreshActivityDetails: false, // 由修改页面传回
   },
 
   /**
@@ -67,9 +69,9 @@ Page({
           var activitydetail = data[0]
           activitydetail.activity_status = that.getActivityStatus(activitydetail.start_time, activitydetail.end_time, currentTime)
 
-          activitydetail.start_time = util.formatTime(new Date(activitydetail.start_time))
-          activitydetail.end_time = util.formatTime(new Date(activitydetail.end_time))
-          activitydetail.publish_time = util.formatTime(new Date(activitydetail.publish_time))
+          activitydetail.formatStartTime = util.formatTime(new Date(activitydetail.start_time))
+          activitydetail.formatEndTime = util.formatTime(new Date(activitydetail.end_time))
+          activitydetail.formatPublishTime = util.formatTime(new Date(activitydetail.publish_time))
 
           activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
@@ -164,6 +166,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var that = this
+
+    if (this.data.shouldRefreshActivityDetails) {
+      this.getActivityDetail(this.data.activityId)
+
+      this.setData({
+        shouldRefreshActivityDetails: false
+      })
+    }
+
   },
 
   /**
@@ -314,36 +326,49 @@ Page({
   // },
 
   editTitle: function (event) {
-    let extraInfo = "&editType=" + model.editType.title + "&activityTypeId=" + this.data.detail.activity_type.typeId + "&title=" + this.data.detail.activity_title
-    this.navigateTo(extraInfo)
+    // let extraInfo = "&editType=" + model.editType.title + "&activityTypeId=" + this.data.detail.activity_type.typeId + "&title=" + this.data.detail.activity_title
+
+    this.navigateTo(model.editType.title)
   },
 
   editLocation: function (event) {
-    let extraInfo = "&editType=" + model.editType.location + "&location=" + this.data.detail.location
-    this.navigateTo(extraInfo)
+    // let extraInfo = "&editType=" + model.editType.location + "&location=" + this.data.detail.location
+
+    this.navigateTo(model.editType.location)
   },
 
-  // editStartTime: function (event) {
-  //   let extraInfo = "&activityType=" + detail.activity_type + "&title=" + detail.title
-  //   this.navigateTo('startTime')
-  // },
+  editStartTime: function (event) {
+    // let extraInfo = "&editType=" + model.editType.startTime + "&startTime=" + this.data.detail.start_time + "&endTime=" + this.data.detail.end_time
 
-  // editEndTime: function (event) {
-  //   let extraInfo = "&activityType=" + detail.activity_type + "&title=" + detail.title
-  //   this.navigateTo('endTime')
-  // },
-
-  editNumberLimit: function (event) {
-    let extraInfo = "&editType=" + model.editType.numberLimit + "&numberLimit=" + this.data.detail.number_limit
-    this.navigateTo(extraInfo)
+    this.navigateTo(model.editType.startTime)
   },
 
-  navigateTo: function (extraInfo) {
-    var baseUrl = '../activityedit/activityedit?activityId=' + this.data.activityId
-    var targetUrl = baseUrl + extraInfo
-    console.log("targetUrl: ", targetUrl)
+  editEndTime: function (event) {
+    // let extraInfo = "&editType=" + model.editType.endTime + "&startTime=" + this.data.detail.start_time + "&endTime=" + this.data.detail.end_time
+    
+    this.navigateTo(model.editType.endTime)
+  },
+
+  editNumLimit: function (event) {
+    // let extraInfo = "&editType=" + model.editType.numLimit + "&numLimit=" + this.data.detail.number_limit
+    
+    this.navigateTo(model.editType.numLimit)
+  },
+
+  navigateTo: function (editType) {
+    var url = '../activityedit/activityedit?activityId=' + this.data.activityId 
+    + "&editType=" + editType
+    + "&activityTypeId=" + this.data.detail.activity_type.typeId
+    + "&activityTitle=" + this.data.detail.activity_title
+    + "&activityLocation=" + this.data.detail.location
+    + "&activityNumLimit=" + this.data.detail.number_limit
+    + "&activityStartTime=" + this.data.detail.start_time
+    + "&activityEndTime=" + this.data.detail.end_time
+
+    console.log("url: ", url)
+
     wx.navigateTo({
-      url: targetUrl
+      url: url
     })
   },
   

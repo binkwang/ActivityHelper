@@ -67,7 +67,7 @@ const editType = {
   startTime: 2, // 开始时间
   endTime: 3, // 结束时间
   location: 4, // 地点
-  numberLimit: 5 // 人数上限
+  numLimit: 5 // 人数上限
 }
 
 module.exports = {

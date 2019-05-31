@@ -10,7 +10,7 @@
   </view>
 
   <view class="extra-info-view bottom-radius bottom-margin-5" >
-    <text class='detail-info-item-title'>发布于 {{detail.publish_time}}</text>
+    <text class='detail-info-item-title'>发布于 {{detail.formatPublishTime}}</text>
   </view>
 
   <!-- 活动详情 -->
@@ -23,14 +23,14 @@
     </view>
 
     <view class="extra-info-view" bindtap="editStartTime">
-      <text class='detail-info-item-title'>开始时间：{{detail.start_time}}</text>
+      <text class='detail-info-item-title'>开始时间：{{detail.formatStartTime}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
     <view class="single-line"></view>
     
     <view class="extra-info-view" bindtap="editEndTime">
-      <text class='detail-info-item-title'>结束时间：{{detail.end_time}}</text>
+      <text class='detail-info-item-title'>结束时间：{{detail.formatEndTime}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
@@ -43,7 +43,7 @@
 
     <view class="single-line"></view>
 
-    <view class="extra-info-view" bindtap="editNumberLimit">
+    <view class="extra-info-view" bindtap="editNumLimit">
       <text class='detail-info-item-title'>人数上限：{{detail.number_limit}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>

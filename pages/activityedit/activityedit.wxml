@@ -9,7 +9,7 @@
     <view class="layout_horizontal">
       <text class="required-item-flag">* </text>
       <text class="item-hint">活动类型</text>
-      <text class="current-selected-value">{{activityType.typeName}}</text>
+      <text class="current-selected-value">{{selectedActivityType.typeName}}</text>
     </view>
 
     <template is="activityTypesTemplate" data="{{activityTypes}}" />
@@ -25,7 +25,7 @@
     </view>
 
     <view class="input-area-container top-margin-5">
-      <textarea class="input-area" placeholder='请输入...' value="{{title}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="titleInputs">
+      <textarea class="input-area" placeholder='请输入...' value="{{activityTitle}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="titleInputs">
       </textarea>
     </view>
   </view>
@@ -39,7 +39,7 @@
     </view>
 
     <view class="input-area-container top-margin-5">
-      <textarea class="input-area" placeholder='请输入...' value="{{location}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="locationInputs">
+      <textarea class="input-area" placeholder='请输入...' value="{{activityLocation}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="locationInputs">
       </textarea>
     </view>
     
@@ -51,16 +51,54 @@
     <view class="layout_horizontal bottom-margin-5">
       <text class="required-item-flag">* </text>
       <text class="item-hint">人数限制</text>
-      <text class="current-selected-value">{{numberLimit}}人</text>
+      <text class="current-selected-value">{{activityNumLimit}}人</text>
     </view>
 
     <view>
-      <slider bindchange="sliderchange" bindchanging="sliderchanging" min="{{1}}" max="{{50}}" activeColor="#FCBD1B" backgroundColor="#555555" block-size="{{18}}" block-color="#FCBD1B" step="{{1}}" value="{{numberLimit}}" show-value="{{false}}"></slider>
+      <slider bindchange="sliderchange" bindchanging="sliderchanging" min="{{1}}" max="{{50}}" activeColor="#FCBD1B" backgroundColor="#555555" block-size="{{18}}" block-color="#FCBD1B" step="{{1}}" value="{{activityNumLimit}}" show-value="{{false}}"></slider>
     </view>
 
   </view>
 
+  <!-- 开始时间 -->
+  <view wx:if='{{editType == 2 || editType == 3}}' class="section-container top-margin-5">
+    <picker mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcancel="cancelChangeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
+
+      <view class="layout_horizontal">
+        <text class="required-item-flag">* </text>
+        <text class="item-hint">开始时间</text>
+      </view>
+
+      <view class="layout_horizontal time-item-container">
+        <view class="sub-label">
+        {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}
+        </view>
+        <image class="chevron-image" src='../../images/chevron.png'></image>
+      </view>
+
+    </picker>
+  </view>
+
+  <!-- 结束时间 -->
+  <view wx:if='{{editType == 2 || editType == 3}}' class="section-container top-margin-5">
+    <picker mode="multiSelector" value="{{endDateTime}}" bindchange="changeEndDateTime" bindcancel="cancelEndChangeDateTime" bindcolumnchange="changeEndDateTimeColumn" range="{{endDateTimeArray}}">
+
+      <view class="layout_horizontal">
+        <text class="required-item-flag">* </text>
+        <text class="item-hint">结束时间</text>
+      </view>
+
+      <view class="layout_horizontal time-item-container">
+        <view class="sub-label">
+        {{endDateTimeArray[0][endDateTime[0]]}}-{{endDateTimeArray[1][endDateTime[1]]}}-{{endDateTimeArray[2][endDateTime[2]]}} {{endDateTimeArray[3][endDateTime[3]]}}:{{endDateTimeArray[4][endDateTime[4]]}}
+        </view>
+        <image class="chevron-image" src='../../images/chevron.png'></image>
+      </view>
+
+    </picker>
+  </view>
+
 <!-- 确认按钮 -->
-<button class="yellow_bg_button left-margin-0 right-margin-0 top-margin-10 bottom-margin-50" bindtap="confirmEdit">确认修改</button>
+<button class="yellow_bg_button left-margin-0 right-margin-0 top-margin-10 bottom-margin-50" bindtap="publishButtonTapped">确认修改</button>
 
 </view>

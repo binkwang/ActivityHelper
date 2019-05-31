@@ -3,6 +3,7 @@
 const app = getApp()
 const util = require('../../utils/util.js');
 const model = require('../../utils/model.js')
+const dateTimePicker = require('../../utils/dateTimePicker.js')
 
 Page({
 
@@ -13,17 +14,27 @@ Page({
     // 外部传入
     activityId: null,
     editType: null, // 如：model.editType.title
-
-    // 外部传入
     activityTypeId: null, // 如：model.activityType.others
-    title: null,
-    location: null,
-    content: null,
-    numberLimit: null,
+    activityTitle: null,
+    activityLocation: null,
+    activityNumLimit: null,
+    activityStartTime: null,
+    activityEndTime: null,
+
+    // 根据传入的startTime/endTime初始化
+    dateTime: null,
+    dateTimeArray: null,
+    originalDateTime: null,
+    originalDateTimeArray: null,
+
+    endDateTime: null,
+    endDateTimeArray: null,
+    originalEndDateTime: null,
+    originalEndDateTimeArray: null,
 
     //
-    activityType: null,
-    activityTypes: [],
+    selectedActivityType: null,
+    activityTypes: [], 
     currentTitleLength: 0,
     currentLocationLength: 0,
 
@@ -45,35 +56,60 @@ Page({
     this.setData({
       activityId: options.activityId,
       editType: options.editType,
+      activityTypeId: options.activityTypeId,
+      activityTitle: options.activityTitle,
+      activityLocation: options.activityLocation,
+      activityNumLimit: parseInt(options.activityNumLimit),
+      activityStartTime: Number(options.activityStartTime),
+      activityEndTime: Number(options.activityEndTime),
     })
-
-    if (this.data.editType == model.editType.title) {
-      this.setData({
-        title: options.title,
-        currentTitleLength: parseInt(options.title.length), //当前标题长度
-        activityTypes: model.activityTypes,
-      })
-      this.setActivityType(options.activityTypeId)
-
-    } else if (this.data.editType == model.editType.location) {
-      this.setData({
-        location: options.location,
-        currentLocationLength: parseInt(options.location.length), //当前地址长度
-      })
-
-    } else if (this.data.editType == model.editType.numberLimit) {
-      this.setData({
-        numberLimit: options.numberLimit,
-      })
-    }
 
     console.log("activityId: ", this.data.activityId)
     console.log("editType: ", this.data.editType)
     console.log("activityTypeId: ", this.data.activityTypeId)
-    console.log("title: ", this.data.title)
-    console.log("location: ", this.data.location)
-    console.log("content: ", this.data.content)
-    console.log("numberLimit: ", this.data.numberLimit)
+    console.log("activityTitle: ", this.data.activityTitle)
+    console.log("activityLocation: ", this.data.activityLocation)
+    console.log("activityNumLimit: ", this.data.activityNumLimit)
+    console.log("activityStartTime: ", this.data.activityStartTime)
+    console.log("activityEndTime: ", this.data.activityEndTime)
+
+    if (this.data.editType == model.editType.title) {
+      this.setData({
+        currentTitleLength: parseInt(this.data.activityTitle.length), //当前标题长度
+        activityTypes: model.activityTypes,
+      })
+      this.setActivityType(this.data.activityTypeId)
+
+    } else if (this.data.editType == model.editType.location) {
+      this.setData({
+        currentLocationLength: parseInt(this.data.activityLocation.length), //当前地址长度
+      })
+
+    } else if (this.data.editType == model.editType.numLimit) {
+
+    } else if (this.data.editType == model.editType.startTime || this.data.editType == model.editType.endTime) {
+
+      // 获取完整的年月日 时分秒，以及默认显示的数组
+      var startPicker = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear, util.formatTime(new Date(this.data.activityStartTime)));
+
+      this.setData({
+        dateTime: startPicker.dateTime,
+        dateTimeArray: startPicker.dateTimeArray,
+        originalDateTime: startPicker.dateTime.slice(0),
+        originalDateTimeArray: dateTimePicker.deepcopyArray(startPicker.dateTimeArray),
+      });
+
+      // 获取完整的年月日 时分秒，以及默认显示的数组
+      var endPicker = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear, util.formatTime(new Date(this.data.activityEndTime)));
+
+      this.setData({
+        endDateTime: endPicker.dateTime,
+        endDateTimeArray: endPicker.dateTimeArray,
+        originalEndDateTime: endPicker.dateTime.slice(0),
+        originalEndDateTimeArray: dateTimePicker.deepcopyArray(endPicker.dateTimeArray),
+      });
+    }
+
   },
 
   // 点击事件
@@ -88,19 +124,17 @@ Page({
     for (var i = 0; i < this.data.activityTypes.length; i++) {
       if (typeId == this.data.activityTypes[i].typeId) {
         this.data.activityTypes[i].isSelected = true;
-        this.activityType = this.data.activityTypes[i]
+        this.data.selectedActivityType = this.data.activityTypes[i]
       } else {
         this.data.activityTypes[i].isSelected = false;
       }
     }
 
     this.setData({
-      activityTypeId: typeId,
-      activityType: this.activityType, 
+      selectedActivityType: this.data.selectedActivityType,
       activityTypes: this.data.activityTypes,
     });
   },
-
 
   // 输入事件
   titleInputs: function (e) {
@@ -114,7 +148,7 @@ Page({
 
     if (length <= this.data.titleLengthMax) {
       this.setData({
-        title: value,
+        activityTitle: value,
         currentTitleLength: length, //当前字数
       })
     } else {
@@ -129,7 +163,7 @@ Page({
 
     if (length <= this.data.titleLengthMax) {
       this.setData({
-        location: value,
+        activityLocation: value,
         currentLocationLength: length, //当前字数 
       })
     } else {
@@ -145,15 +179,221 @@ Page({
   //拖动过程中的触发的事件
   sliderchanging: function (e) {
     var value = e.detail.value;
+
     this.setData({
-      numberLimit: value,
+      activityNumLimit: value,
     })
   },
 
-  // TODO: 点击事件
-  confirmEdit: function () {
-    console.log("confirmEdit..")
-    
+  //发布按钮事件
+  publishButtonTapped: function () {
+
+    if (this.data.editType == model.editType.title) {
+
+      if (this.data.selectedActivityType == null) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '请选择活动类型',
+        })
+        return
+      }
+
+      if (this.data.activityTitle.length == 0) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '请输入标题',
+        })
+        return
+      } else if (this.data.activityTitle.length < this.data.titleLengthMin) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '请输入2个字以上的标题',
+        })
+        return
+      }
+
+    } else if (this.data.editType == model.editType.location) {
+
+      if (this.data.activityLocation.length == 0) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '请输入地点',
+        })
+        return
+      } else if (this.data.activityLocation.length < this.data.titleLengthMin) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '请输入2个字以上的地点',
+        })
+        return
+      }
+
+    } else if (this.data.editType == model.editType.numLimit) {
+
+      if (this.data.activityNumLimit == 0) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '请选择人数上限',
+        })
+        return
+      }
+
+    } else if (this.data.editType == model.editType.startTime || this.data.editType == model.editType.endTime) {
+
+      let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
+      let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
+
+      if (start_time >= end_time) {
+        wx.showToast({
+          image: '../../images/warn.png',
+          title: '结束时间应该晚于开始时间',
+        })
+        return
+      }
+
+    }
+
+    this.publish()
+  },
+
+  publish: function () {
+    var that = this
+
+    wx.showLoading({
+      title: '更新中',
+      mask: true
+    })
+
+    // if (this.data.editType == model.editType.title) {
+    // } else if (this.data.editType == model.editType.location) {
+    // } else if (this.data.editType == model.editType.numLimit) {
+    // } else if (this.data.editType == model.editType.startTime || this.data.editType == model.editType.endTime) {
+    // }
+
+    var activityTypeId = this.data.activityTypeId
+    if (this.data.editType == model.editType.title) {
+      activityTypeId = this.data.selectedActivityType.typeId
+    }
+
+    var startTime = this.data.activityStartTime
+    var endTime = this.data.activityEndTime
+    if (this.data.editType == model.editType.startTime || this.data.editType == model.editType.endTime) {
+      startTime = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime)
+      endTime = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime)
+    }
+
+    console.log("activityId: ", this.data.activityId)
+    console.log("activityTypeId: ", activityTypeId)
+    console.log("activityTitle: ", this.data.activityTitle)
+    console.log("activityLocation: ", this.data.activityLocation)
+    console.log("activityNumLimit: ", this.data.activityNumLimit)
+    console.log("activityStartTime: ", startTime)
+    console.log("activityEndTime: ", endTime)
+
+    wx.cloud.callFunction({
+      name: 'update_activity',
+      data: {
+        activityId: this.data.activityId,
+        activityTypeId: activityTypeId,
+        activityTitle: this.data.activityTitle,
+        activityLocation: this.data.activityLocation,
+        activityNumLimit: this.data.activityNumLimit,
+        activityStartTime: startTime,
+        activityEndTime: endTime
+      },
+      success: function (res) {
+        // 强制刷新，这个传参很粗暴
+        var pages = getCurrentPages(); // 获取页面栈
+        var prevPage = pages[pages.length - 2]; // 上一个页面
+
+        prevPage.setData({
+          shouldRefreshActivityDetails: true
+        })
+        wx.hideLoading()
+
+        wx.navigateBack({
+          delta: 1
+        })
+      },
+      fail: function (res) {
+        that.publishFail('更新失败')
+      }
+    })
+  },
+
+  publishFail(info) {
+    wx.showToast({
+      image: '../../images/warn.png',
+      title: info,
+      mask: true,
+      duration: 2500
+    })
+  },
+
+
+
+
+  /**
+   * picker的bind method
+   */
+  changeDateTime(e) {
+    this.setData({
+      dateTime: e.detail.value,
+      originalDateTime: e.detail.value.slice(0),
+      originalDateTimeArray: dateTimePicker.deepcopyArray(this.data.dateTimeArray),
+    });
+  },
+
+  cancelChangeDateTime(e) {
+    this.setData({
+      dateTime: this.data.originalDateTime,
+      dateTimeArray: this.data.originalDateTimeArray,
+    });
+  },
+
+  changeDateTimeColumn(e) {
+    //引用赋值，改变arr的值，this.data.dateTime也会被改变
+    var arr = this.data.dateTime, dateArr = this.data.dateTimeArray;
+
+    // e.detail.column: 当前改变的列的索引号
+    // e.detail.value: 当前改变的列的新值
+    arr[e.detail.column] = e.detail.value;
+
+    // 设置当前年月的天数组
+    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+
+    // set data, 页面会自动刷新
+    this.setData({
+      dateTime: arr,
+      dateTimeArray: dateArr
+    });
+  },
+
+  changeEndDateTime(e) {
+    this.setData({
+      endDateTime: e.detail.value,
+      originalEndDateTime: e.detail.value.slice(0),
+      originalEndDateTimeArray: dateTimePicker.deepcopyArray(this.data.endDateTimeArray),
+    });
+  },
+
+  cancelEndChangeDateTime(e) {
+    this.setData({
+      endDateTime: this.data.originalEndDateTime,
+      endDateTimeArray: this.data.originalEndDateTimeArray,
+    });
+  },
+
+  changeEndDateTimeColumn(e) {
+    var arr = this.data.endDateTime, dateArr = this.data.endDateTimeArray;
+
+    arr[e.detail.column] = e.detail.value;
+    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+
+    this.setData({
+      endDateTime: arr,
+      endDateTimeArray: dateArr
+    });
   },
 
   /**
