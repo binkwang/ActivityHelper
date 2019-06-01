@@ -120,9 +120,9 @@ page{
   font-size: 10pt;
   font-family: "Times New Roman", Times, serif;
 
-  margin-left: 5pt;
-  margin-right: 5pt;
-  margin-top: 20pt;
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 15pt;
   padding-top: 5pt;
   padding-bottom: 5pt;
 
@@ -163,6 +163,10 @@ page{
 
 .left-margin-10{
   margin-left: 10pt;
+}
+
+.right-margin-10{
+  margin-right: 10pt;
 }
 
 .left-margin-15{

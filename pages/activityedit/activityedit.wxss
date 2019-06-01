@@ -2,17 +2,15 @@
 
 @import "../publish/activity-type-template.wxss";
 
-.page{
-  padding-left: 5pt; /* padding内边距 */
-  padding-right: 5pt;
-  padding-top: 5pt; 
-  padding-bottom: 5pt;
-}
-
 .section-container{
   height: auto;
   border-radius: 3px;
   background-color: rgb(51, 51, 51);
+
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 10pt;
+  margin-bottom: 0pt;
 
   padding-left: 5pt;
   padding-right: 5pt;
@@ -20,26 +18,15 @@
   padding-bottom: 5pt;
 }
 
-.required-item-flag{
-  font-size: 10pt;
-  font-weight: bolder;
-  font-family: "Times New Roman", Times, serif;
-  color: #FF6B6B;
-
+.item-image{
   margin-left: 2pt;
+  margin-right: 5pt;
   margin-top: 0pt;
   margin-bottom: 0pt;
-}
 
-.optional-item-flag{
-  font-size: 10pt;
-  font-weight: bolder;
-  font-family: "Times New Roman", Times, serif;
-  color: #44C259;
-
-  margin-left: 2pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
+  width: 8pt;
+  height: 8pt;
+  vertical-align: middle;
 }
 
 .item-hint{
@@ -107,6 +94,13 @@
   font-weight: normal;
   font-family: "Times New Roman", Times, serif;
   color: rgb(204, 204, 204);
+}
+
+.time-item-container{
+  background: rgb(51, 51, 51);
+  border-radius: 3px;
+  padding-top: 10pt;
+  padding-bottom: 5pt;
 }
 
 .layout_vertical{

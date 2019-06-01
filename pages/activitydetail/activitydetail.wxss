@@ -16,11 +16,11 @@
 .declaration-view{
   font-size: 6pt;
   margin-top: 5pt;
-  margin-bottom: 10pt;
+  margin-bottom: 30pt;
   text-align: center;
   font-weight: normal;
   font-family: "Times New Roman", Times, serif;
-  color: #FCBD1B;
+  color: #CCCCCC;
   
   display: -webkit-box;   
   word-break: break-all;
@@ -31,8 +31,8 @@
 }
 
 .section-header-view{
-  margin-left: 5pt;
-  margin-right: 5pt;
+  margin-left: 10pt;
+  margin-right: 10pt;
   /* margin-top: 0pt;
   margin-bottom: 0pt; */
 
@@ -49,14 +49,14 @@
 }
 
 .extra-info-view{
-  margin-left: 5pt;
-  margin-right: 5pt;
+  margin-left: 10pt;
+  margin-right: 10pt;
   /* margin-top: 0pt;
   margin-bottom: 5pt; */
   background: rgb(34, 34, 34);
 
-  padding-top: 5pt;
-  padding-bottom: 5pt;
+  padding-top: 10pt;
+  padding-bottom: 10pt;
 
   height: auto;
   display: flex;
@@ -66,8 +66,8 @@
 }
 
 .participations-view{
-  margin-left: 5pt;
-  margin-right: 5pt;
+  margin-left: 10pt;
+  margin-right: 10pt;
   background: rgb(34, 34, 34);
 }
 

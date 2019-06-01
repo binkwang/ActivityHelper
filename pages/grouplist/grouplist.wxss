@@ -9,9 +9,9 @@
 } */
 
 .group-list{
-  margin-left: 5pt;
-  margin-right: 5pt;
-  margin-top: 5pt;
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 10pt;
   margin-bottom: 0pt;
   border-radius: 3px;
   background: rgb(51, 51, 51);

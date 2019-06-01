@@ -1,13 +1,13 @@
 const activityStatusArray = [
   { "statusId": "0", "statusDescription": "未知", "statusImage": "../../images/activity_status_unknow_yellow_FCBD1B.png" },
-  { "statusId": "1", "statusDescription": "尚未开始", "statusImage": "../../images/activity_status_not_started_red_E11819.png" },
+  { "statusId": "1", "statusDescription": "可报名", "statusImage": "../../images/activity_status_not_started_red_E11819.png" },
   { "statusId": "2", "statusDescription": "已结束", "statusImage": "../../images/activity_status_ended_blue_0064AC.png" },
   { "statusId": "3", "statusDescription": "进行中", "statusImage": "../../images/activity_status_ongoing_green_1C8728.png" }]
 
 
 const activityStatus = {
   unKnown: 0, // 未知
-  notStarted: 1, // 尚未开始
+  notStarted: 1, // 可报名
   ended: 2, // 已结束
   inProgress: 3 // 进行中
 }

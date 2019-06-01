@@ -1,19 +1,19 @@
 
 <import src="../activitydetail/selectItem-list-template.wxml" />
 
-<view class='activitydetail' wx:if='{{contentLoaded && participationsLoaded}}'>
+<view wx:if='{{contentLoaded && participationsLoaded}}'>
 
   <!-- 活动发起者信息 -->
-  <view class="section-header-view top-radius top-margin-5">
+  <view class="section-header-view top-radius top-margin-10">
       <image class='sponsor-avatar-view' src='{{detail.sponsor_avatar_url}}'></image>
       <text class='section-header-main-title-label'>{{detail.sponsor_name}}</text>
   </view>
 
-  <view class="extra-info-view bottom-radius bottom-margin-5" >
+  <view class="extra-info-view bottom-radius bottom-margin-10" >
     <text class='detail-info-item-title'>发布于 {{detail.formatPublishTime}}</text>
   </view>
 
-  <!-- 活动详情 -->
+  <!-- 活动详情页面 -->
   <view class="activity-detail-view">
 
     <view class="section-header-view top-radius top-margin-5" bindtap="editTitle">
@@ -51,13 +51,13 @@
     <view class="single-line"></view>
 
     <view wx:if='{{hasMoreinfo}}' class="extra-info-view" bindtap="editMoreinfo">
-      <text class='detail-info-item-title'>详情：\n{{detail.activity_moreinfo}}</text>
+      <text class='detail-info-item-title'>更多信息：\n{{detail.activity_moreinfo}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
     <view class="single-line"></view>
 
-    <view class="extra-info-view bottom-radius bottom-margin-5">
+    <view class="extra-info-view bottom-radius bottom-margin-10">
       <text class='detail-info-status-item-title'>{{detail.activity_status.statusDescription}}</text>
     </view>
 

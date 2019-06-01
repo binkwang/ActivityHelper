@@ -1,12 +1,12 @@
 <import src="../publish/activity-type-template.wxml" />
 
-<view class='page'>
+<view>
 
   <!-- 活动类型 -->
   <view class="section-container">
 
     <view class="layout_horizontal">
-      <text class="required-item-flag">* </text>
+      <image class="item-image" src='../../images/required-item.png'></image>
       <text class="item-hint">活动类型</text>
       <text class="current-selected-value">{{selectedActivityType.typeName}}</text>
     </view>
@@ -16,9 +16,9 @@
   </view>
 
   <!-- 标题 -->
-  <view class="section-container top-margin-5">
+  <view class="section-container">
     <view class="layout_horizontal">
-      <text class="required-item-flag">* </text>
+      <image class="item-image" src='../../images/required-item.png'></image>
       <text class="item-hint">标题</text>
       <text class="current-input-length-hint">{{currentTitleLength}} / {{titleLengthMin}}-{{titleLengthMax}}字</text>
     </view>
@@ -29,24 +29,10 @@
     </view>
   </view>
 
-    <!-- 更多信息 -->
-  <view class="section-container top-margin-5">
-    <view class="layout_horizontal">
-      <text class="optional-item-flag">* </text>
-      <text class="item-hint">更多描述(可选)</text>
-      <text class="current-input-length-hint">{{currentMoreinfoLength}} / {{moreinfoLengthMin}}-{{moreinfoLengthMax}}字</text>
-    </view>
-
-    <view class="input-area-container top-margin-5">
-      <textarea class="input-area-moreinfo" style="overflow-y:scroll" placeholder='请输入...' minlength="{{moreinfoLengthMin}}" maxlength="{{moreinfoLengthMax}}" bindinput="moreinfoInputs">   
-    </textarea>
-    </view>
-  </view>
-
   <!-- 地点 -->
-  <view class="section-container top-margin-5">
+  <view class="section-container">
     <view class="layout_horizontal">
-      <text class="required-item-flag">* </text>
+      <image class="item-image" src='../../images/required-item.png'></image>
       <text class="item-hint">地点</text>
       <text class="current-input-length-hint">{{currentLocationLength}} / {{titleLengthMin}}-{{titleLengthMax}}字</text>
     </view>
@@ -59,10 +45,10 @@
   </view>
 
   <!-- 人数限制 -->
-  <view class="section-container top-margin-5">
+  <view class="section-container">
 
     <view class="layout_horizontal bottom-margin-5">
-      <text class="required-item-flag">* </text>
+      <image class="item-image" src='../../images/required-item.png'></image>
       <text class="item-hint">人数限制</text>
       <text class="current-selected-value">{{numLimit}}人</text>
     </view>
@@ -74,11 +60,11 @@
   </view>
 
   <!-- 开始时间 -->
-  <view class="section-container top-margin-5">
+  <view class="section-container">
     <picker mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcancel="cancelChangeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
 
       <view class="layout_horizontal">
-        <text class="required-item-flag">* </text>
+        <image class="item-image" src='../../images/required-item.png'></image>
         <text class="item-hint">开始时间</text>
       </view>
 
@@ -93,11 +79,11 @@
   </view>
 
   <!-- 结束时间 -->
-  <view class="section-container top-margin-5">
+  <view class="section-container">
     <picker mode="multiSelector" value="{{endDateTime}}" bindchange="changeEndDateTime" bindcancel="cancelEndChangeDateTime" bindcolumnchange="changeEndDateTimeColumn" range="{{endDateTimeArray}}">
 
       <view class="layout_horizontal">
-        <text class="required-item-flag">* </text>
+        <image class="item-image" src='../../images/required-item.png'></image>
         <text class="item-hint">结束时间</text>
       </view>
 
@@ -111,10 +97,21 @@
     </picker>
   </view>
 
+  <!-- 更多信息 -->
+  <view class="section-container">
+    <view class="layout_horizontal">
+      <image class="item-image" src='../../images/optional-item.png'></image>
+      <text class="item-hint">更多信息（可选）</text>
+      <text class="current-input-length-hint">{{currentMoreinfoLength}} / {{moreinfoLengthMin}}-{{moreinfoLengthMax}}字</text>
+    </view>
 
-
+    <view class="input-area-container top-margin-5">
+      <textarea class="input-area-moreinfo" style="overflow-y:scroll" placeholder='请输入...' minlength="{{moreinfoLengthMin}}" maxlength="{{moreinfoLengthMax}}" bindinput="moreinfoInputs">   
+    </textarea>
+    </view>
+  </view>
 
 <!-- 发布按钮 -->
-<button class="yellow_bg_button left-margin-0 right-margin-0 top-margin-10 bottom-margin-50" bindtap="publishButtonTapped">发布</button>
+<button class="yellow_bg_button left-margin-10 right-margin-10 top-margin-10 bottom-margin-50" bindtap="publishButtonTapped">发布</button>
 
 </view>

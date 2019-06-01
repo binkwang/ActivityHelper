@@ -43,19 +43,19 @@
   /* background:  rgb(0, 255, 255); */
 }
 
-.new-post{
+.new-post-image{
   float: right;
   position: fixed;
   bottom: 60rpx;
   right: 60rpx;
-  width: 100rpx;
-  height: 100rpx;
+  width: 160rpx;
+  height: 160rpx;
 }
 
 .activity-list{
-  margin-left: 5pt;
-  margin-right: 5pt;
-  margin-top: 5pt;
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 10pt;
   margin-bottom: 0pt;
   border-radius: 3px;
   background: rgb(51, 51, 51);
