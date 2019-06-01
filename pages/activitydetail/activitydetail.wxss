@@ -5,29 +5,8 @@
 
 @import "../activitydetail/selectItem-list-template.wxss";
 
-.participation-collection{
-  margin-left: 5pt;
-  margin-right: 5pt;
-  background-color: rgb(17, 17, 17);
-  margin-top: 20rpx;
-  margin-bottom: 20rpx;
-}
-
-.declaration-view{
-  font-size: 6pt;
-  margin-top: 5pt;
-  margin-bottom: 30pt;
-  text-align: center;
-  font-weight: normal;
-  font-family: "Times New Roman", Times, serif;
-  color: #CCCCCC;
-  
-  display: -webkit-box;   
-  word-break: break-all;
-  text-overflow: ellipsis;
-  overflow: hidden;      
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+.page{
+  padding-bottom: 20pt;
 }
 
 .section-header-view{
@@ -65,12 +44,6 @@
   align-items: center;
 }
 
-.participations-view{
-  margin-left: 10pt;
-  margin-right: 10pt;
-  background: rgb(34, 34, 34);
-}
-
 .sponsor-avatar-view{
   margin-left: 10pt;
   /* margin-right: 5pt; */
@@ -101,13 +74,6 @@
   width: 70%;
 }
 
-.single-line{
-  background: rgb(17, 17, 17);
-  height: 3rpx;
-  margin-left: 5pt;
-  margin-right: 5pt;
-}
-
 .activity-type-image{
   margin-top: 10pt;
   margin-bottom: 10pt;
@@ -136,6 +102,27 @@
   overflow: hidden;      
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 20;
+}
+
+.detail-info-status-item-title{
+  font-size: 12pt;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  color: #FCBD1B;
+  margin-left: 10pt;
+  margin-right: 10pt;
+  
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+
+  width: 80%;
+
+  display: -webkit-box;   
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;      
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .detail-info-status-item-title{
@@ -178,14 +165,13 @@
   -webkit-line-clamp: 4;
 }
 
-.top-radius {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-.bottom-radius {
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+.chevron-image{
+  margin-right: 10pt;
+  width: 12pt;
+  height: 12pt;
+  vertical-align: middle;
+  margin-left: auto;   /* 使chevron-image右对其 */
+  /* background:  rgb(0, 255, 255); */
 }
 
 .switch {
@@ -196,46 +182,77 @@
   margin-bottom: 5pt;
 }
 
-.chevron-image{
+.paticipation-number-view{
+  margin-left: 10pt;
   margin-right: 10pt;
-  width: 12pt;
-  height: 12pt;
-  vertical-align: middle;
-  margin-left: auto;   /* 使chevron-image右对其 */
-  /* background:  rgb(0, 255, 255); */
-}
+  background: rgb(34, 34, 34);
 
-.publish_time{
-  font-size: 8pt;
-  color: gray;
-  margin-top: 1rpx;
-}
-
-.input-box{
-  margin-top: 34rpx;
+  height: auto;
   display: flex;
-  align-items: flex-end; /*底部对齐*/
-  justify-content: space-between; /*两端对齐*/
-  box-sizing: border-box;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  padding: 18rpx 0 18rpx 30rpx;
-  background-color: #F7F8F7;
-  font-size: 28rpx;
-  z-index: 999;
+  flex-direction: row; 
+  justify-content: flex-start; 
+  align-items: center;
 }
 
-.input-box .textarea {
-width: 604rpx;
-min-height: 34rpx;
-max-height: 102rpx; /*最多显示三行*/
-border-width: 15rpx 20rpx; /*使用padding与预期留白不一致，故使用border*/
-border-style: solid;
-border-color: #ffffff;
-line-height: 34rpx;
-font-size: 28rpx;
-background-color: #ffffff;
-border-radius: 4rpx;
+.paticipation-number-title{
+  font-size: 6pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204);
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  
+  padding-top: 10pt;
+  padding-bottom: 10pt;
+
+  width: 80%;
+
+  display: -webkit-box;   
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;      
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.participations-view{
+  margin-left: 10pt;
+  margin-right: 10pt;
+  background: rgb(34, 34, 34);
+}
+
+.declaration-view{
+  font-size: 6pt;
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+  text-align: center;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: #CCCCCC;
+  
+  display: -webkit-box;   
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;      
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.top-radius {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.bottom-radius {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.single-line{
+  background: rgb(17, 17, 17);
+  height: 3rpx;
+  margin-left: 5pt;
+  margin-right: 5pt;
 }

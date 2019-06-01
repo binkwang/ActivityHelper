@@ -124,6 +124,17 @@ Page({
 
         for (let i = 0; i < participations.length; i++) {
           participations[i].time = util.formatTime(new Date(participations[i].time))
+
+          // addParticipation函数执行时，
+          // 可能全局的用户头像和昵称还没有获得，
+          // 导致写入数据库里的参加者昵称和头像是空的
+          // 提供一个默认的用户名和头像
+          if (util.isEmpty(participations[i].nick_name)) {
+            participations[i].nick_name = model.unknown_nick_name
+          }
+          if (util.isEmpty(participations[i].avatar_url)) {
+            participations[i].avatar_url = model.unknown_avatar_url
+          }
         }
 
         that.setData({
@@ -143,23 +154,14 @@ Page({
    */
   updateParticipation: function () {
     var that = this
+    wx.showLoading({
+      title: '请稍候',
+    })
 
-    if (this.data.isActivityStarted) {
-      wx.showToast({
-        image: '../../images/warn.png',
-        title: '活动已经开始',
-      })
-
+    if (this.data.hasEnrolled) {
+      this.cancelParticipation(this.data.participationId)
     } else {
-      wx.showLoading({
-        title: '请稍候',
-      })
-
-      if (this.data.hasEnrolled) {
-        this.cancelParticipation(this.data.participationId)
-      } else {
-        this.addParticipation(this.data.activityId, this.data.detail.number_limit)
-      }
+      this.addParticipation(this.data.activityId, this.data.detail.number_limit)
     }
   },
 
@@ -259,7 +261,7 @@ Page({
       data: {
         activityId: activityId,
         numberLimit: numberLimit,
-        nickName: app.globalData.currentNickName,
+        nickName: app.globalData.currentNickName, // 数据库
         avatarUrl: app.globalData.currentAvatarUrl,
       },
 
@@ -312,24 +314,6 @@ Page({
       fail: console.error
     })
   },
-
-  // editActivityInfo: function (event) {
-  //   console.log("editActivityInfo button tapped")
-
-  //   wx.showModal({
-  //     title: '操作提示',
-  //     content: '修改活动信息后，请及时告知所有参与者',
-  //     success: function (res) {
-  //       if (res.confirm) {
-  //         console.log('confirm selected')
-  //         // navigate to edit page
-          
-  //       } else if (res.cancel) {
-  //         console.log('cancel selected')
-  //       }
-  //     }
-  //   })
-  // },
 
   editTitle: function (event) {
     this.navigateTo(model.editType.title)
@@ -388,7 +372,7 @@ Page({
       if (this.data.isActivityStarted) {
         wx.showToast({
           image: '../../images/warn.png',
-          title: '无法移除',
+          title: '只能在活动开始前移除',
         })
 
       } else {

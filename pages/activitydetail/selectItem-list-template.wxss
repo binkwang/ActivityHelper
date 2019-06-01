@@ -2,6 +2,8 @@
 
 .seletct-list-template {
   width: 100%;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
 }
 
 .inner-container {

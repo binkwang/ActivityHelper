@@ -1,7 +1,7 @@
 
 <import src="../activitydetail/selectItem-list-template.wxml" />
 
-<view wx:if='{{contentLoaded && participationsLoaded}}'>
+<view wx:if='{{contentLoaded && participationsLoaded}}'class="page" >
 
   <!-- 活动发起者信息 -->
   <view class="section-header-view top-radius top-margin-10">
@@ -9,14 +9,22 @@
       <text class='section-header-main-title-label'>{{detail.sponsor_name}}</text>
   </view>
 
-  <view class="extra-info-view bottom-radius bottom-margin-10" >
+  <view class="extra-info-view" >
     <text class='detail-info-item-title'>发布于 {{detail.formatPublishTime}}</text>
   </view>
+
+  <view class="single-line"></view>
+
+  <!-- 活动状态 -->
+  <view class="extra-info-view bottom-radius bottom-margin-10" >
+    <text class='detail-info-status-item-title'>活动{{detail.activity_status.statusDescription}}</text>
+  </view>
+
 
   <!-- 活动详情页面 -->
   <view class="activity-detail-view">
 
-    <view class="section-header-view top-radius top-margin-5" bindtap="editTitle">
+    <view class="section-header-view top-radius" bindtap="editTitle">
         <image class="activity-type-image" src='{{detail.activity_type.typeImage}}'></image>
         <view class='section-header-main-title-label'>{{detail.activity_title}}</view>
         <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
@@ -50,15 +58,9 @@
 
     <view class="single-line"></view>
 
-    <view wx:if='{{hasMoreinfo}}' class="extra-info-view" bindtap="editMoreinfo">
+    <view wx:if='{{hasMoreinfo}}' class="extra-info-view bottom-radius bottom-margin-10" bindtap="editMoreinfo">
       <text class='detail-info-item-title'>更多信息：\n{{detail.activity_moreinfo}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
-    </view>
-
-    <view class="single-line"></view>
-
-    <view class="extra-info-view bottom-radius bottom-margin-10">
-      <text class='detail-info-status-item-title'>{{detail.activity_status.statusDescription}}</text>
     </view>
 
   </view>
@@ -69,14 +71,19 @@
     <switch class="switch" color="#FCBD1B" disabled="{{isActivityStarted || (!hasEnrolled && participations.length>=detail.number_limit)}}" checked="{{hasEnrolled}}" bindchange="updateParticipation"/>
   </view>
 
+  <!-- 报名人数 -->
+  <view class="paticipation-number-view">
+    <text class='paticipation-number-title'>{{participations.length}} 人报名，人数上限为 {{detail.number_limit}}
+    </text>
+  </view>
+
+  <view wx:if='{{participations.length>0}}' class="single-line"></view>
+
   <!-- 参与者列表 -->
-  <view class="participations-view bottom-radius bottom-margin-5" >
+  <view wx:if='{{participations.length>0}}' class="participations-view bottom-radius" >
     <template is="selectItemListTemplate" data="{{participations}}" />
   </view>
 
-  <view wx:if='{{isSponsor && !isActivityStarted}}' class="declaration-view">*活动开始前，组织者可点击上方头像移除参与者*</view>
-
-  <!-- 编辑按钮 -->
-  <!-- <button wx:if='{{isSponsor && !isActivityStarted}}' class="yellow_bg_button left-margin-5 right-margin-5 top-margin-5 bottom-margin-20" bindtap="editActivityInfo">修改活动信息</button> -->
+  <view wx:if='{{isSponsor && !isActivityStarted && participations.length>0}}' class="declaration-view">*活动开始前，组织者可点击上方头像移除参与者*</view>
 
 </view>
