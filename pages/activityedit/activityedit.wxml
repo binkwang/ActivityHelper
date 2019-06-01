@@ -25,10 +25,27 @@
     </view>
 
     <view class="input-area-container top-margin-5">
-      <textarea class="input-area" placeholder='请输入...' value="{{activityTitle}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="titleInputs">
+      <textarea class="input-area-title" placeholder='请输入...' value="{{activityTitle}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="titleInputs">
       </textarea>
     </view>
   </view>
+
+      <!-- 更多信息 -->
+  <view wx:if='{{editType == 1}}' class="section-container top-margin-5">
+    <view class="layout_horizontal">
+      <text class="optional-item-flag">* </text>
+      <text class="item-hint">更多描述(可选)</text>
+      <text class="current-input-length-hint">{{currentMoreinfoLength}} / {{moreinfoLengthMin}}-{{moreinfoLengthMax}}字</text>
+    </view>
+
+    <view class="input-area-container top-margin-5">
+      <textarea class="input-area-moreinfo" style="overflow-y:scroll" placeholder='请输入...' value="{{activityMoreinfo}}" minlength="{{moreinfoLengthMin}}" maxlength="{{moreinfoLengthMax}}" bindinput="moreinfoInputs">
+      </textarea>
+    </view>
+  </view>
+
+
+  
 
   <!-- 地点 -->
   <view wx:if='{{editType == 4}}' class="section-container top-margin-5">
@@ -39,7 +56,7 @@
     </view>
 
     <view class="input-area-container top-margin-5">
-      <textarea class="input-area" placeholder='请输入...' value="{{activityLocation}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="locationInputs">
+      <textarea class="input-area-title" placeholder='请输入...' value="{{activityLocation}}" minlength="{{titleLengthMin}}" maxlength="{{titleLengthMax}}" bindinput="locationInputs">
       </textarea>
     </view>
     

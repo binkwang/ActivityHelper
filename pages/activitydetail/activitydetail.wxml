@@ -22,6 +22,20 @@
         <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
+    <view class="extra-info-view" bindtap="editLocation">
+      <text class='detail-info-item-title'>地点：{{detail.location}}</text>
+      <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
+    </view>
+
+    <view class="single-line"></view>
+
+    <view class="extra-info-view" bindtap="editNumLimit">
+      <text class='detail-info-item-title'>人数上限：{{detail.number_limit}}</text>
+      <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
+    </view>
+
+    <view class="single-line"></view>
+
     <view class="extra-info-view" bindtap="editStartTime">
       <text class='detail-info-item-title'>开始时间：{{detail.formatStartTime}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
@@ -36,15 +50,8 @@
 
     <view class="single-line"></view>
 
-    <view class="extra-info-view" bindtap="editLocation">
-      <text class='detail-info-item-title'>地点：{{detail.location}}</text>
-      <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
-    </view>
-
-    <view class="single-line"></view>
-
-    <view class="extra-info-view" bindtap="editNumLimit">
-      <text class='detail-info-item-title'>人数上限：{{detail.number_limit}}</text>
+    <view wx:if='{{hasMoreinfo}}' class="extra-info-view" bindtap="editMoreinfo">
+      <text class='detail-info-item-title'>详情：\n{{detail.activity_moreinfo}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 

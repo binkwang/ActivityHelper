@@ -63,7 +63,7 @@ function getActivityType(index) {
 
 const editType = {
   title: 0, // 标题
-  content: 1, // 内容
+  moreinfo: 1, // 内容
   startTime: 2, // 开始时间
   endTime: 3, // 结束时间
   location: 4, // 地点

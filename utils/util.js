@@ -15,6 +15,17 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+
+// 判断字符串是否为空
+function isEmpty(str) {
+  if (!str) return true; // !str可同时判断null 和 undefined
+  if (str == "") return true; // 判断空字符串
+  var regu = "^[ ]+$";
+  var re = new RegExp(regu); // 判断全是空格
+  return re.test(str);
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  isEmpty: isEmpty
 }

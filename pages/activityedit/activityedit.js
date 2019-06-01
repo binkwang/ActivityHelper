@@ -16,6 +16,7 @@ Page({
     editType: null, // 如：model.editType.title
     activityTypeId: null, // 如：model.activityType.others
     activityTitle: null,
+    activityMoreinfo: null,
     activityLocation: null,
     activityNumLimit: null,
     activityStartTime: null,
@@ -37,11 +38,14 @@ Page({
     activityTypes: [], 
     currentTitleLength: 0,
     currentLocationLength: 0,
+    currentMoreinfoLength: 0,
 
 
     // 常量
     titleLengthMin: 2,
     titleLengthMax: 50,
+    moreinfoLengthMin: 0,
+    moreinfoLengthMax: 500,
     startYear: 2019,
     endYear: 2020,
   },
@@ -58,20 +62,12 @@ Page({
       editType: options.editType,
       activityTypeId: options.activityTypeId,
       activityTitle: options.activityTitle,
+      activityMoreinfo: options.activityMoreinfo,
       activityLocation: options.activityLocation,
       activityNumLimit: parseInt(options.activityNumLimit),
       activityStartTime: Number(options.activityStartTime),
       activityEndTime: Number(options.activityEndTime),
     })
-
-    console.log("activityId: ", this.data.activityId)
-    console.log("editType: ", this.data.editType)
-    console.log("activityTypeId: ", this.data.activityTypeId)
-    console.log("activityTitle: ", this.data.activityTitle)
-    console.log("activityLocation: ", this.data.activityLocation)
-    console.log("activityNumLimit: ", this.data.activityNumLimit)
-    console.log("activityStartTime: ", this.data.activityStartTime)
-    console.log("activityEndTime: ", this.data.activityEndTime)
 
     if (this.data.editType == model.editType.title) {
       this.setData({
@@ -79,6 +75,11 @@ Page({
         activityTypes: model.activityTypes,
       })
       this.setActivityType(this.data.activityTypeId)
+
+    } else if (this.data.editType == model.editType.moreinfo) {
+      this.setData({
+        currentMoreinfoLength: parseInt(this.data.activityMoreinfo.length), //当前地址长度
+      })
 
     } else if (this.data.editType == model.editType.location) {
       this.setData({
@@ -150,6 +151,20 @@ Page({
       this.setData({
         activityTitle: value,
         currentTitleLength: length, //当前字数
+      })
+    } else {
+      return
+    }
+  },
+
+  moreinfoInputs: function (e) {
+    var value = e.detail.value; // 获取输入框的内容
+    var length = parseInt(value.length); // 获取输入框内容的长度
+
+    if (length <= this.data.moreinfoLengthMax) {
+      this.setData({
+        activityMoreinfo: value,
+        currentMoreinfoLength: length, //当前字数
       })
     } else {
       return
@@ -264,12 +279,6 @@ Page({
       mask: true
     })
 
-    // if (this.data.editType == model.editType.title) {
-    // } else if (this.data.editType == model.editType.location) {
-    // } else if (this.data.editType == model.editType.numLimit) {
-    // } else if (this.data.editType == model.editType.startTime || this.data.editType == model.editType.endTime) {
-    // }
-
     var activityTypeId = this.data.activityTypeId
     if (this.data.editType == model.editType.title) {
       activityTypeId = this.data.selectedActivityType.typeId
@@ -285,6 +294,7 @@ Page({
     console.log("activityId: ", this.data.activityId)
     console.log("activityTypeId: ", activityTypeId)
     console.log("activityTitle: ", this.data.activityTitle)
+    console.log("activityMoreinfo: ", this.data.activityMoreinfo)
     console.log("activityLocation: ", this.data.activityLocation)
     console.log("activityNumLimit: ", this.data.activityNumLimit)
     console.log("activityStartTime: ", startTime)
@@ -296,6 +306,7 @@ Page({
         activityId: this.data.activityId,
         activityTypeId: activityTypeId,
         activityTitle: this.data.activityTitle,
+        activityMoreinfo: this.data.activityMoreinfo,
         activityLocation: this.data.activityLocation,
         activityNumLimit: this.data.activityNumLimit,
         activityStartTime: startTime,
@@ -329,9 +340,6 @@ Page({
       duration: 2500
     })
   },
-
-
-
 
   /**
    * picker的bind method

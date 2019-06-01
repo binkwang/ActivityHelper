@@ -23,12 +23,24 @@
   font-size: 10pt;
   font-weight: bolder;
   font-family: "Times New Roman", Times, serif;
-  color: #E11819;
+  color: #FF6B6B;
 
   margin-left: 2pt;
   margin-top: 0pt;
   margin-bottom: 0pt;
 }
+
+.optional-item-flag{
+  font-size: 10pt;
+  font-weight: bolder;
+  font-family: "Times New Roman", Times, serif;
+  color: #44C259;
+
+  margin-left: 2pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+}
+
 
 .item-hint{
   font-size: 8pt;
@@ -67,7 +79,7 @@
 
 .input-area-container{
   width: 100%;
-  box-sizing:border-box;
+  box-sizing: border-box;
 
   padding-left: 2pt;
   padding-right: 2pt;
@@ -75,16 +87,29 @@
   padding-bottom: 2pt;
 }
 
-.input-area{
-  height: 140rpx;
+.input-area-title{
+  height: 120rpx;
   width: 100%;
-  box-sizing:border-box;
+  box-sizing: border-box;
 
   font-size: 10pt;
   font-weight: normal;
   font-family: "Times New Roman", Times, serif;
   color: rgb(204, 204, 204);
 }
+
+.input-area-moreinfo{
+  height: 160rpx;
+  width: 100%;
+  box-sizing: border-box;
+
+  font-size: 10pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204);
+}
+
+
 
 .time-item-container{
   background: rgb(51, 51, 51);

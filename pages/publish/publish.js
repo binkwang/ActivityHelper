@@ -12,6 +12,8 @@ Page({
     // 常量
     titleLengthMin: 2,
     titleLengthMax: 50,
+    moreinfoLengthMin: 0,
+    moreinfoLengthMax: 500,
     numLimit: 10, // 默认值
     startYear: 2019,
     endYear: 2020,
@@ -20,8 +22,10 @@ Page({
     selectedActivityType: null,
     activity_title: '',
     location: '',
+    activity_moreinfo: '',
     currentTitleLength: 0,
     currentLocationLength: 0,
+    currentMoreinfoLength: 0,
 
     dateTime: null,
     dateTimeArray: null,
@@ -113,6 +117,20 @@ Page({
       this.setData({
         location: value,
         currentLocationLength: length, //当前字数 
+      })
+    } else {
+      return
+    }
+  },
+
+  moreinfoInputs: function (e) {
+    var value = e.detail.value; // 获取输入框的内容
+    var length = parseInt(value.length); // 获取输入框内容的长度
+
+    if (length <= this.data.moreinfoLengthMax) {
+      this.setData({
+        activity_moreinfo: value,
+        currentMoreinfoLength: length, //当前字数
       })
     } else {
       return
@@ -211,12 +229,13 @@ Page({
         groupid: this.data.groupId,
         sponsor_name: app.globalData.currentNickName,
         sponsor_avatar_url: app.globalData.currentAvatarUrl,
-        activity_title: this.data.activity_title,
         activity_type: this.data.selectedActivityType.typeId,
+        activity_title: this.data.activity_title,
         location: this.data.location,
+        activity_moreinfo: this.data.activity_moreinfo,
         number_limit: this.data.numLimit,
         start_time: start_time,
-        end_time: end_time
+        end_time: end_time,
       },
       success: function (res) {
         // 强制刷新，这个传参很粗暴

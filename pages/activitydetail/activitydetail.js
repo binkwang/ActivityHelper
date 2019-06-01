@@ -3,7 +3,7 @@ const util = require('../../utils/util.js');
 const model = require('../../utils/model.js')
 
 Page({
-  
+
   /**
    * 页面的初始数据
    */
@@ -16,6 +16,8 @@ Page({
     detail: {},
     isSponsor: false, // 当前用户是否为活动发起者
     isActivityStarted: false, // 当前活动是否已经开始
+
+    hasMoreinfo: true, // detail是否有activity_moreinfo
 
     // 获取participations后赋值
     participationsLoaded: false,
@@ -38,7 +40,6 @@ Page({
 
     this.setData({
       activityId: options.activityId
-      // activityId: '96c1cbbe5cdbf1f91285be470c6d8a4f' // mock
     })
 
     this.getActivityDetail(this.data.activityId)
@@ -79,11 +80,17 @@ Page({
             that.data.isSponsor = true
           }
 
+          if (util.isEmpty(activitydetail.activity_moreinfo)) {
+            //activitydetail.activity_moreinfo = "空"
+          }
+
           that.setData({
+            hasMoreinfo: that.data.hasMoreinfo,
             detail: activitydetail,
             isSponsor: that.data.isSponsor,
             isActivityStarted: that.data.isActivityStarted
           })
+
         }
 
         that.setData({
@@ -215,7 +222,6 @@ Page({
     if (this.data.contentLoaded && this.data.participationsLoaded) {
       console.log("this.data.detail.number_limit: ", this.data.detail.number_limit)
       console.log("this.data.participations.length: ", this.data.participations.length)
-
       wx.hideLoading()
     }
   },
@@ -326,50 +332,47 @@ Page({
   // },
 
   editTitle: function (event) {
-    // let extraInfo = "&editType=" + model.editType.title + "&activityTypeId=" + this.data.detail.activity_type.typeId + "&title=" + this.data.detail.activity_title
-
     this.navigateTo(model.editType.title)
   },
 
   editLocation: function (event) {
-    // let extraInfo = "&editType=" + model.editType.location + "&location=" + this.data.detail.location
-
     this.navigateTo(model.editType.location)
   },
 
   editStartTime: function (event) {
-    // let extraInfo = "&editType=" + model.editType.startTime + "&startTime=" + this.data.detail.start_time + "&endTime=" + this.data.detail.end_time
-
     this.navigateTo(model.editType.startTime)
   },
 
   editEndTime: function (event) {
-    // let extraInfo = "&editType=" + model.editType.endTime + "&startTime=" + this.data.detail.start_time + "&endTime=" + this.data.detail.end_time
-    
     this.navigateTo(model.editType.endTime)
   },
 
   editNumLimit: function (event) {
-    // let extraInfo = "&editType=" + model.editType.numLimit + "&numLimit=" + this.data.detail.number_limit
-    
     this.navigateTo(model.editType.numLimit)
   },
 
+  editMoreinfo: function (event) {
+    this.navigateTo(model.editType.moreinfo)
+  },
+  
   navigateTo: function (editType) {
-    var url = '../activityedit/activityedit?activityId=' + this.data.activityId 
-    + "&editType=" + editType
-    + "&activityTypeId=" + this.data.detail.activity_type.typeId
-    + "&activityTitle=" + this.data.detail.activity_title
-    + "&activityLocation=" + this.data.detail.location
-    + "&activityNumLimit=" + this.data.detail.number_limit
-    + "&activityStartTime=" + this.data.detail.start_time
-    + "&activityEndTime=" + this.data.detail.end_time
 
-    console.log("url: ", url)
+    if (this.data.isSponsor && !this.data.isActivityStarted) {
+      var url = '../activityedit/activityedit?activityId=' + this.data.activityId
+        + "&editType=" + editType
+        + "&activityTypeId=" + this.data.detail.activity_type.typeId
+        + "&activityTitle=" + this.data.detail.activity_title
+        + "&activityMoreinfo=" + this.data.detail.activity_moreinfo
+        + "&activityLocation=" + this.data.detail.location
+        + "&activityNumLimit=" + this.data.detail.number_limit
+        + "&activityStartTime=" + this.data.detail.start_time
+        + "&activityEndTime=" + this.data.detail.end_time
 
-    wx.navigateTo({
-      url: url
-    })
+      console.log("url: ", url)
+      wx.navigateTo({
+        url: url
+      })
+    }
   },
   
   // participant单元格点击事件

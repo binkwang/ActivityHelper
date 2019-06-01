@@ -13,6 +13,7 @@ exports.main = async (event, context) => {
       data: {
         activity_type: event.activityTypeId,
         activity_title: event.activityTitle,
+        activity_moreinfo: event.activityMoreinfo,
         location: event.activityLocation,
         number_limit: event.activityNumLimit,
         start_time: event.activityStartTime,

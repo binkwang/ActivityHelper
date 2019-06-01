@@ -128,14 +128,14 @@
   padding-top: 5pt;
   padding-bottom: 5pt;
 
-  width: 70%;
+  width: 80%;
 
   display: -webkit-box;   
   word-break: break-all;
   text-overflow: ellipsis;
   overflow: hidden;      
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 20;
 }
 
 .detail-info-status-item-title{
