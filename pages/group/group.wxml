@@ -1,5 +1,5 @@
 
-<block wx:if='{{groupDetailLoaded && activitiesLoaded && usersLoaded}}' wx:for="{{activities}}">
+<block wx:if='{{groupDetailLoaded && activitiesLoaded}}' wx:for="{{activities}}">
 
   <view class='activity-list' bindtap='onItemClick' data-activityid='{{item._id}}'>
 

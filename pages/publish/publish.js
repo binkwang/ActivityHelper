@@ -2,6 +2,7 @@
 const app = getApp()
 const dateTimePicker = require('../../utils/dateTimePicker.js')
 const model = require('../../utils/model.js')
+const util = require('../../utils/util.js')
 
 Page({
 
@@ -36,6 +37,9 @@ Page({
     endDateTimeArray: null,
     originalEndDateTime: null,
     originalEndDateTimeArray: null,
+
+    weekDay: null,  // 周几 for UI display
+    endWeekDay: null,  // 周几 for UI display
   },
 
   onLoad: function (options) {
@@ -56,8 +60,10 @@ Page({
       dateTimeArray: startPicker.dateTimeArray,
       originalDateTime: startPicker.dateTime.slice(0),
       originalDateTimeArray: dateTimePicker.deepcopyArray(startPicker.dateTimeArray),
+      weekDay: this.getWeekDay(startPicker.dateTimeArray, startPicker.dateTime)
     });
 
+    
     // 获取完整的年月日 时分秒，以及默认显示的数组
     var endPicker = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
 
@@ -66,6 +72,7 @@ Page({
       endDateTimeArray: endPicker.dateTimeArray,
       originalEndDateTime: endPicker.dateTime.slice(0),
       originalEndDateTimeArray: dateTimePicker.deepcopyArray(endPicker.dateTimeArray),
+      endWeekDay: this.getWeekDay(endPicker.dateTimeArray, endPicker.dateTime)
     });
   },
 
@@ -223,6 +230,10 @@ Page({
     let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
     let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
 
+    // work around
+    // 解决真机测试获取的开始时间和结束时间不对
+    util.sleep(500) 
+
     wx.cloud.callFunction({
       name: 'publish_activity',
       data: {
@@ -270,10 +281,13 @@ Page({
    * picker的bind method
    */
   changeDateTime(e) {
+    this.data.dateTime = e.detail.value
+    this.data.originalDateTime = e.detail.value.slice(0)
+    this.data.originalDateTimeArray = dateTimePicker.deepcopyArray(this.data.dateTimeArray)
+
     this.setData({
-      dateTime: e.detail.value,
-      originalDateTime: e.detail.value.slice(0),
-      originalDateTimeArray: dateTimePicker.deepcopyArray(this.data.dateTimeArray),
+      dateTime: this.data.dateTime,
+      weekDay: this.getWeekDay(this.data.dateTimeArray, this.data.dateTime),
     });
   },
 
@@ -303,10 +317,13 @@ Page({
   },
 
   changeEndDateTime(e) {
+    this.data.endDateTime = e.detail.value
+    this.data.originalEndDateTime = e.detail.value.slice(0)
+    this.data.originalEndDateTimeArray = dateTimePicker.deepcopyArray(this.data.endDateTimeArray)
+
     this.setData({
-      endDateTime: e.detail.value,
-      originalEndDateTime: e.detail.value.slice(0),
-      originalEndDateTimeArray: dateTimePicker.deepcopyArray(this.data.endDateTimeArray),
+      endDateTime: this.data.endDateTime,
+      endWeekDay: this.getWeekDay(this.data.endDateTimeArray, this.data.endDateTime),
     });
   },
 
@@ -378,4 +395,9 @@ Page({
 
   },
 
+  // 获取星期
+  getWeekDay: function (dateTimeArray, dateTime) {
+    var timestamp = dateTimePicker.convertToTimetamp(dateTimeArray, dateTime)
+    return util.getWeekDay(timestamp)
+  },
 })

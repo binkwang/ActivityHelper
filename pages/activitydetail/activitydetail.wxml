@@ -45,14 +45,14 @@
     <view class="single-line"></view>
 
     <view class="extra-info-view" bindtap="editStartTime">
-      <text class='detail-info-item-title'>开始时间：{{detail.formatStartTime}}</text>
+      <text class='detail-info-item-title'>开始时间：{{detail.formatStartTime}} {{detail.startWeekDay}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 
     <view class="single-line"></view>
     
     <view class="extra-info-view" bindtap="editEndTime">
-      <text class='detail-info-item-title'>结束时间：{{detail.formatEndTime}}</text>
+      <text class='detail-info-item-title'>结束时间：{{detail.formatEndTime}} {{detail.endWeekDay}}</text>
       <image wx:if='{{isSponsor && !isActivityStarted}}' class="chevron-image" src='../../images/chevron.png'></image>
     </view>
 

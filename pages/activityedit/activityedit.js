@@ -33,6 +33,9 @@ Page({
     originalEndDateTime: null,
     originalEndDateTimeArray: null,
 
+    weekDay: null,  // 周几 for UI display
+    endWeekDay: null,  // 周几 for UI display
+
     //
     selectedActivityType: null,
     activityTypes: [], 
@@ -98,6 +101,7 @@ Page({
         dateTimeArray: startPicker.dateTimeArray,
         originalDateTime: startPicker.dateTime.slice(0),
         originalDateTimeArray: dateTimePicker.deepcopyArray(startPicker.dateTimeArray),
+        weekDay: this.getWeekDay(startPicker.dateTimeArray, startPicker.dateTime)
       });
 
       // 获取完整的年月日 时分秒，以及默认显示的数组
@@ -108,6 +112,7 @@ Page({
         endDateTimeArray: endPicker.dateTimeArray,
         originalEndDateTime: endPicker.dateTime.slice(0),
         originalEndDateTimeArray: dateTimePicker.deepcopyArray(endPicker.dateTimeArray),
+        endWeekDay: this.getWeekDay(endPicker.dateTimeArray, endPicker.dateTime)
       });
     }
 
@@ -345,10 +350,13 @@ Page({
    * picker的bind method
    */
   changeDateTime(e) {
+    this.data.dateTime = e.detail.value
+    this.data.originalDateTime = e.detail.value.slice(0)
+    this.data.originalDateTimeArray = dateTimePicker.deepcopyArray(this.data.dateTimeArray)
+
     this.setData({
-      dateTime: e.detail.value,
-      originalDateTime: e.detail.value.slice(0),
-      originalDateTimeArray: dateTimePicker.deepcopyArray(this.data.dateTimeArray),
+      dateTime: this.data.dateTime,
+      weekDay: this.getWeekDay(this.data.dateTimeArray, this.data.dateTime),
     });
   },
 
@@ -378,10 +386,13 @@ Page({
   },
 
   changeEndDateTime(e) {
+    this.data.endDateTime = e.detail.value
+    this.data.originalEndDateTime = e.detail.value.slice(0)
+    this.data.originalEndDateTimeArray = dateTimePicker.deepcopyArray(this.data.endDateTimeArray)
+
     this.setData({
-      endDateTime: e.detail.value,
-      originalEndDateTime: e.detail.value.slice(0),
-      originalEndDateTimeArray: dateTimePicker.deepcopyArray(this.data.endDateTimeArray),
+      endDateTime: this.data.endDateTime,
+      endWeekDay: this.getWeekDay(this.data.endDateTimeArray, this.data.endDateTime),
     });
   },
 
@@ -453,4 +464,9 @@ Page({
 
   },
 
+  // 获取星期
+  getWeekDay: function (dateTimeArray, dateTime) {
+    var timestamp = dateTimePicker.convertToTimetamp(dateTimeArray, dateTime)
+    return util.getWeekDay(timestamp)
+  },
 })

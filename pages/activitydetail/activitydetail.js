@@ -74,6 +74,9 @@ Page({
           activitydetail.formatEndTime = util.formatTime(new Date(activitydetail.end_time))
           activitydetail.formatPublishTime = util.formatTime(new Date(activitydetail.publish_time))
 
+          activitydetail.startWeekDay = util.getWeekDay(activitydetail.start_time)
+          activitydetail.endWeekDay = util.getWeekDay(activitydetail.end_time)
+
           activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
           if (activitydetail.sponsor_id == app.globalData.openId) {
@@ -178,11 +181,12 @@ Page({
     var that = this
 
     if (this.data.shouldRefreshActivityDetails) {
-      this.getActivityDetail(this.data.activityId)
-
-      this.setData({
-        shouldRefreshActivityDetails: false
+      wx.showLoading({
+        title: '加载中',
       })
+
+      this.getActivityDetail(this.data.activityId)
+      this.data.shouldRefreshActivityDetails = false
     }
 
   },
@@ -223,8 +227,7 @@ Page({
    */
   checkLoadFinish: function() {
     if (this.data.contentLoaded && this.data.participationsLoaded) {
-      console.log("this.data.detail.number_limit: ", this.data.detail.number_limit)
-      console.log("this.data.participations.length: ", this.data.participations.length)
+      console.log("数据加载完成")
       wx.hideLoading()
     }
   },

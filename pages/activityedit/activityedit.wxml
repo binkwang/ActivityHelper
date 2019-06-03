@@ -9,7 +9,6 @@
     <view class="layout_horizontal">
       <image class="item-image" src='../../images/required-item.png'></image>
       <text class="item-hint">活动类型</text>
-      <text class="current-selected-value">{{selectedActivityType.typeName}}</text>
     </view>
 
     <template is="activityTypesTemplate" data="{{activityTypes}}" />
@@ -85,7 +84,7 @@
 
       <view class="layout_horizontal time-item-container">
         <view class="sub-label">
-        {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}
+        {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}} {{weekDay}}
         </view>
         <image class="chevron-image" src='../../images/chevron.png'></image>
       </view>
@@ -104,7 +103,7 @@
 
       <view class="layout_horizontal time-item-container">
         <view class="sub-label">
-        {{endDateTimeArray[0][endDateTime[0]]}}-{{endDateTimeArray[1][endDateTime[1]]}}-{{endDateTimeArray[2][endDateTime[2]]}} {{endDateTimeArray[3][endDateTime[3]]}}:{{endDateTimeArray[4][endDateTime[4]]}}
+        {{endDateTimeArray[0][endDateTime[0]]}}-{{endDateTimeArray[1][endDateTime[1]]}}-{{endDateTimeArray[2][endDateTime[2]]}} {{endDateTimeArray[3][endDateTime[3]]}}:{{endDateTimeArray[4][endDateTime[4]]}} {{endWeekDay}}
         </view>
         <image class="chevron-image" src='../../images/chevron.png'></image>
       </view>

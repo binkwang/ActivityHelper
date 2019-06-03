@@ -15,7 +15,6 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
-
 // 判断字符串是否为空
 function isEmpty(str) {
   if (!str) return true; // !str可同时判断null 和 undefined
@@ -25,7 +24,29 @@ function isEmpty(str) {
   return re.test(str);
 }
 
+function sleep(delay) {
+  var start = (new Date()).getTime();
+  while ((new Date()).getTime() - start < delay) {
+    continue;
+  }
+}
+
+// 根据时间戳获取周几
+function getWeekDay(timestamp) {
+  // formatDateTime 格式为 "2019-06-03 14:47:30"
+  var formatDateTime = formatTime(new Date(timestamp))
+
+  // 获取日期字符串， 如"2019-06-03"
+  var dateStr = formatDateTime.substring(0, 10) 
+  var myDate = new Date(Date.parse(dateStr.replace(/-/g, "/")));
+
+  var weekDay = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  return weekDay[myDate.getDay()];
+}
+
 module.exports = {
   formatTime: formatTime,
-  isEmpty: isEmpty
+  getWeekDay: getWeekDay,
+  isEmpty: isEmpty,
+  sleep: sleep
 }

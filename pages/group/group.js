@@ -88,11 +88,12 @@ Page({
     var that = this
 
     if (this.data.shouldRefreshActivities) {
-      this.getActivities()
-
-      this.setData({
-        shouldRefreshActivities: false
+      wx.showLoading({
+        title: '加载中',
       })
+      
+      this.getActivities()
+      this.data.shouldRefreshActivities = fasle
     }
   },
 
@@ -118,7 +119,6 @@ Page({
     // 这样给data能避免页面刷新
     this.data.groupDetailLoaded = false; 
     this.data.activitiesLoaded = false;
-    this.data.usersLoaded = false;
 
     wx.showLoading({
       title: '加载中',
@@ -161,7 +161,7 @@ Page({
 
   loadPageData: function (groupId) {
     this.getGroupDetails(groupId)
-    this.getUsers(groupId)
+    // this.getUsers(groupId)
     this.getActivities(groupId)
   },
 
@@ -225,7 +225,6 @@ Page({
 
         if (data.length > 0) {
           var detail = data[0]
-          detail.create_time = util.formatTime(new Date(detail.create_time))
 
           that.setData({
             groupDetail: detail,
@@ -311,14 +310,8 @@ Page({
         var currentTime = res.result.currentTime
         var data = res.result.activities.data
         for (let i = 0; i < data.length; i++) {
-          console.log('获取活动列表..')
-          console.log(data[i])
           data[i].activity_status = that.getActivityStatus(data[i].start_time, data[i].end_time, currentTime)
           data[i].activity_type = model.getActivityType(data[i].activity_type)
-          
-          data[i].publish_time = util.formatTime(new Date(data[i].publish_time))
-          data[i].start_time = util.formatTime(new Date(data[i].start_time))
-          data[i].end_time = util.formatTime(new Date(data[i].end_time))
         }
         
         that.setData({
@@ -347,9 +340,7 @@ Page({
       success: function (res) {
         var data = res.result.users.data
         for (let i = 0; i < data.length; i++) {
-          console.log('获取群成员列表..')
-          console.log(data[i])
-          data[i].join_time = util.formatTime(new Date(data[i].join_time))
+          console.log('获取群成员列表..', data[i])
         }
 
         that.setData({
@@ -366,9 +357,8 @@ Page({
   checkLoadFinish: function () {
 
     if (this.data.groupDetailLoaded 
-    && this.data.activitiesLoaded 
-    && this.data.usersLoaded) {
-      console.log("全部数据加载完成")
+    && this.data.activitiesLoaded) {
+      console.log("数据加载完成")
       wx.hideLoading()
       wx.stopPullDownRefresh()
     }

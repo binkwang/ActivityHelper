@@ -120,7 +120,6 @@ Page({
 
         for (let i = 0; i < data.length; i++) {
           console.log(data[i])
-          data[i].join_time = util.formatTime(new Date(data[i].join_time))
         }
 
         that.setData({

@@ -1,3 +1,4 @@
+
 function withData(param) {
   return param < 10 ? '0' + param : '' + param;
 }
@@ -107,8 +108,6 @@ function convertToTimetamp(dateTimeArray, dateTime) {
     + dateTimeArray[2][dateTime[2]] + ' '
     + dateTimeArray[3][dateTime[3]] + ':'
     + dateTimeArray[4][dateTime[4]] + ':00';
-
-  //var timestamp = new Date(date).getTime();
 
   return new Date(date).getTime();
 }
