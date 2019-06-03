@@ -46,10 +46,12 @@
 .new-post-image{
   float: right;
   position: fixed;
-  bottom: 60rpx;
-  right: 60rpx;
+  bottom: 80rpx;
+  right: 80rpx;
   width: 140rpx;
   height: 140rpx;
+  border-radius: 50%;
+  /* box-shadow: 3px 1px 1px 1px #666666; */
 }
 
 .activity-list{

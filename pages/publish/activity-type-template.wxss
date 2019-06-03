@@ -1,6 +1,7 @@
 .weui-grids {
   position: relative;
   overflow: hidden;
+  margin-top: 5px;
 }
 
 .weui-grid {
@@ -40,6 +41,7 @@
   width: 18px;
   height: 18px;
   margin: 0 auto;
+  margin-top: 2px;
 }
 
 .weui-grid__icon image {
@@ -49,7 +51,7 @@
 }
  
 .weui-grid__icon + .weui-grid__label {
-  margin-top: 5px;
+  margin-top: 2px;
 }
  
 .weui-grid__label {

@@ -4,11 +4,9 @@
 
   <!-- 活动类型 -->
   <view class="section-container">
-
     <view class="layout_horizontal">
       <image class="item-image" src='../../images/required-item.png'></image>
       <text class="item-hint">活动类型</text>
-      <!-- <text class="current-selected-value">{{selectedActivityType.typeName}}</text> -->
     </view>
 
     <template is="activityTypesTemplate" data="{{activityTypes}}" />
