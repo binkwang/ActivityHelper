@@ -15,7 +15,8 @@
 <!-- activityTypeItemTemplate -->
 
 <template name="activityTypeItemTemplate">
-  <view class="{{isSelected?'selected':'normal'}}" catchtap='activityTypeSelected' data-itemId="{{typeId}}">
+
+<view class="activity-type-item-container-view {{isSelected?'selected':'normal'}}" catchtap='activityTypeSelected' data-itemId="{{typeId}}">
 
     <view class="weui-grid__bg">
       <view class="weui-grid__icon">

@@ -1,1 +1,4 @@
-{}
+{
+    "enablePullDownRefresh": false,
+    "navigationBarTitleText": "发布新活动"
+}

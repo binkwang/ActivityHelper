@@ -11,21 +11,8 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "NZ活动助手",
-    "navigationBarTextStyle": "white"
-  },
-  "tabBar--暂时不需要": {
-    "selectedColor": "#00BFFF",
-    "list": [
-      {
-        "pagePath": "pages/group/group",
-        "text": "发现"
-      },
-      {
-        "pagePath": "pages/logs/logs",
-        "text": "我的"
-      }
-    ]
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#111111"
   },
   "cloud": true,
   "sitemapLocation": "sitemap.json"

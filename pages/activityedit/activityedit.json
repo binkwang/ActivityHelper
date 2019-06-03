@@ -1,4 +1,4 @@
 {
-  "enablePullDownRefresh": true,
-  "backgroundTextStyle": "light"
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "修改"
 }

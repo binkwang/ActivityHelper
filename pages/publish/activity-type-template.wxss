@@ -1,83 +1,32 @@
-.selected{
-  background-color: red;
-}
-.normal{
-  background-color: #ffffff;
-}
-
 .weui-grids {
   position: relative;
   overflow: hidden;
 }
 
-.weui-grids:before {
-  content: " ";
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  height: 1px;
-  border-top: 0px solid rgba(252, 189, 27, 0.2);
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-  -webkit-transform: scaleY(0.5);
-  transform: scaleY(0.5);
-} 
- 
-.weui-grids:after {
-  content: " ";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1px;
-  bottom: 0;
-  border-left: 0px solid rgba(252, 189, 27, 0.2);
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-  -webkit-transform: scaleX(0.5);
-  transform: scaleX(0.5);
-} 
- 
 .weui-grid {
   position: relative;
   float: left;
-  padding: 10px;
+  padding: 5px;
   width: 20%;
   box-sizing: border-box;
   border-radius: 3px;
 }
- 
- .weui-grid:before {
-  content: " ";
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 1px;
-  bottom: 0;
-  border-right: 0px solid rgba(252, 189, 27, 0.2);
-  -webkit-transform-origin: 100% 0;
-  transform-origin: 100% 0;
-  -webkit-transform: scaleX(0.5);
-  transform: scaleX(0.5);
-} 
- 
- .weui-grid:after {
-  content: " ";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  height: 1px;
-  border-bottom: 0px solid rgba(252, 189, 27, 0.2);
-  -webkit-transform-origin: 0 100%;
-  transform-origin: 0 100%;
-  -webkit-transform: scaleY(0.5);
-  transform: scaleY(0.5);
-} 
- 
-.weui-grid:active {
-  background-color: rgba(252, 189, 27, 0.2)
-}  
+
+.activity-type-item-container-view {
+  position: relative;
+  float: left;
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+  border-radius: 3px;
+}
+
+.selected{
+  background-color: rgba(252, 189, 27, 0.2);
+}
+.normal{
+  background-color: rgb(51, 51, 51);
+}
 
 .weui-grid__bg {
   position: relative;
