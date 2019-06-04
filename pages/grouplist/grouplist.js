@@ -8,7 +8,7 @@ Page({
    */
   data: {
     groupList: null,
-    openGid: '',
+    shouldReloadData: false,
   },
 
   /**
@@ -22,21 +22,59 @@ Page({
       withShareTicket: true
     })
 
-    wx.getStorage({
-      key: app.globalData.userInfo,
-
-      success: function (res) {
-        app.globalData.currentNickName = res.nickName
-        app.globalData.currentAvatarUrl = res.avatarUrl
-      },
-      fail: function () {
-        that.getUserInfo()
-      }
+    app.setUserInfo(function () {
+      wx.startPullDownRefresh()
+      wx.showLoading({
+        title: '加载中',
+      })
+      that.getGroupList()
+    },
+    function () {
+      that.navigateToAuthPage()
     })
+  },
 
-    wx.startPullDownRefresh()
-    this.refresh()
+  /**
+   * 刷新数据
+   */
+  getGroupList: function () {
+    var that = this
 
+    wx.cloud.callFunction({
+      name: 'get_group_list_for_user',
+      
+      success: function (res) {
+        var data = res.result.groupList.data
+
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i])
+        }
+
+        that.setData({
+          groupList: data
+        })
+
+        wx.hideLoading()
+        wx.stopPullDownRefresh()
+      },
+      fail: console.error
+    })
+  },
+
+  navigateToAuthPage: function () {
+    wx.navigateTo({
+      url: '/pages/authorize/authorize',
+    })
+  },
+
+  onItemClick: function (e) {
+    let groupId = e.currentTarget.dataset.groupid
+    console.log("groupId: ", groupId)
+
+    wx.navigateTo({
+      //parentType=1代表从前一个list页面跳转过去 (后面不能有逗号)
+      url: '../group/group?groupId=' + groupId + '&parentType=1'
+    })
   },
 
   /**
@@ -50,7 +88,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    if (this.data.shouldReloadData) {
 
+      wx.startPullDownRefresh()
+
+      wx.showLoading({
+        title: '加载中',
+      })
+
+      this.getGroupList()
+      this.data.shouldReloadData = false
+    } 
   },
 
   /**
@@ -71,7 +119,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.refresh()
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    this.getGroupList()
   },
 
   /**
@@ -91,79 +143,6 @@ Page({
       path: '/pages/group/group'
     }
 
-  },
-
-  onItemClick: function (e) {
-    let groupId = e.currentTarget.dataset.groupid
-    console.log("groupId: ", groupId)
-    
-    wx.navigateTo({
-      //parentType=1代表从前一个list页面跳转过去 (后面不能有逗号)
-      url: '../group/group?groupId=' + groupId + '&parentType=1' 
-    })
-  },
-
-  /**
-   * 刷新数据
-   */
-  refresh: function () {
-    var that = this
-
-    wx.showLoading({
-      title: '加载中',
-    })
-
-    wx.cloud.callFunction({
-      name: 'get_group_list_for_user',
-      success: function (res) {
-        var data = res.result.groupList.data
-
-        for (let i = 0; i < data.length; i++) {
-          console.log(data[i])
-        }
-
-        that.setData({
-          groupList: data
-        })
-
-        wx.hideLoading()
-        wx.stopPullDownRefresh()
-      },
-      fail: console.error
-    })
-  },
-
-  getUserInfo: function () {
-    var that = this
-
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: res => {
-
-              wx.setStorage({
-                key: app.globalData.userInfo,
-                data: res.userInfo,
-              })
-
-              app.globalData.currentNickName = res.userInfo.nickName
-              app.globalData.currentAvatarUrl = res.userInfo.avatarUrl
-            },
-            fail: function () {
-              console.log('getUserInfo fail..')
-            }
-          })
-
-        } else {
-          // 跳转到授权页面 
-          wx.navigateTo({
-            url: '/pages/authorize/authorize',
-          })
-        }
-      }
-    })
   },
 
 })

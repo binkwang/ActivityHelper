@@ -17,9 +17,7 @@ exports.main = async (event, context) => {
         _id: event.group_id,
         group_id: event.groupId,
         create_time: timestamp,
-        creater_id: event.userInfo.openId, //创建者id，能否根据openId获取nick_name/avatar_url？
-        nick_name: event.nick_name, // 创建者昵称，怎样保证昵称和头像是最新的？
-        avatar_url: event.avatar_url, // 创建者头像
+        creater_id: event.userInfo.openId, //创建者id
       }
     })
   } catch (e) {

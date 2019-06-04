@@ -256,6 +256,7 @@ Page({
         prevPage.setData({
           shouldRefreshActivities: true
         })
+        
         wx.hideLoading()
 
         wx.navigateBack({

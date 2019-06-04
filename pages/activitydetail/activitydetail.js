@@ -11,6 +11,8 @@ Page({
     // 外部传入
     activityId: '', 
 
+    openId: '', // 当前用户id, 用来判断：1.当前用户是不是发起者 2.当前用户有没有参加该活动
+
     // 获取activity detail之后赋值
     contentLoaded: false,
     detail: {},
@@ -42,13 +44,13 @@ Page({
       activityId: options.activityId
     })
 
+    app.getOpenId(function (openId) {
+      that.data.openId = openId
+      that.checkLoadFinish()
+    })
+
     this.getActivityDetail(this.data.activityId)
     this.refreshParticipations(this.data.activityId)
-
-    // app.getLoginCode(function () {
-    //   that.getActivityDetail(that.data.activityId)
-    //   that.refreshParticipations(that.data.activityId)
-    // })
   },
 
   getActivityDetail: function (activityId) {
@@ -79,7 +81,7 @@ Page({
 
           activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
-          if (activitydetail.sponsor_id == app.globalData.openId) {
+          if (activitydetail.sponsor_id == that.data.openId) {
             that.data.isSponsor = true
           }
 
@@ -226,7 +228,7 @@ Page({
    * 判断当前用户是否已经参加
    */
   checkLoadFinish: function() {
-    if (this.data.contentLoaded && this.data.participationsLoaded) {
+    if (this.data.contentLoaded && this.data.participationsLoaded && this.data.openId!="") {
       console.log("数据加载完成")
       wx.hideLoading()
     }
@@ -242,7 +244,7 @@ Page({
     })
 
     for (let i = 0; i < participations.length; i++) {
-      if (participations[i].participant_id == app.globalData.openId) {
+      if (participations[i].participant_id == this.data.openId) {
         this.setData({
           hasEnrolled: true,
           participationId: participations[i]._id

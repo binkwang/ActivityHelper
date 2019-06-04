@@ -3,9 +3,6 @@ const app = getApp()
 const util = require('../../utils/util.js');  
 const model = require('../../utils/model.js')
 
-// TODO:
-// 多个接口合成一个，放在云端，加快网络请求速度
-
 Page({
 
   /**
@@ -14,14 +11,18 @@ Page({
   data: {
     groupId: '', // 用户显示该group的活动
     parentType: '', // '0'-从list页面进入，'1'-从shared card进去
-    groupDetail: '', // 暂时没用到
-    users: [], // 显示群成员
-    activities: [],
+
     groupDetailLoaded: false,
+    groupDetail: '', // 数据, 仅用来验证当前数据库中有没有该群
+
     activitiesLoaded: false,
-    usersLoaded: false,
-    shouldRefreshActivities: false, // 发布新活动后的刷新标记
-    canIUse: wx.canIUse('button.open-type.getUserInfo') //TODO： 获取用户信息
+    activities: [],
+
+    usersLoaded: false, // 群成员, 暂时没用到
+    users: [], // 群成员, 暂时没用到
+    
+    shouldRefreshActivities: false, // 发布活动后的刷新标记
+    canIUse: wx.canIUse('button.open-type.getUserInfo') //TODO: 获取用户信息
   },
 
   /**
@@ -44,28 +45,32 @@ Page({
     // 点击shard card跳转到此页面
     // 如果是第一次点击shard card，则该群在数据库中还不存在，要建群，然后把当前用户加入群中
 
+    // TODO: 由share ticket进入group页面，再回到home页面，再导航到group，要把app.globalData.shareTicket清除，不然出错
+
+
     let shareTicket = app.globalData.shareTicket
 
     console.log('group page, shareTicket:', shareTicket)
 
     if (shareTicket) {
 
-      // getLoginCode参数是一个回调函数
-      app.getLoginCode(function () {
-        that.getShareInfo(shareTicket)
+      // TODO: 测试 addUserToGroup
+      // getUserInfo ????????
+      app.setUserInfo(function () {
+        that.navigateToAuthPage()
       })
 
-      // TODO：getUserInfo
 
-
-      
+      app.getGroupId(function (groupId) {
+        that.data.groupId = groupId
+        that.data.parentType = "0" // 从share ticket进入
+        that.loadPageData(groupId)
+      })
 
     } else if (options.groupId) {
 
-      this.setData({
-        groupId: options.groupId,
-        parentType: options.parentType
-      })
+      this.data.groupId = options.groupId
+      this.data.parentType = options.parentType
 
       this.loadPageData(this.data.groupId)
 
@@ -74,90 +79,6 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    var that = this
-
-    if (this.data.shouldRefreshActivities) {
-      wx.showLoading({
-        title: '加载中',
-      })
-      
-      this.getActivities()
-      this.data.shouldRefreshActivities = fasle
-    }
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-    // 这样给data能避免页面刷新
-    this.data.groupDetailLoaded = false; 
-    this.data.activitiesLoaded = false;
-
-    wx.showLoading({
-      title: '加载中',
-    })
-
-    this.loadPageData(this.data.groupId)
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    // TODO 主体功能完备后要支持分页加载
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-
-  /**
-   * 带参跳转
-   */
-  newPost: function(e) {
-    wx.navigateTo({
-      url: '../publish/publish?groupId=' + this.data.groupId,
-    })
-  },
-  
-  onItemClick: function (e) {
-    let activityId = e.currentTarget.dataset.activityid
-    console.log("activityId:", activityId)
-
-    wx.navigateTo({
-      url: '../activitydetail/activitydetail?activityId=' + activityId,
-    })
-  },
 
   loadPageData: function (groupId) {
     this.getGroupDetails(groupId)
@@ -165,52 +86,9 @@ Page({
     this.getActivities(groupId)
   },
 
-  getShareInfo: function (shareTicket) {
-    let that = this
-
-    wx.getShareInfo({
-      shareTicket: shareTicket,
-
-      success: function (res) {
-        console.log('打印 getShareInfo:' + JSON.stringify(res))
-        that.getGroupId(res.encryptedData, res.iv)
-      }
-    })
-  },
-
-  getGroupId: function (encryptedData, iv) {
-    let that = this
-
-    wx.cloud.callFunction({
-      name: 'get_opengid',
-      data: {
-        js_code: app.globalData.loginCode,
-        appId: app.globalData.appId,
-        encryptedData: encryptedData,
-        iv: iv
-      },
-      success: function (res) {
-        console.log('打印 get_opengid success res: ' + JSON.stringify(res))
-        console.log('打印 get_opengid success openGId: ' + res.result.openGId)
-
-        // set data
-        that.setData({
-          groupId: res.result.openGId,
-          parentType: '0' // 从share ticket进入
-        })
-
-        that.loadPageData(that.data.groupId)
-      },
-      fail: function (err) {
-        console.log('打印 get_opengid err: ' + JSON.stringify(err))
-      }
-    })
-  },
 
   getGroupDetails: function (groupId) {
     var that = this
-
-    console.log('加载群详情..')
 
     wx.cloud.callFunction({
       name: 'get_group',
@@ -263,8 +141,6 @@ Page({
 
       data: {
         groupId: this.data.groupId,
-        nick_name: app.globalData.currentNickName,
-        avatar_url: app.globalData.currentAvatarUrl,
       },
 
       success: function (res) {
@@ -277,6 +153,7 @@ Page({
   },
 
   // 当前用户入群，即使该成员已经入群，调用该函数也没有影响
+  // (目前没用到群成员数据)
   addUserToGroup: function (groupId) {
     var that = this
     
@@ -379,8 +256,97 @@ Page({
       activityStatus = model.getActivityStatus(model.activityStatus.inProgress)
     }
     return activityStatus;
+  },
 
-  }
+  navigateToAuthPage: function () {
+    wx.navigateTo({
+      url: '/pages/authorize/authorize',
+    })
+  },
 
+  /**
+   * 带参跳转
+   */
+  newPost: function (e) {
+    wx.navigateTo({
+      url: '../publish/publish?groupId=' + this.data.groupId,
+    })
+  },
+
+  onItemClick: function (e) {
+    let activityId = e.currentTarget.dataset.activityid
+    console.log("activityId:", activityId)
+
+    wx.navigateTo({
+      url: '../activitydetail/activitydetail?activityId=' + activityId,
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+    // 这样给data能避免页面刷新
+    this.data.groupDetailLoaded = false;
+    this.data.activitiesLoaded = false;
+
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    this.loadPageData(this.data.groupId)
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    var that = this
+
+    if (this.data.shouldRefreshActivities) {
+      wx.showLoading({
+        title: '加载中',
+      })
+
+      this.getActivities()
+      this.data.shouldRefreshActivities = fasle
+    }
+  },
 
 })
