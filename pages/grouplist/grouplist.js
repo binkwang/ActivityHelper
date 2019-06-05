@@ -8,7 +8,7 @@ Page({
    */
   data: {
     groupList: null,
-    shouldReloadData: false,
+    fromAuthPage: false,
   },
 
   /**
@@ -72,8 +72,7 @@ Page({
     console.log("groupId: ", groupId)
 
     wx.navigateTo({
-      //parentType=1代表从前一个list页面跳转过去 (后面不能有逗号)
-      url: '../group/group?groupId=' + groupId + '&parentType=1'
+      url: '../group/group?groupId=' + groupId
     })
   },
 
@@ -88,16 +87,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if (this.data.shouldReloadData) {
 
+    // 首页显示，shareTicket设为null，避免从group list再次进入group页面时shareTicket仍然有值
+    app.clearShareTicket()
+
+    if (this.data.fromAuthPage) {
       wx.startPullDownRefresh()
-
       wx.showLoading({
         title: '加载中',
       })
-
       this.getGroupList()
-      this.data.shouldReloadData = false
+      this.data.fromAuthPage = false
     } 
   },
 
@@ -107,13 +107,6 @@ Page({
   onHide: function () {
 
   },
-
-  // /**
-  //  * 生命周期函数--监听页面卸载
-  //  */
-  // onUnload: function () {
-
-  // },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -137,12 +130,10 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
     return {
-      title: '000000',
+      title: 'BlaBlaCat活动助手',
       path: '/pages/group/group'
     }
-
   },
 
 })

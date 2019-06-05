@@ -1,1 +1,11 @@
-{}
+{
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#111111"
+  },
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "授权"
+}

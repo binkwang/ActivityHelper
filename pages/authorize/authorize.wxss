@@ -8,7 +8,64 @@
   justify-content: center;
 }
 
-.tips{
-  color: gray;
-  margin-top: 40rpx;
+
+.section-container{
+  height: auto;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0);
+
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 20pt;
+  margin-bottom: 0pt;
+
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.text{
+  margin: 0 auto;
+  font-size: 8pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204); 
+}
+
+.tips-text{
+  margin: 0 auto;
+  font-size: 6pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: rgb(204, 204, 204); 
+}
+
+.logo{
+  margin: 0 auto;
+  margin-top: 0rpx;
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.allow_button {
+  position: relative;
+  float: left;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 3px;
+
+  font-size: 10pt;
+  background-color: #FCBD1B;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.single-line{
+  margin-top: 10pt;
+  background: rgb(34, 34, 34);
+  height: 3rpx;
+
+  margin-left: 10pt;
+  margin-right: 10pt;
 }

@@ -9,8 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupId: '', // 用户显示该group的活动
-    parentType: '', // '0'-从list页面进入，'1'-从shared card进去
+    groupId: null, // 用户显示该group的活动
+    parentType: null, // '0'-从list页面进入，'1'-从shared card进去
 
     groupDetailLoaded: false,
     groupDetail: '', // 数据, 仅用来验证当前数据库中有没有该群
@@ -21,7 +21,7 @@ Page({
     usersLoaded: false, // 群成员, 暂时没用到
     users: [], // 群成员, 暂时没用到
     
-    shouldRefreshActivities: false, // 发布活动后的刷新标记
+    fromAuthPage: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo') //TODO: 获取用户信息
   },
 
@@ -41,36 +41,34 @@ Page({
     })
 
     // 此页面的父页面有两个来源：
-    // 从上个页面的列表里面点击，此时这个群在数据库中肯定存在；
-    // 点击shard card跳转到此页面
+    // 1. 从上个页面的列表里面点击，此时这个群在数据库中肯定存在；
+    // 2. 点击shard card跳转到此页面
     // 如果是第一次点击shard card，则该群在数据库中还不存在，要建群，然后把当前用户加入群中
 
-    // TODO: 由share ticket进入group页面，再回到home页面，再导航到group，要把app.globalData.shareTicket清除，不然出错
-
-
     let shareTicket = app.globalData.shareTicket
-
-    console.log('group page, shareTicket:', shareTicket)
+    console.log("group page, shareTicket: ", shareTicket)
 
     if (shareTicket) {
 
-      // TODO: 测试 addUserToGroup
-      // getUserInfo ????????
+      // setUserInfo & getGroupIdWithShareTicket 并发执行
+
       app.setUserInfo(function () {
-        that.navigateToAuthPage()
+        that.checkIsReadyToLoadPageData()
+      },
+        function () {
+          that.navigateToAuthPage()
       })
 
-
-      app.getGroupId(function (groupId) {
-        that.data.groupId = groupId
+      app.getGroupIdWithShareTicket(shareTicket, function (groupId) {
         that.data.parentType = "0" // 从share ticket进入
-        that.loadPageData(groupId)
+        that.data.groupId = groupId
+
+        that.checkIsReadyToLoadPageData()
       })
 
     } else if (options.groupId) {
-
+      this.data.parentType = "1" // 从group list页面进入
       this.data.groupId = options.groupId
-      this.data.parentType = options.parentType
 
       this.loadPageData(this.data.groupId)
 
@@ -79,13 +77,19 @@ Page({
     }
   },
 
+  checkIsReadyToLoadPageData: function () {
+    if (this.data.groupId && this.data.parentType 
+    && app.globalData.currentNickName && app.globalData.currentAvatarUrl) {
+
+      this.loadPageData(this.data.groupId)
+    }
+  },
 
   loadPageData: function (groupId) {
     this.getGroupDetails(groupId)
     // this.getUsers(groupId)
     this.getActivities(groupId)
   },
-
 
   getGroupDetails: function (groupId) {
     var that = this
@@ -109,7 +113,7 @@ Page({
             groupDetailLoaded: true
           })
 
-          that.checkLoadFinish()
+          that.checkIsLoadFinished()
 
           // 如果用户从群分享卡片点击进入，该用户可能未加入
           // 获取群信息成功之后，使用户入群
@@ -196,7 +200,7 @@ Page({
           activitiesLoaded: true
         })
 
-        that.checkLoadFinish()
+        that.checkIsLoadFinished()
       },
       fail: console.error
     })
@@ -225,13 +229,13 @@ Page({
           usersLoaded: true
         })
 
-        that.checkLoadFinish()
+        that.checkIsLoadFinished()
       },
       fail: console.error
     })
   },
 
-  checkLoadFinish: function () {
+  checkIsLoadFinished: function () {
 
     if (this.data.groupDetailLoaded 
     && this.data.activitiesLoaded) {
@@ -323,7 +327,10 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return {
+      title: 'BlaBlaCat活动助手',
+      path: '/pages/group/group'
+    }
   },
 
   /**
@@ -339,13 +346,15 @@ Page({
   onShow: function () {
     var that = this
 
-    if (this.data.shouldRefreshActivities) {
+    if (this.data.fromAuthPage) {
+
       wx.showLoading({
         title: '加载中',
       })
 
-      this.getActivities()
-      this.data.shouldRefreshActivities = fasle
+      this.checkIsReadyToLoadPageData()
+
+      this.data.fromAuthPage = fasle
     }
   },
 

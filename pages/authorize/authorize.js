@@ -10,7 +10,7 @@ Page({
 
   },
 
-  bindGetUserInfo: function (e) {
+  onGotUserInfo: function (e) {
     console.log(e)
 
     if (e.detail.userInfo) { // 用户按了允许授权按钮
@@ -27,7 +27,7 @@ Page({
       var prevPage = pages[pages.length - 2];    // 上一个页面
 
       prevPage.setData({
-        shouldReloadData: true
+        fromAuthPage: true
       })
 
       wx.navigateBack({
@@ -43,7 +43,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.hideShareMenu();
   },
 
   /**

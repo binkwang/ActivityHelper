@@ -58,6 +58,8 @@ Page({
    */
   onLoad: function (options) {
 
+    wx.hideShareMenu();
+
     var that = this
 
     this.setData({

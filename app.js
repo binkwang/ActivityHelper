@@ -4,21 +4,17 @@ const util = require('./utils/util.js');
 App({
 
   globalData: {
-    shareTicket: '',
+    shareTicket: null,
     loginCode: null, // 用在group页面，用于解析groupId
     shareInfoEncryptedData: null,
     shareInfoIV: null,
     getGroupIdSuccessCallBack: null,
-
-    
 
     kUserInfo: 'userInfo',
     currentNickName: null,
     currentAvatarUrl: null,
 
     appId: 'wxb1684ec13bc817a2',
-
-    
   },
 
   onLaunch: function (options) {
@@ -31,16 +27,13 @@ App({
   },
 
   onShow: function (options) {
-    var that = this
+    this.globalData.shareTicket = options.shareTicket
+    console.log("app, this.globalData.shareTicket: ", this.globalData.shareTicket)
+  },
 
-    let shareTicket = options.shareTicket
-    console.log("app shareTicket: ", shareTicket)
-
-    if (shareTicket) {
-      this.globalData.shareTicket = shareTicket
-    } else {
-
-    }
+  onHide: function (options) {
+    console.log("app onHide...")
+    // this.clearUserInfo()
   },
 
   redirectToHomePage() {
@@ -49,17 +42,18 @@ App({
     })
   },
 
-
-
-  getGroupId: function (successCallBack) {
+  // 在以下场景被调用：
+  // 用户点击share ticket，在调转到达的页面被调用，如group页面
+  // 参数：1. shareTicket 
+  // 参数：2. successCallBack 是一个回调函数，在获取group id成功是调用，把group id传回group页面
+  getGroupIdWithShareTicket: function (shareTicket, successCallBack) {
     this.globalData.getGroupIdSuccessCallBack = successCallBack
+
+    // getLoginCode & getShareInfo 两个请求并发执行
     this.getLoginCode()
     this.getShareInfo(shareTicket)
   },
 
-
-
-  // 只在group页面调用，获取loginCode，用于解析groupId
   getLoginCode() {
     let that = this
 
@@ -68,7 +62,7 @@ App({
         console.log('获取login code成功: ' + res.code)
         that.globalData.loginCode = res.code
 
-        that.check()
+        that.checkIsReadyToParseGroupId()
       }
     })
   },
@@ -80,52 +74,62 @@ App({
       shareTicket: shareTicket,
 
       success: function (res) {
-        console.log('shareInfo:' + JSON.stringify(res))
-
         that.globalData.shareInfoEncryptedData = res.encryptedData
         that.globalData.shareInfoIV = res.iv
 
-        that.check()
+        console.log("shareInfoEncryptedData---: ", that.globalData.shareInfoEncryptedData)
+        console.log("shareInfoIV---: ", that.globalData.shareInfoIV)
+
+        that.checkIsReadyToParseGroupId()
       }
     })
   },
 
-  check: function () {
+  // 所有参数都就绪之后，调用getGroupId
+  checkIsReadyToParseGroupId: function () {
 
     // !object 可同时判断 null 和 undefined
-    if (!this.globalData.loginCode 
-      && !this.globalData.shareInfoEncryptedData  
-      && !this.globalData.shareInfoIV) { 
-      this.getGroupId(this.globalData.loginCode, this.globalData.shareInfoEncryptedData,this.globalData.shareInfoIV) }
-
+    if (this.globalData.loginCode 
+      && this.globalData.shareInfoEncryptedData  
+      && this.globalData.shareInfoIV) { 
+      this.parseGroupId(this.globalData.loginCode, this.globalData.shareInfoEncryptedData,this.globalData.shareInfoIV) 
+      }
   },
 
-  getGroupId: function (loginCode, encryptedData, iv) {
+  parseGroupId: function (loginCode, encryptedData, iv) {
     let that = this
 
     wx.cloud.callFunction({
       name: 'get_opengid',
       data: {
         js_code: loginCode,
-        appId: that.globalData.appId,
         encryptedData: encryptedData,
         iv: iv
       },
       success: function (res) {
-        console.log('打印 get_opengid success openGId: ' + res.result.openGId)
-
+        console.log('get_opengid success openGId: ' + res.result.openGId)
 
         typeof that.globalData.getGroupIdSuccessCallBack == "function" && that.globalData.getGroupIdSuccessCallBack(res.result.openGId)
 
+        that.clearShareTicket()
       },
       fail: function (err) {
-        console.log('打印 get_opengid err: ' + JSON.stringify(err))
+        console.log('get_opengid err: ' + JSON.stringify(err))
+        that.clearShareTicket()
       }
     })
   },
 
+  clearShareTicket: function () {
+    this.globalData.shareTicket = null
+    this.globalData.loginCode = null
+    this.globalData.shareInfoEncryptedData = null
+    this.globalData.shareInfoIV = null
+  },
 
-  getOpenId(successCallBack) {
+
+  // 在group detail页面被调用
+  getOpenId: function (successCallBack) {
     let that = this
 
     wx.cloud.callFunction({
@@ -137,7 +141,11 @@ App({
       }
     })
   },
-  
+
+  // 两个场景下被调用：
+  // 1. 用户正常启动小程序，在首页 group list页面被调用
+  // 2. 用户点击share ticket，在调转到达的页面被调用
+  // userInfo有三级缓存，1.保存在Storage 2.用户已经授权,用wx.getUserInfo获取 3.用户未授权，跳转到授权页面
   setUserInfo: function (successCallBack, authCallBack) {
     var that = this
 
@@ -182,6 +190,40 @@ App({
 
         } else { // 跳转到授权页面 
           typeof authCallBack == "function" && authCallBack()
+        }
+      }
+    })
+  },
+
+  clearUserInfo: function () {
+    this.globalData.currentNickName = null
+    this.globalData.currentAvatarUrl = null
+  },
+
+  // 检查当前的userInfo是否为未授权状态
+  checkIsAuthCanceled: function () {
+
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userInfo'])
+          that.openConfirm()
+      }
+    })
+
+  },
+
+  openConfirm: function () {
+    wx.showModal({
+      content: '检测到您当前没有授权获取用户信息，是否去设置打开？',
+      confirmText: "确认",
+      cancelText: "取消",
+      success: function (res) {
+        if (res.confirm) { //点击“确认”时打开设置页面
+          wx.openSetting({
+            success: (res) => { }
+          })
+        } else { // 用户点击取消
+          console.log('用户点击取消')
         }
       }
     })

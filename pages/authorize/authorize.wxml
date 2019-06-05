@@ -1,4 +1,17 @@
-<view class='container'>
-  <button class='authorize' type="primary" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">获取头像昵称</button>
-  <text class='tips'>Tips: 需要您的授权才能正常使用</text>
+<view class="top-margin-20">
+
+  <view class="section-container">
+    <image class="logo" src='../../images/group.png'></image>
+  </view>
+
+  <view class="single-line"></view>
+
+  <view class="section-container">
+    <text class='text'>BlaBlaCat需要获得您的头像、昵称</text>
+  </view>
+
+  <view class="section-container">
+      <button class="allow_button" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo" lang="zh_CN">授权</button>
+  </view>
+
 </view>

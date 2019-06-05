@@ -44,13 +44,12 @@ Page({
 
   onLoad: function (options) {
 
+    wx.hideShareMenu();
+
     this.setData({
       groupId: options.groupId,
       activityTypes: model.activityTypes
     })
-
-    // console.log("groupId: ", this.data.groupId)
-    // console.log("activityTypes: ", this.data.activityTypes)
 
     // 获取完整的年月日 时分秒，以及默认显示的数组
     var startPicker = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);

@@ -9,10 +9,12 @@
     "pages/activityedit/activityedit"
   ],
   "window": {
+    "navigationStyle": "default",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#000000",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#111111"
+    
   },
   "cloud": true,
   "sitemapLocation": "sitemap.json"
