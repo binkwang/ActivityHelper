@@ -1,7 +1,7 @@
 <view class="top-margin-20">
 
   <view class="section-container">
-    <image class="logo" src='../../images/group.png'></image>
+    <image class="logo" src='../../logo/logo-BlaBlaCat.png'></image>
   </view>
 
   <view class="single-line"></view>
