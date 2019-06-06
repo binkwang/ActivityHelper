@@ -22,6 +22,7 @@ Page({
     users: [], // 群成员, 暂时没用到
     
     fromAuthPage: false,
+    newActivityPosted: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo') //TODO: 获取用户信息
   },
 
@@ -354,7 +355,18 @@ Page({
 
       this.checkIsReadyToLoadPageData()
 
-      this.data.fromAuthPage = fasle
+      this.data.fromAuthPage = false
+    }
+
+    if (this.data.newActivityPosted) {
+
+      wx.showLoading({
+        title: '加载中',
+      })
+
+      this.checkIsReadyToLoadPageData()
+
+      this.data.newActivityPosted = false
     }
   },
 

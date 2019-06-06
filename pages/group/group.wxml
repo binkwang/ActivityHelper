@@ -1,5 +1,20 @@
 
-<block wx:if='{{groupDetailLoaded && activitiesLoaded}}' wx:for="{{activities}}">
+<view class="page" wx:if='{{groupDetailLoaded && activitiesLoaded}}'>
+
+<view class="section-container">
+    <view class="group-title-label">
+      <open-data type="groupName" open-gid="{{groupDetail.group_id}}"></open-data>
+    </view>
+</view>
+
+<view class="single-line"></view>
+
+<view class="section-container" wx:if='{{activities.length==0}}'>
+    <view class="hits-label">*暂无活动，点击右下方按钮可以发布新活动*
+    </view>
+</view>
+
+<block wx:for="{{activities}}" wx:key="_id">
 
   <view class='activity-list' bindtap='onItemClick' data-activityid='{{item._id}}'>
 
@@ -37,7 +52,9 @@
   </view>
 </block> -->
 
-<view class='space-height-20'>..</view>
+<!-- <view class='space-height-20'>..</view> -->
+
+</view>
 
 <image class="new-post-image" bindtap="newPost" src='../../images/new-post.png'></image>
 

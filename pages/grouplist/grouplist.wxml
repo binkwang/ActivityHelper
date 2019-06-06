@@ -2,9 +2,7 @@
 
 <view>
 
-<block wx:for="{{groupList}}">
-
-    <!-- <view class="divider-line"></view> -->
+<block wx:for="{{groupList}}" wx:key="_id">
 
     <view class='group-list' bindtap='onItemClick' data-groupid='{{item.group_id}}'>
 
@@ -22,6 +20,11 @@
 </block>
 
 <button class="yellow_border_button" open-type="share">去其他群创建活动助手</button>
+
+<view class="section-container">
+    <view class="hits-label">*分享到群，即可为该群创建活动助手*
+    </view>
+</view>
 
 </view>
 

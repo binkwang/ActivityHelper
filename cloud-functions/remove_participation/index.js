@@ -3,9 +3,10 @@ const cloud = require('wx-server-sdk')
 
 cloud.init()
 
-const db = cloud.database({
-  env: "activity-helper-qrr7r"
-})
+// const db = cloud.database({
+//   env: "activity-helper-qrr7r"
+// })
+const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -17,14 +18,3 @@ exports.main = async (event, context) => {
     console.error(e)
   }
 }
-
-
-// 删除记录
-// db.collection('todos').doc('todo-identifiant-aleatoire').remove({
-//   success: console.log,
-//   fail: console.error
-// })
-
-// db.collection('todos').doc('todo-identifiant-aleatoire').remove()
-//   .then(console.log)
-//   .catch(console.error)

@@ -1,8 +1,9 @@
 //app.js
-const util = require('./utils/util.js');  
+const util = require('./utils/util.js')
+const env = require('./utils/env.js')
 
 App({
-
+  
   globalData: {
     shareTicket: null,
     loginCode: null, // 用在group页面，用于解析groupId
@@ -13,15 +14,13 @@ App({
     kUserInfo: 'userInfo',
     currentNickName: null,
     currentAvatarUrl: null,
-
-    appId: 'wxb1684ec13bc817a2',
   },
 
   onLaunch: function (options) {
     wx.clearStorage()
 
     wx.cloud.init({
-      env: 'activity-helper-qrr7r',
+      env: env.dev,
       traceUser: true
     })
   },
@@ -170,7 +169,7 @@ App({
     wx.getSetting({
       success: function (res) {
 
-        if (res.authSetting['scope.userInfo']) { // 已经授权，直接调用getUserInfo
+        if (res.authSetting['scope.userInfo']) { // 已经授权，直接调用wx.getUserInfo
           wx.getUserInfo({
             success: function (res) {
               wx.setStorage({

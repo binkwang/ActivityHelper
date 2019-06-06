@@ -1,5 +1,52 @@
 /* pages/group/group.wxss */
 
+.page {
+  padding-top: 5pt;
+  padding-bottom: 30pt;
+}
+
+.section-container{
+  height: auto;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0);
+
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.group-title-label{
+  margin: 0 auto;
+  font-size: 10pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: #FCBD1B; 
+}
+
+.hits-label{
+  margin: 0 auto;
+  margin-top: 10pt;
+  font-size: 6pt;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+  color: #CCCCCC;
+}
+
+.single-line{
+  margin-top: 5pt;
+  background: rgb(34, 34, 34);
+  height: 3rpx;
+
+  margin-left: 10pt;
+  margin-right: 10pt;
+}
+
 .layout_vertical{
   height: auto;
   display: flex; /* flex布局 */
@@ -24,11 +71,20 @@
   /* background:  rgb(0, 255, 255); */
 }
 
-.group-user-title-label{
+.activity-list{
+  margin-left: 10pt;
+  margin-right: 10pt;
+  margin-top: 10pt;
+  margin-bottom: 0pt;
+  border-radius: 3px;
+  background: rgb(51, 51, 51);
+}
+
+/* .group-user-title-label{
   font-size: 10pt;
   font-weight: bold;
   font-family: "Times New Roman", Times, serif;
-  color: #ffffff; /* 文字颜色 */
+  color: #ffffff; 
   margin-left: 15pt;
   margin-right: 15pt;
   margin-top: 10pt;
@@ -40,8 +96,16 @@
   overflow: hidden;      
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
-  /* background:  rgb(0, 255, 255); */
 }
+
+.user-list{
+  margin-left: 5pt;
+  margin-right: 5pt;
+  margin-top: 0pt;
+  margin-bottom: 2pt;
+  border-radius: 3px;
+  background: rgb(34, 34, 34);
+} */
 
 .new-post-image{
   float: right;
@@ -54,23 +118,7 @@
   /* box-shadow: 3px 1px 1px 1px #666666; */
 }
 
-.activity-list{
-  margin-left: 10pt;
-  margin-right: 10pt;
-  margin-top: 10pt;
-  margin-bottom: 0pt;
-  border-radius: 3px;
-  background: rgb(51, 51, 51);
-}
 
-.user-list{
-  margin-left: 5pt;
-  margin-right: 5pt;
-  margin-top: 0pt;
-  margin-bottom: 2pt;
-  border-radius: 3px;
-  background: rgb(34, 34, 34);
-}
 
 .activity-type-image{
   margin-top: 10pt;

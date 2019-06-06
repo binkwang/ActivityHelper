@@ -270,7 +270,6 @@ Page({
 
       data: {
         activityId: activityId,
-        numberLimit: numberLimit,
         nickName: app.globalData.currentNickName, // 数据库
         avatarUrl: app.globalData.currentAvatarUrl,
       },
@@ -312,8 +311,8 @@ Page({
       name: 'remove_participation2',
 
       data: {
-        participantId: participantId,
-        activityId: activityId
+        activityId: activityId,
+        participantId: participantId
       },
 
       success: function (res) {

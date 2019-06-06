@@ -21,9 +21,9 @@ Page({
     
     // 输入变量
     selectedActivityType: null,
-    activity_title: '',
+    activityTitle: '',
     location: '',
-    activity_moreinfo: '',
+    activityMoreinfo: '',
     currentTitleLength: 0,
     currentLocationLength: 0,
     currentMoreinfoLength: 0,
@@ -107,7 +107,7 @@ Page({
 
     if (length <= this.data.titleLengthMax) {
       this.setData({
-        activity_title: value,
+        activityTitle: value,
         currentTitleLength: length, //当前字数
       })
     } else {
@@ -135,7 +135,7 @@ Page({
 
     if (length <= this.data.moreinfoLengthMax) {
       this.setData({
-        activity_moreinfo: value,
+        activityMoreinfo: value,
         currentMoreinfoLength: length, //当前字数
       })
     } else {
@@ -168,13 +168,13 @@ Page({
       return
     }
 
-    if (this.data.activity_title.length == 0) {
+    if (this.data.activityTitle.length == 0) {
       wx.showToast({
         image: '../../images/warn.png',
         title: '请输入标题',
       })
       return
-    } else if (this.data.activity_title.length < this.data.titleLengthMin) {
+    } else if (this.data.activityTitle.length < this.data.titleLengthMin) {
       wx.showToast({
         image: '../../images/warn.png',
         title: '请输入2个字以上的标题',
@@ -236,16 +236,16 @@ Page({
     wx.cloud.callFunction({
       name: 'publish_activity',
       data: {
-        groupid: this.data.groupId,
-        sponsor_name: app.globalData.currentNickName,
-        sponsor_avatar_url: app.globalData.currentAvatarUrl,
-        activity_type: this.data.selectedActivityType.typeId,
-        activity_title: this.data.activity_title,
+        groupId: this.data.groupId,
+        sponsorName: app.globalData.currentNickName,
+        sponsorAvatarUrl: app.globalData.currentAvatarUrl,
+        activityType: this.data.selectedActivityType.typeId,
+        activityTitle: this.data.activityTitle,
         location: this.data.location,
-        activity_moreinfo: this.data.activity_moreinfo,
-        number_limit: this.data.numLimit,
-        start_time: start_time,
-        end_time: end_time,
+        activityMoreinfo: this.data.activityMoreinfo,
+        numLimit: this.data.numLimit,
+        startTime: start_time,
+        endTime: end_time,
       },
       success: function (res) {
         // 强制刷新，这个传参很粗暴
@@ -253,7 +253,7 @@ Page({
         var prevPage = pages[pages.length - 2]; // 上一个页面
 
         prevPage.setData({
-          shouldRefreshActivities: true
+          newActivityPosted: true
         })
         
         wx.hideLoading()

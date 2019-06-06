@@ -3,7 +3,7 @@
 <template name="selectItemListTemplate">
   <view class='seletct-list-template'>
     <view class='inner-container'>
-      <block wx:for="{{participations}}" wx:for-item="participation" wx:key="key">
+      <block wx:for="{{participations}}" wx:for-item="participation" wx:key="_id">
             <template is="selectItemTemplate" data="{{...participation}}" />
       </block>
     </view>
