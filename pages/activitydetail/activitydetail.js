@@ -45,14 +45,17 @@ Page({
     this.setData({
       activityId: options.activityId
     })
+    
+    // 三个并发的网络请求
+
+    this.getActivityDetail(this.data.activityId)
+
+    this.refreshParticipations(this.data.activityId)
 
     app.getOpenId(function (openId) {
       that.data.openId = openId
       that.checkLoadFinish()
     })
-
-    this.getActivityDetail(this.data.activityId)
-    this.refreshParticipations(this.data.activityId)
   },
 
   getActivityDetail: function (activityId) {
@@ -83,10 +86,6 @@ Page({
 
           activitydetail.activity_type = model.getActivityType(activitydetail.activity_type)
 
-          if (activitydetail.sponsor_id == that.data.openId) {
-            that.data.isSponsor = true
-          }
-
           if (util.isEmpty(activitydetail.activity_moreinfo)) {
             //activitydetail.activity_moreinfo = "空"
           }
@@ -94,7 +93,6 @@ Page({
           that.setData({
             hasMoreinfo: that.data.hasMoreinfo,
             detail: activitydetail,
-            isSponsor: that.data.isSponsor,
             isActivityStarted: that.data.isActivityStarted
           })
 
@@ -127,7 +125,6 @@ Page({
       success: function (res) {
 
         var participations = res.result.participations.data
-        that.checkHasEnrolled(participations)
 
         for (let i = 0; i < participations.length; i++) {
           participations[i].time = util.formatTime(new Date(participations[i].time))
@@ -163,6 +160,7 @@ Page({
     var that = this
     wx.showLoading({
       title: '请稍候',
+      mask: true
     })
 
     if (this.data.hasEnrolled) {
@@ -230,21 +228,47 @@ Page({
   /**
    * 判断当前用户是否已经参加
    */
-  checkLoadFinish: function() {
-    if (this.data.contentLoaded && this.data.participationsLoaded && this.data.openId!="") {
+  checkLoadFinish: function () {
+    if (this.data.contentLoaded 
+      && this.data.participationsLoaded 
+      && !util.isEmpty(this.data.openId)) {
+
       console.log("数据加载完成")
+      console.log("this.data.openId: ", this.data.openId)
+      console.log("this.data.detail.sponsor_id: ", this.data.detail.sponsor_id)
+
+      this.checkIsSponsor()
+      this.checkHasEnrolled()
+
       wx.hideLoading()
+    }
+  },
+
+  /**
+   * 判断当前用户是不是发起者
+   */
+  checkIsSponsor: function () {
+    this.setData({
+      isSponsor: false
+    })
+    
+    if (this.data.detail.sponsor_id == this.data.openId) {
+      this.setData({
+        isSponsor: true
+      })
     }
   },
 
   /**
    * 判断当前用户是否已经参加
    */
-  checkHasEnrolled: function (participations) {
+  checkHasEnrolled: function () {
     this.setData({
       hasEnrolled: false,
       participationId: ''
     })
+
+    let participations = this.data.participations
 
     for (let i = 0; i < participations.length; i++) {
       if (participations[i].participant_id == this.data.openId) {
@@ -407,16 +431,13 @@ Page({
   getActivityStatus: function (startTime, endTime, currentTime) {
     var that = this;
     var activityStatus;
-    if (currentTime < startTime) {
-      // 未开始
+    if (currentTime < startTime) { // 未开始
       activityStatus = model.getActivityStatus(model.activityStatus.notStarted)
       this.data.isActivityStarted = false
-    } else if (currentTime > endTime) {
-      // 已结束
+    } else if (currentTime > endTime) { // 已结束
       activityStatus = model.getActivityStatus(model.activityStatus.ended)
       this.data.isActivityStarted = true
-    } else {
-      // 进行中
+    } else { // 进行中
       activityStatus = model.getActivityStatus(model.activityStatus.inProgress)
       this.data.isActivityStarted = true
     }
