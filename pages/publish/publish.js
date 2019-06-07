@@ -32,11 +32,13 @@ Page({
     dateTimeArray: null,
     originalDateTime: null,
     originalDateTimeArray: null,
+    startTimestamp: null,
 
     endDateTime: null,
     endDateTimeArray: null,
     originalEndDateTime: null,
     originalEndDateTimeArray: null,
+    endTimestamp: null,
 
     weekDay: null,  // 周几 for UI display
     endWeekDay: null,  // 周几 for UI display
@@ -203,11 +205,8 @@ Page({
       })
       return
     }
-
-    let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
-    let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
-
-    if (start_time >= end_time) {
+    
+    if (this.data.startTimestamp >= this.data.endTimestamp) {
       wx.showToast({
         image: '../../images/warn.png',
         title: '结束时间应该晚于开始时间',
@@ -226,12 +225,8 @@ Page({
       mask: true
     })
 
-    let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
-    let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
-
-    // work around
-    // 解决真机测试获取的开始时间和结束时间不对
-    util.sleep(500) 
+    console.log("startTimestamp: ", this.data.startTimestamp)
+    console.log("endTimestamp: ", this.data.endTimestamp)
 
     wx.cloud.callFunction({
       name: 'publish_activity',
@@ -244,8 +239,8 @@ Page({
         location: this.data.location,
         activityMoreinfo: this.data.activityMoreinfo,
         numLimit: this.data.numLimit,
-        startTime: start_time,
-        endTime: end_time,
+        startTime: this.data.startTimestamp,
+        endTime: this.data.endTimestamp,
       },
       success: function (res) {
         // 强制刷新，这个传参很粗暴
@@ -284,6 +279,7 @@ Page({
     this.data.dateTime = e.detail.value
     this.data.originalDateTime = e.detail.value.slice(0)
     this.data.originalDateTimeArray = dateTimePicker.deepcopyArray(this.data.dateTimeArray)
+    this.data.startTimestamp = dateTimePicker.convertToTimestamp(this.data.dateTimeArray, this.data.dateTime);
 
     this.setData({
       dateTime: this.data.dateTime,
@@ -320,6 +316,7 @@ Page({
     this.data.endDateTime = e.detail.value
     this.data.originalEndDateTime = e.detail.value.slice(0)
     this.data.originalEndDateTimeArray = dateTimePicker.deepcopyArray(this.data.endDateTimeArray)
+    this.data.endTimestamp = dateTimePicker.convertToTimestamp(this.data.endDateTimeArray, this.data.endDateTime);
 
     this.setData({
       endDateTime: this.data.endDateTime,
@@ -397,7 +394,7 @@ Page({
 
   // 获取星期
   getWeekDay: function (dateTimeArray, dateTime) {
-    var timestamp = dateTimePicker.convertToTimetamp(dateTimeArray, dateTime)
+    var timestamp = dateTimePicker.convertToTimestamp(dateTimeArray, dateTime)
     return util.getWeekDay(timestamp)
   },
 })

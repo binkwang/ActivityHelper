@@ -110,15 +110,27 @@
 .new-post-image{
   float: right;
   position: fixed;
-  bottom: 80rpx;
-  right: 80rpx;
-  width: 140rpx;
-  height: 140rpx;
+  width: 120rpx;
+  height: 120rpx;
+  right: 60rpx;
+  bottom: 240rpx;
   border-radius: 50%;
   /* box-shadow: 3px 1px 1px 1px #666666; */
 }
 
+.share-button {
+  float: right;
+  position: fixed;
+  width: 120rpx;
+  height: 120rpx;
+  right: 60rpx;
+  bottom: 80rpx;
+  border-radius: 50%;
+  background-size: 120rpx 120rpx;
 
+  padding: 0;
+  border: none;
+}
 
 .activity-type-image{
   margin-top: 10pt;

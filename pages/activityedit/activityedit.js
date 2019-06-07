@@ -262,8 +262,8 @@ Page({
 
     } else if (this.data.editType == model.editType.startTime || this.data.editType == model.editType.endTime) {
 
-      let start_time = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime);
-      let end_time = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime);
+      let start_time = dateTimePicker.convertToTimestamp(this.data.dateTimeArray, this.data.dateTime);
+      let end_time = dateTimePicker.convertToTimestamp(this.data.endDateTimeArray, this.data.endDateTime);
 
       if (start_time >= end_time) {
         wx.showToast({
@@ -294,8 +294,8 @@ Page({
     var startTime = this.data.activityStartTime
     var endTime = this.data.activityEndTime
     if (this.data.editType == model.editType.startTime || this.data.editType == model.editType.endTime) {
-      startTime = dateTimePicker.convertToTimetamp(this.data.dateTimeArray, this.data.dateTime)
-      endTime = dateTimePicker.convertToTimetamp(this.data.endDateTimeArray, this.data.endDateTime)
+      startTime = dateTimePicker.convertToTimestamp(this.data.dateTimeArray, this.data.dateTime)
+      endTime = dateTimePicker.convertToTimestamp(this.data.endDateTimeArray, this.data.endDateTime)
     }
 
     console.log("activityId: ", this.data.activityId)
@@ -463,12 +463,12 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    
   },
 
   // 获取星期
   getWeekDay: function (dateTimeArray, dateTime) {
-    var timestamp = dateTimePicker.convertToTimetamp(dateTimeArray, dateTime)
+    var timestamp = dateTimePicker.convertToTimestamp(dateTimeArray, dateTime)
     return util.getWeekDay(timestamp)
   },
 })

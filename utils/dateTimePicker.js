@@ -101,20 +101,24 @@ function deepcopyArray(obj) {
   return out;
 }
 
-function convertToTimetamp(dateTimeArray, dateTime) {
+function convertToTimestamp(dateTimeArray, dateTime) {
 
-  var date = dateTimeArray[0][dateTime[0]] + '-'
+  let dateStr = dateTimeArray[0][dateTime[0]] + '-'
     + dateTimeArray[1][dateTime[1]] + '-'
     + dateTimeArray[2][dateTime[2]] + ' '
     + dateTimeArray[3][dateTime[3]] + ':'
     + dateTimeArray[4][dateTime[4]] + ':00';
 
-  return new Date(date).getTime();
+  //iOS不支持"2018-08-30"这样的格式时间, 只支持"2018/08/30"
+  let replacedDateStr = dateStr.replace(/-/g, '/')
+  let date = new Date(replacedDateStr)
+  let timeStap = date.getTime()
+  return timeStap
 }
 
 module.exports = {
   dateTimePicker: dateTimePicker,
   getMonthDay: getMonthDay,
-  convertToTimetamp: convertToTimetamp,
+  convertToTimestamp: convertToTimestamp,
   deepcopyArray: deepcopyArray
 }

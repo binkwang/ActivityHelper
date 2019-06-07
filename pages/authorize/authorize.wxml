@@ -7,7 +7,7 @@
   <view class="single-line"></view>
 
   <view class="section-container">
-    <text class='text'>BlaBlaCat需要获得您的头像、昵称</text>
+    <text class='text'>BlaBlaCat 需要获得您的头像、昵称</text>
   </view>
 
   <view class="section-container">

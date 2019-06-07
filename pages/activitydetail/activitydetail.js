@@ -10,7 +10,6 @@ Page({
   data: {
     // 外部传入
     activityId: '', 
-
     openId: '', // 当前用户id, 用来判断：1.当前用户是不是发起者 2.当前用户有没有参加该活动
 
     // 获取activity detail之后赋值
@@ -34,15 +33,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
     wx.hideShareMenu();
 
+    var that = this
 
     wx.showLoading({
       title: '加载中',
     })
-    
-    var that = this
 
     this.setData({
       activityId: options.activityId
@@ -226,6 +224,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+
   },
 
   /**

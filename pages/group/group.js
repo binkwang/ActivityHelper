@@ -329,7 +329,8 @@ Page({
    */
   onShareAppMessage: function () {
     return {
-      title: 'BlaBlaCat活动助手',
+      title: '',
+      imageUrl: '../../logo/logo-BlaBlaCat.png',
       path: '/pages/group/group'
     }
   },
