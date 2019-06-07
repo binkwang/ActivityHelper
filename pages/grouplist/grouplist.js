@@ -132,7 +132,7 @@ Page({
   onShareAppMessage: function () {
     return {
       title: '',
-      imageUrl: '../../logo/logo-BlaBlaCat.png',
+      imageUrl: '../../images/bbc-logo-share.png',
       path: '/pages/group/group'
     }
   },
