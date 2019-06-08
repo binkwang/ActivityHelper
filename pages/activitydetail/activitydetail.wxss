@@ -101,7 +101,7 @@
   text-overflow: ellipsis;
   overflow: hidden;      
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 20;
+  -webkit-line-clamp: 50;
 }
 
 .detail-info-status-item-title{

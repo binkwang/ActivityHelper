@@ -20,7 +20,7 @@ App({
     wx.clearStorage()
 
     wx.cloud.init({
-      env: env.dev,
+      env: env.prod,
       traceUser: true
     })
   },
